@@ -8,8 +8,4 @@ test:
   stage: test
   script:
     - mvn verify
-
-spotbugs:
-  stage: spotbugs
-  script:
     - mvn spotbugs:check
