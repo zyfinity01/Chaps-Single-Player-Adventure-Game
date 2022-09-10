@@ -32,6 +32,8 @@ public class Maze {
    * @param inventory player inventory
    */
   public Maze(Tile[][] tiles, int rows, int cols, List<Tile> inventory) {
+    verifyMazeSetup(tiles, rows, cols, inventory);
+
     this.tiles = tiles.clone();
     this.rows = rows;
     this.cols = cols;
@@ -68,5 +70,32 @@ public class Maze {
    */
   public List<Tile> getInventory() {
     return Collections.unmodifiableList(inventory);
+  }
+
+  /**
+   * Verifies the maze is valid.
+   * @param tiles maze tiles.
+   * @param rows row count.
+   * @param cols col count.
+   * @param inventory player inventory.
+   */
+  private void verifyMazeSetup(Tile[][] tiles, int rows, int cols, List<Tile> inventory) {
+    if (tiles == null) {
+      throw new IllegalArgumentException("Tiles cannot be null");
+    }
+
+    if (inventory == null) {
+      throw new IllegalArgumentException("Inventory cannot be null");
+    }
+
+    if (tiles.length != rows) {
+      throw new IllegalArgumentException("Rows don't match maze");
+    }
+
+    for (int i = 0; i < tiles.length; i++) {
+      if (tiles[i].length != cols) {
+        throw new IllegalArgumentException("Cols don't match cols");
+      }
+    }
   }
 }

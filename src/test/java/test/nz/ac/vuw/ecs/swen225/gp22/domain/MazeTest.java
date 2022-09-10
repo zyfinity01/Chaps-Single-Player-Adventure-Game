@@ -1,11 +1,10 @@
 package test.nz.ac.vuw.ecs.swen225.gp22.domain;
 
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.List;
-
 import org.junit.Test;
-
 import nz.ac.vuw.ecs.swen225.gp22.domain.Maze;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Tile;
 
@@ -33,5 +32,15 @@ public class MazeTest {
     assertTrue(maze.getInventory().size() == 0);
     assertTrue(maze.getRows() == 0);
     assertTrue(maze.getCols() == 0);
+  }
+
+  @Test
+  public void cannotConstructInvalidMaze() {
+    try {
+      new Maze(null, 1, 2, null);
+      fail("Invalid construction not caught");
+    } catch (Exception ex) {
+      assertTrue("Wrong exception type", ex instanceof IllegalArgumentException);
+    }
   }
 }
