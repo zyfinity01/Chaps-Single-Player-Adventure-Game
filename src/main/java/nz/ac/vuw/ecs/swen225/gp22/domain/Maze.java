@@ -94,7 +94,7 @@ public class Maze {
 
     for (int i = 0; i < tiles.length; i++) {
       if (tiles[i].length != cols) {
-        throw new IllegalArgumentException("Cols don't match cols");
+        throw new IllegalArgumentException("Cols don't match maze");
       }
     }
   }
