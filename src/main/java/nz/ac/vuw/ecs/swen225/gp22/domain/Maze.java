@@ -21,7 +21,7 @@ public class Maze {
    * @param cols count of maze coluns.
    */
   public Maze(Tile[][] tiles, int rows, int cols) {
-    this(tiles, List.of(), rows, cols);
+    this(tiles, rows, cols, List.of());
   }
 
   /**
@@ -29,13 +29,13 @@ public class Maze {
    * @param tiles maze tiles.
    * @param rows count of maze rows.
    * @param cols count of maze coluns
-   * @param inventory player inventory.
+   * @param inventory player inventory
    */
-  public Maze(Tile[][] tiles, List<Tile> inventory, int rows, int cols) {
+  public Maze(Tile[][] tiles, int rows, int cols, List<Tile> inventory) {
     this.tiles = tiles.clone();
-    this.inventory = List.copyOf(inventory);
     this.rows = rows;
     this.cols = cols;
+    this.inventory = List.copyOf(inventory);
   }
 
   /**
