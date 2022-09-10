@@ -1,6 +1,6 @@
 package nz.ac.vuw.ecs.swen225.gp22.domain;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -21,7 +21,7 @@ public class Maze {
    * @param cols count of maze coluns.
    */
   public Maze(Tile[][] tiles, int rows, int cols) {
-    this(tiles, rows, cols, new ArrayList<>());
+    this(tiles, List.of(), rows, cols);
   }
 
   /**
@@ -31,11 +31,11 @@ public class Maze {
    * @param cols count of maze coluns
    * @param inventory player inventory.
    */
-  public Maze(Tile[][] tiles, int rows, int cols, List<Tile> inventory) {
-    this.tiles = tiles;
+  public Maze(Tile[][] tiles, List<Tile> inventory, int rows, int cols) {
+    this.tiles = tiles.clone();
+    this.inventory = List.copyOf(inventory);
     this.rows = rows;
     this.cols = cols;
-    this.inventory = inventory;
   }
 
   /**
@@ -59,7 +59,7 @@ public class Maze {
    * @return maze tiles.
    */
   public Tile[][] getTiles() {
-    return tiles;
+    return tiles.clone();
   }
 
   /**
@@ -67,6 +67,6 @@ public class Maze {
    * @return maze inventory.
    */
   public List<Tile> getInventory() {
-    return inventory;
+    return Collections.unmodifiableList(inventory);
   }
 }
