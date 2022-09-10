@@ -44,7 +44,7 @@ You can also install plugins for your chosen IDE:
 
 2) Configure the Formatter: `Properties -> Java Code Style -> Formatter`
    a) Enable `Project specific settings`
-   b) Import [Google Style]([styleguide/eclipse-java-google-style.xml at gh-pages · google/styleguide · GitHub](https://github.com/google/styleguide/blob/gh-pages/eclipse-java-google-style.xml) xml and apply.
+   b) Import [Google Style](https://github.com/google/styleguide/blob/gh-pages/eclipse-java-google-style.xml) xml and apply.
 
 3) Configure Javadocs: `Properties -> Java Compiler -> Javadoc`
    a) Enable `Project specific settings`
