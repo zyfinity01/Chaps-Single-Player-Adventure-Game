@@ -34,7 +34,7 @@ public class App extends JFrame implements KeyListener {
 
   @Override
   public void keyReleased(KeyEvent e) {
-    // TODO Auto-generated method stub
+    // TODO
 
   }
 
@@ -55,7 +55,7 @@ public class App extends JFrame implements KeyListener {
   public int getNumKeysCollected() {
     return numKeysCollected;
   }
-  
+
   /**
    * Gets the number of chips(treasure) left.
    * 
@@ -64,8 +64,5 @@ public class App extends JFrame implements KeyListener {
   public int getNumTreasureLeft() {
     return numTreasureLeft;
   }
-
-
-
 
 }
