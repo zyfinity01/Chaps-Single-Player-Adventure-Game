@@ -1,10 +1,18 @@
 package nz.ac.vuw.ecs.swen225.gp22.app;
 
 /**
- * Program entry point.
+ * User Interface for Application.
+ *
+ * @author Sam Redmond, 300443508
  */
-public class Main  {
+public class Main {
+  
+  /**
+   * Program entry point.
+   *
+   * @param args command line arguments
+   */
   public static void main(String[] args) {
-    System.out.println( "Hello World!" );
+    new App();
   }
 }
