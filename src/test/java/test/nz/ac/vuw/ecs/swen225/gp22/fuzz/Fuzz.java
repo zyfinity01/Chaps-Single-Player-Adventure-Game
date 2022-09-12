@@ -1,4 +1,4 @@
-package test.nz.ac.vuw.ecs.swen225.gp22.domain.fuzz;
+package test.nz.ac.vuw.ecs.swen225.gp22.fuzz;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
