@@ -11,10 +11,19 @@ import org.junit.Test;
  * 
  * 
  */
-public class Fuzz {
+public class FuzzTest {
 
-    
+  @Test
+  public void test1(){
+    // TODO
 
+  }
+
+  @Test
+  public void test2(){
+    // TODO 
+
+  }
 
 
   
