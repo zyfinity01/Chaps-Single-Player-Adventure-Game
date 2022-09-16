@@ -4,5 +4,5 @@
 | App         | Sam Redmond      | redmonsam                  |
 | Fuzz        | Lawrence Schwabe | schwablawr                 |
 | Persistency | Niraj Gandhi     | gandhinira                 |
-| Renderer    | George North     | northgeor                  |
+| Renderer    | North            | northgeor                  |
 | Recorder    | Shae West        | westshae                   |
