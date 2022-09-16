@@ -1,10 +1,13 @@
 package nz.ac.vuw.ecs.swen225.gp22.persistency;
+import nz.ac.vuw.ecs.swen225.gp22.domain.Tile;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.Field;
+import java.util.List;
 
 /**
  * @author  Niraj Gandhi, 300564849.
@@ -22,7 +25,7 @@ public class Persistency {
      * @param lives number of lives left
      * @param board 2D array of tiles
      */
-    public void saveGameStatus(String fileName, String levelName, int time, int moves, int chips, int lives, String[][] board) {
+    public void saveGameStatus(String fileName, String levelName, int time, int moves, int chips, int lives, Tile[][] board) {
         //create root element
         Element root = new Element("game");
         //create document
@@ -50,9 +53,47 @@ public class Persistency {
         //add board to board element
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[i].length; j++) {
-                Element cell = new Element("cell");
-                cell.setText(board[i][j]);
-                boardElement.addContent(cell);
+                Tile operatingTile = board[i][j];
+                Element tile = new Element("tile");
+                tile.setText(operatingTile.getClass().toString());
+                Field[] fields = operatingTile.getClass().getDeclaredFields();
+                //add all fields to tile element and all values of the fields
+                for (Field field : fields) {
+                    field.setAccessible(true);
+                    Element fieldElement = new Element(field.getName());
+                    try {
+                        //if field is of type list, then traverse through the list and add all elements to field element
+                        if (field.getType().toString().contains("List")) {
+                            List list = (List) field.get(operatingTile);
+                            for (Object object : list) {
+                                Element listElement = new Element("listElement");
+                                listElement.setText(object.toString());
+                                fieldElement.addContent(listElement);
+                            }
+                        }
+                        //if field is of type int, then add value to field element
+                        else if (field.getType().toString().contains("int")) {
+                            fieldElement.setText(Integer.toString(field.getInt(operatingTile)));
+                        }
+                        //if field is of type boolean, then add value to field element
+                        else if (field.getType().toString().contains("boolean")) {
+                            fieldElement.setText(Boolean.toString(field.getBoolean(operatingTile)));
+                        }
+                        //if field is of type String, then add value to field element
+                        else if (field.getType().toString().contains("String")) {
+                            fieldElement.setText((String) field.get(operatingTile));
+                        }
+                        //if field is of type Map, traverse through the Map and add all key and value to field element
+                        else if (field.getType().toString().contains("Map")) {
+                        }
+                        fieldElement.addContent(field.get(operatingTile).toString());
+
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
+                    tile.addContent(fieldElement);
+                }
+                boardElement.addContent(tile);
             }
         }
         //save document to XML file
