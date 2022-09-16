@@ -4,7 +4,6 @@ import nz.ac.vuw.ecs.swen225.gp22.domain.*;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.awt.image.Raster;
 import java.io.File;
 import java.io.IOException;
 
@@ -35,7 +34,7 @@ public class Renderer {
 
         for (int x=0; x<maze.getCols(); x++) {
             for (int y=0; y<maze.getRows(); y++) {
-                image.drawImage(TileImage.valueOf(maze.getTiles()[x][y].type()), null, x*tileWidth, y*tileWidth);
+                image.drawImage(TileImage.valueOf(maze.getTiles()[x][y].type()).image(), null, x*tileWidth, y*tileWidth);
             }
         }
 
