@@ -47,5 +47,6 @@ public enum Direction {
   };
 
   public abstract int getX();
+  
   public abstract int getY();
 }
