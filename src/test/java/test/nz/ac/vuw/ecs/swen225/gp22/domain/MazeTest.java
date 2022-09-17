@@ -42,6 +42,17 @@ public class MazeTest {
   }
 
   @Test
+  public void canSetupChap() {
+    var tiles = new Tile[4][4];
+    tiles[1][2] = new Chap();
+
+    var maze = new Maze(tiles, 4, 4, List.of());
+
+    assertTrue(maze.getChapPosition().y() == 1);
+    assertTrue(maze.getChapPosition().x() == 2);
+  }
+
+  @Test
   public void cannotConstructNullMaze() {
     var exception = Assertions.assertThrows(
       IllegalArgumentException.class, () -> {
