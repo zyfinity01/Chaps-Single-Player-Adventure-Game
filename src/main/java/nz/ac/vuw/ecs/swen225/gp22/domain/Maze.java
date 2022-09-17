@@ -1,7 +1,10 @@
 package nz.ac.vuw.ecs.swen225.gp22.domain;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * Contains the state for a maze level.
@@ -13,6 +16,9 @@ public class Maze {
   private int cols;
   private Tile[][] tiles;
   private List<Tile> inventory;
+
+  private Position chapPosition;
+  private Direction chapDirection;
 
   /**
    * Construct a new Maze without an inventory.
@@ -38,6 +44,8 @@ public class Maze {
     this.rows = rows;
     this.cols = cols;
     this.inventory = List.copyOf(inventory);
+
+    setupChapsLocation();
   }
 
   /**
@@ -73,6 +81,43 @@ public class Maze {
   }
 
   /**
+   * Get the player position.
+   * @return chaps position.
+   */
+  public Position getChapPosition() {
+    return chapPosition;
+  }
+
+  /**
+   * Get the players direction.
+   * @return chaps direction.
+   */
+  public Direction getChapDirection() {
+    return chapDirection;
+  }
+
+  /**
+   * Finds tiles of a certain type.
+   * @param <T> type to search for.
+   * @param type type to search for.
+   * @return A list of found tile-position entries.
+   */
+  private <T extends Tile> List<Entry<Position, T>> findTilesOfType(Class<T> type) {
+    var found = new ArrayList<Entry<Position, T>>();
+
+    for (int x = 0; x < cols; x++) {
+      for (int y = 0; y < rows; y++) {
+        if (type.isInstance(tiles[y][x])) {
+          var entry = Map.entry(new Position(x, y), type.cast(tiles[y][x]));
+          found.add(entry);
+        }
+      }
+    }
+
+    return found;
+  }
+
+  /**
    * Verifies the maze is valid.
    * @param tiles maze tiles.
    * @param rows row count.
@@ -97,5 +142,23 @@ public class Maze {
         throw new IllegalArgumentException("Cols don't match maze");
       }
     }
+  }
+
+  /**
+   * Pulls chap out of the map tiles into their own space.
+   */
+  private void setupChapsLocation() {
+    var found = findTilesOfType(Chap.class);
+    if (found.size() != 1) {
+      throw new IllegalStateException("Must specify a single Chap tile.");
+    }
+
+    // record chaps position
+    var chap = found.get(0);
+    chapPosition = chap.getKey();
+    chapDirection = Direction.Right;
+
+    // remove chap from the map tiles
+    tiles[chapPosition.y()][chapPosition.x()] = null;
   }
 }
