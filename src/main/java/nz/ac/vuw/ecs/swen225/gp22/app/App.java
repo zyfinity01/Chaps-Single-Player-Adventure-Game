@@ -2,8 +2,6 @@ package nz.ac.vuw.ecs.swen225.gp22.app;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -14,21 +12,21 @@ import javax.swing.border.EmptyBorder;
  * @author Sam Redmond, 300443508
  *
  */
-public class App extends JFrame implements KeyListener {
+public class App extends JFrame implements Actions {
   /**
    * Panel holding all UI components.
    */
-  private JPanel contentPane;
+  private final JPanel contentPane;
 
   /**
    * Panel for drawing game.
    */
-  private Canvas canvas;
+  private final Canvas canvas;
   
   /**
    * Current game statistics.
    */
-  private Stats stats;
+  private final Stats stats;
 
   /**
    * Create the frame.
@@ -39,6 +37,9 @@ public class App extends JFrame implements KeyListener {
     setResizable(false);
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setBounds(100, 100, 1270, 720);
+
+    // Key Listener
+    addKeyListener(new Controls(this));
     
     // Component Container
     contentPane = new JPanel();
@@ -60,11 +61,57 @@ public class App extends JFrame implements KeyListener {
   }
 
   @Override
-  public void keyTyped(KeyEvent event) {}
+  public void moveUp() {
+
+  }
 
   @Override
-  public void keyPressed(KeyEvent event) {}
+  public void moveDown() {
+
+  }
 
   @Override
-  public void keyReleased(KeyEvent event) {}
+  public void moveRight() {
+
+  }
+
+  @Override
+  public void moveLeft() {
+
+  }
+
+  @Override
+  public void pause() {
+
+  }
+
+  @Override
+  public void closeDialog() {
+
+  }
+
+  @Override
+  public void exit() {
+
+  }
+
+  @Override
+  public void saveAndExit() {
+  }
+
+  @Override
+  public void getGameAndResume() {
+
+  }
+
+  @Override
+  public void startLevel1() {
+
+  }
+
+  @Override
+  public void startLevel2() {
+
+  }
+
 }
