@@ -105,9 +105,12 @@ public class Maze {
   private <T extends Tile> List<Entry<Position, T>> findTilesOfType(Class<T> type) {
     var found = new ArrayList<Entry<Position, T>>();
 
+    // go through the tiles
     for (int x = 0; x < cols; x++) {
       for (int y = 0; y < rows; y++) {
+        // check if its the target type
         if (type.isInstance(tiles[y][x])) {
+          // append the tile and its position
           var entry = Map.entry(new Position(x, y), type.cast(tiles[y][x]));
           found.add(entry);
         }
@@ -137,6 +140,10 @@ public class Maze {
       throw new IllegalArgumentException("Rows don't match maze");
     }
 
+    if (rows <= 0 || cols <= 0) {
+      throw new IllegalArgumentException("Must have positive rows and cols.");
+    }
+
     for (int i = 0; i < tiles.length; i++) {
       if (tiles[i].length != cols) {
         throw new IllegalArgumentException("Cols don't match maze");
@@ -150,7 +157,7 @@ public class Maze {
   private void setupChapsLocation() {
     var found = findTilesOfType(Chap.class);
     if (found.size() != 1) {
-      throw new IllegalStateException("Must specify a single Chap tile.");
+      throw new IllegalStateException("Must specify a single chap");
     }
 
     // record chaps position
