@@ -1,10 +1,9 @@
 package test.nz.ac.vuw.ecs.swen225.gp22.domain;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.List;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Maze;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Tile;
 
@@ -36,11 +35,10 @@ public class MazeTest {
 
   @Test
   public void cannotConstructInvalidMaze() {
-    try {
+    IllegalArgumentException exception = Assertions.assertThrows(
+      IllegalArgumentException.class, () -> {
       new Maze(null, 1, 2, null);
-      fail("Invalid construction not caught");
-    } catch (Exception ex) {
-      assertTrue("Wrong exception type", ex instanceof IllegalArgumentException);
-    }
+    });
+    Assertions.assertEquals("Tiles cannot be null", exception.getMessage());
   }
 }
