@@ -8,4 +8,4 @@ test:
   stage: test
   script:
     - xvfb-run -a mvn verify
-    - xvfb-run -a mvn spotbugs:check
+    - mvn spotbugs:check
