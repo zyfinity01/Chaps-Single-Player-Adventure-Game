@@ -7,7 +7,5 @@ build:
 test:
   stage: test
   script:
-    - Xvfb :99 &
-    - export DISPLAY=:99
-    - mvn verify
-    - mvn spotbugs:check
+    - xvfb-run mvn verify
+    - xvfb-run mvn spotbugs:check
