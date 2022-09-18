@@ -1,10 +1,10 @@
 package nz.ac.vuw.ecs.swen225.gp22.domain;
 
 /**
- * The possible colours.
+ * A tile's position.
  *
  * @author Jonty Morris, 300563915.
  */
-public enum Color {
-  Red, Green, Blue
+public record Position(int x, int y) {
+  
 }
