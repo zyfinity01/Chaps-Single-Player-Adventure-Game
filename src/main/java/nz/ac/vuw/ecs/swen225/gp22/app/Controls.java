@@ -23,6 +23,7 @@ public class Controls implements KeyListener {
 
   /**
    * Initilise the controller.
+   *
    * @param actions executed on specific key presses.
    */
   Controls(Actions actions) {
@@ -92,5 +93,7 @@ public class Controls implements KeyListener {
   }
 
   @Override
-  public void keyTyped(KeyEvent event) { /* not used */}
+  public void keyTyped(KeyEvent event) {
+    /* not used */
+  }
 }

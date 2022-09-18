@@ -1,10 +1,12 @@
 package nz.ac.vuw.ecs.swen225.gp22.app;
 
 import java.awt.GridLayout;
-
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+/**
+ * UI Container displaying game statistics.
+ */
 public class Stats extends JPanel {
   /**
    * The games current level.
