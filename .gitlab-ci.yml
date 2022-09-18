@@ -7,5 +7,5 @@ build:
 test:
   stage: test
   script:
-    - mvn verify
+    - xvfb-run -a mvn verify
     - mvn spotbugs:check
