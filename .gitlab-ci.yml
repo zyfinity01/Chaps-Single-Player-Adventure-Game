@@ -1,6 +1,3 @@
-before_script:
-  apt install xvfb
-
 build:
   stage: build
   script:
