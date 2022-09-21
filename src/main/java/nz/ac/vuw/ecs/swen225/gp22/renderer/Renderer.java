@@ -9,40 +9,51 @@ import java.io.IOException;
 
 
 public class Renderer {
-    // TODO: rescale/crop to fit
-    private static int windowWidth = 20;
-    private static int tileWidth = 20;
 
+    // TODO: rescale/crop to fit
+    static int windowWidth = 20;
+    static int tileWidth = 20;
+
+    // Cached tiles
+    // TODO: Find tileset
+    static BufferedImage free;
+    static BufferedImage wall;
+    static BufferedImage key;
+    static BufferedImage door;
+    static BufferedImage lock;
+    static BufferedImage info;
+    static BufferedImage treasure;
+    static BufferedImage exit;
+    static BufferedImage chap;
+    // load images
+    static { try {
+        free = ImageIO.read(new File("images//free.png"));
+        wall = ImageIO.read(new File("images//wall.png"));
+        chap = ImageIO.read(new File("images//chap.png"));
+    } catch (IOException e) { e.printStackTrace(); }} // TODO: handle better
+
+    public static BufferedImage image(Tile tile) {
+        // can't switch on instanceof
+        if (tile instanceof Wall) { return wall; }
+        if (tile instanceof Key) { return key; }
+        if (tile instanceof Door) { return door; }
+        if (tile instanceof Lock) { return lock; }
+        if (tile instanceof Info) { return info; }
+        if (tile instanceof Treasure) { return treasure; }
+        if (tile instanceof Exit) { return exit; }
+        if (tile instanceof Chap) {
+            // TODO: switch on direction
+            return chap;
+        }
+        return free;
+    }
     public static void render (Maze maze, Graphics2D image){
 
         for (int x=0; x<maze.getCols(); x++) {
             for (int y=0; y<maze.getRows(); y++) {
-                image.drawImage(image(maze.getTiles()[y][x])).image(), null, x*tileWidth, y*tileWidth);
+                image.drawImage(image(maze.getTiles()[y][x]), null, x*tileWidth, y*tileWidth);
             }
         }
-    }
-
-    // TODO: Find tileset
-    public static BufferedImage image(Tile tile) throws IOException {
-        // TODO: It would be good to cache the images for performance and to avoid IOExceptions mid game
-//        // can't switch on instanceof
-//        if (tile instanceof Wall) { return }
-//        if (tile instanceof Key) { return }
-//        if (tile instanceof Door) { return }
-//        if (tile instanceof Lock) { return }
-//        if (tile instanceof Info) { return }
-//        if (tile instanceof Treasure) { return }
-//        if (tile instanceof Exit) { return }
-//        if (tile instanceof Chap) {
-//            // TODO: switch on direction
-//            switch (tile.direction) {
-//                case UP: return
-//                case DOWN: return
-//                case LEFT: return
-//                case RIGHT: return
-//            }
-//        }
-        return ImageIO.read(new File("images//free.png"));
     }
 }
 
