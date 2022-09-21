@@ -1,6 +1,8 @@
 package nz.ac.vuw.ecs.swen225.gp22.app;
 
-import java.awt.Graphics;
+import nz.ac.vuw.ecs.swen225.gp22.renderer.Renderer;
+
+import java.awt.*;
 import javax.swing.JPanel;
 
 /**
@@ -10,8 +12,8 @@ import javax.swing.JPanel;
  */
 public class Canvas extends JPanel {
   @Override
-  public void paintComponent(Graphics graphics) {
-    super.paintComponent(graphics);
-    // run renderer draw method here
+  public void paint(Graphics graphics) {
+    // TODO: Pass details needed
+    Renderer.render(null, (Graphics2D) graphics);
   }
 }

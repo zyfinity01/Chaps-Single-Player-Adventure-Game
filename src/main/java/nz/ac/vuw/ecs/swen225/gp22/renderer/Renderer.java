@@ -26,20 +26,16 @@ enum TileImage {
 }
 
 public class Renderer {
-    int windowWidth = 20;
-    int tileWidth = 20;
+    private static int windowWidth = 20;
+    private static int tileWidth = 20;
 
-    void render (Maze maze, Canvas canvas){
-        Graphics2D image = new BufferedImage(windowWidth*tileWidth, windowWidth*tileWidth, BufferedImage.TYPE_4BYTE_ABGR).createGraphics();
+    public static void render (Maze maze, Graphics2D image){
 
         for (int x=0; x<maze.getCols(); x++) {
             for (int y=0; y<maze.getRows(); y++) {
                 image.drawImage(TileImage.valueOf(maze.getTiles()[x][y].type()).image(), null, x*tileWidth, y*tileWidth);
             }
         }
-
-        // TODO: I'll probably need to rescale this
-        canvas.paint(image);
     }
 }
 
