@@ -3,20 +3,27 @@ import nz.ac.vuw.ecs.swen225.gp22.domain.*;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
+import java.awt.image.BufferedImageOp;
+import java.awt.image.RescaleOp;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 
 
+// I've made this static because there's really no need to store state
+// TODO: There might be
 public class Renderer {
 
     // TODO: rescale/crop to fit
     static int windowWidth = 20;
-    static int tileWidth = 20;
+    static int tileWidth = 40;
 
     // Cached tiles
     // TODO: Find tileset
-    static BufferedImage free;
+    static BufferedImage free = null;
     static BufferedImage wall;
     static BufferedImage key;
     static BufferedImage door;
@@ -27,10 +34,17 @@ public class Renderer {
     static BufferedImage chap;
     // load images
     static { try {
-        free = ImageIO.read(new File("images//free.png"));
+        String s = Paths.get("").toAbsolutePath().toString();
+//        free = ImageIO.read(new File("images//free.png"));
         wall = ImageIO.read(new File("images//wall.png"));
+        key = ImageIO.read(new File("images//wall.png"));
+        door = ImageIO.read(new File("images//wall.png"));
+        lock = ImageIO.read(new File("images//wall.png"));
+        info = ImageIO.read(new File("images//wall.png"));
+        treasure = ImageIO.read(new File("images//wall.png"));
+        exit = ImageIO.read(new File("images//wall.png"));
         chap = ImageIO.read(new File("images//chap.png"));
-    } catch (IOException e) { e.printStackTrace(); }} // TODO: handle better
+    } catch (IOException e) { e.printStackTrace(); }}
 
     public static BufferedImage image(Tile tile) {
         // can't switch on instanceof
@@ -45,15 +59,18 @@ public class Renderer {
             // TODO: switch on direction
             return chap;
         }
-        return free;
+        return free;        // instanceof null || fallback
     }
     public static void render (Maze maze, Graphics2D image){
-
+        // Affine transformation is to rescale the image - https://www.geogebra.org/m/Fq8zyEgS
+        // new AffineTransformOp(new AffineTransform(0.1,0,0,0.1,0,0), AffineTransformOp.TYPE_BILINEAR)
+        image.drawImage(free, null,20, 20);
         for (int x=0; x<maze.getCols(); x++) {
             for (int y=0; y<maze.getRows(); y++) {
                 image.drawImage(image(maze.getTiles()[y][x]), null, x*tileWidth, y*tileWidth);
             }
         }
+        image.drawImage(chap, null, maze.getChapPosition().x()*tileWidth, maze.getChapPosition().y()*tileWidth);
     }
 }
 
