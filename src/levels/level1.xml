@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<game>
+    <level>level1</level>
+    <time>100</time>
+    <moves>10</moves>
+    <chips>5</chips>
+    <lives>3</lives>
+    <board>
+        <tiles>
+            <WALL>
+                <x>1</x>
+                <y>1</y>
+            </WALL>
+            <FREE>
+                <x>1</x>
+                <y>2</y>
+            </FREE>
+            <KEY>
+                <x>1</x>
+                <y>3</y>
+                <color>Red</color>
+            </KEY>
+            <LOCK>
+                <x>1</x>
+                <y>4</y>
+            </LOCK>
+            <INFO>
+                <x>1</x>
+                <y>5</y>
+                <text>This is the info tile</text>
+            </INFO>
+            <TREASURE>
+                <x>1</x>
+                <y>6</y>
+            </TREASURE>
+            <EXIT>
+                <x>1</x>
+                <y>7</y>
+            </EXIT>
+            <CHAP>
+                <x>1</x>
+                <y>8</y>
+            </CHAP>
+        </tiles>
+    </board>
+</game>
