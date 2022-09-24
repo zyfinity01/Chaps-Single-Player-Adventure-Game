@@ -48,7 +48,7 @@ public class FuzzTest {
   }
 
   /**
-   * Generate random keyPresses
+   * Generate random keyPresses.
    * 
    */
   public static ArrayList<Integer> GenerateRandomMoves(){
