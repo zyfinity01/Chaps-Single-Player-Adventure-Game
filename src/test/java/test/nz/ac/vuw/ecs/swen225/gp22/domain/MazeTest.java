@@ -3,6 +3,7 @@ package test.nz.ac.vuw.ecs.swen225.gp22.domain;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.ArrayList;
 import java.util.List;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Chap;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Color;
@@ -13,6 +14,8 @@ import nz.ac.vuw.ecs.swen225.gp22.domain.Maze;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Tile;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Treasure;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Wall;
+import test.nz.ac.vuw.ecs.swen225.gp22.fuzz.FuzzTest;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -178,4 +181,5 @@ public class MazeTest {
 
     Assertions.assertEquals("Cannot move chap in that direction", exception.getMessage());
   }
+
 }
