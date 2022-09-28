@@ -2,8 +2,8 @@
 <game>
     <level>level1</level>
     <time>100</time>
-    <moves>10</moves>
-    <chips>5</chips>
+    <moves>0</moves>
+    <chips>0</chips>
     <lives>3</lives>
     <board>
         <tiles>
