@@ -1,13 +1,21 @@
 package nz.ac.vuw.ecs.swen225.gp22.renderer;
 
-
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 import javax.imageio.ImageIO;
-import nz.ac.vuw.ecs.swen225.gp22.domain.*;
+import nz.ac.vuw.ecs.swen225.gp22.domain.Chap;
+import nz.ac.vuw.ecs.swen225.gp22.domain.Door;
+import nz.ac.vuw.ecs.swen225.gp22.domain.Exit;
+import nz.ac.vuw.ecs.swen225.gp22.domain.Info;
+import nz.ac.vuw.ecs.swen225.gp22.domain.Key;
+import nz.ac.vuw.ecs.swen225.gp22.domain.Lock;
+import nz.ac.vuw.ecs.swen225.gp22.domain.Maze;
+import nz.ac.vuw.ecs.swen225.gp22.domain.Tile;
+import nz.ac.vuw.ecs.swen225.gp22.domain.Treasure;
+import nz.ac.vuw.ecs.swen225.gp22.domain.Wall;
 
 // I've made this static because there's really no need to store state
 // TODO: There might be
