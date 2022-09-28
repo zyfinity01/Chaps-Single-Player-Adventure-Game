@@ -98,7 +98,7 @@ public class Persistency {
     public Maze loadGame(String fileName, int boardCols, int boardRows) {
         Tile[][] board = new Tile[boardRows][boardCols];
         //read XML file
-        Document doc = getParsedDoc(fileName);
+        Document doc = getParsedDoc("src/levels/"+fileName);
         for(Element element : doc.getRootElement().getChildren()){
             System.out.println(element.getName() + " " + element.getText());
             switch (element.getName()) {
@@ -117,28 +117,31 @@ public class Persistency {
                     List<Element> boardElements = element.getChildren();
                     for (Element item : boardElements) {
                         if (item.getName().equals("tiles")) {
-                            int x = Integer.parseInt(item.getChild("x").getValue());
-                            int y = Integer.parseInt(item.getChild("y").getValue());
-                            Color c;
-                            String text;
-                            switch (item.getName()) {
-                                case "WALL" -> board[x][y] = new Wall();
-                                case "FREE" -> board[x][y] = null;
-                                case "KEY" -> {
-                                    c = Color.valueOf(item.getChild("color").getValue());
-                                    board[x][y] = new Key(c);
+                            List<Element> tileElements = item.getChildren();
+                            for (Element tile : tileElements) {
+                                int x = Integer.parseInt(tile.getChild("x").getValue());
+                                int y = Integer.parseInt(tile.getChild("y").getValue());
+                                Color c;
+                                String text;
+                                System.out.println(tile.getName());
+                                switch (tile.getName()) {
+                                    case "WALL" -> board[x][y] = new Wall();
+                                    case "KEY" -> {
+                                        c = Color.valueOf(tile.getChild("color").getValue());
+                                        board[x][y] = new Key(c);
+                                    }
+                                    case "LOCK" -> board[x][y] = new Lock();
+                                    case "INFO" -> {
+                                        text = tile.getChild("text").getValue();
+                                        board[x][y] = new Info(text);
+                                    }
+                                    case "TREASURE" -> board[x][y] = new Treasure();
+                                    case "EXIT" -> board[x][y] = new Exit();
+                                    case "CHAP" -> board[x][y] = new Chap();
                                 }
-                                case "LOCK" -> board[x][y] = new Lock();
-                                case "INFO" -> {
-                                    text = item.getChild("text").getValue();
-                                    board[x][y] = new Info(text);
-                                }
-                                case "TREASURE" -> board[x][y] = new Treasure();
-                                case "EXIT" -> board[x][y] = new Exit();
-                                case "CHAP" -> board[x][y] = new Chap();
                             }
+                            break;
                         }
-                        break;
                     }
             }
         }
