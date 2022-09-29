@@ -18,7 +18,7 @@ import nz.ac.vuw.ecs.swen225.gp22.app.App;
  * 
  */
 public class FuzzTest {
-
+  static final int numMoves = 50;     // change for however many tests needed
   /**
    * App context.
    * This should be reset on each test
@@ -54,7 +54,7 @@ public class FuzzTest {
   public static ArrayList<Integer> GenerateRandomMoves(){
     final int min = 1;
     final int max = 4;
-
+    
     final Random random = new Random();
 
     ArrayList<Integer> keyCodes = new ArrayList<Integer>(); 
@@ -65,7 +65,7 @@ public class FuzzTest {
     keyMap.put(3, KeyEvent.VK_LEFT);
     keyMap.put(4, KeyEvent.VK_RIGHT);
 
-    for(int i = 0; i<50; i++){
+    for(int i = 0; i<numMoves; i++){
 
       int rand = random.nextInt(max-min+1)+min;
       if(keyMap.keySet().contains(rand)){
@@ -103,11 +103,14 @@ public class FuzzTest {
 
     ArrayList<Integer> test = FuzzTest.GenerateRandomMoves();
 
-    assertTrue(test.size()==50);
+    assertTrue(test.size()==numMoves);
 
 
   }
 
-
+  /*
+   * The fuzz module should have at least one test that randomly
+   * calls methods in the application module
+   */
 
 }
