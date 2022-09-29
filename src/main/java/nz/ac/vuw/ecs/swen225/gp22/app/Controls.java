@@ -6,6 +6,8 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+import nz.ac.vuw.ecs.swen225.gp22.recorder.Recorder;
+
 /**
  * Handles key presses and initialising corresponding actions.
  */
@@ -22,11 +24,17 @@ public class Controls implements KeyListener {
   private Actions actions;
 
   /**
+   * Recorder saves all moves to replay.
+   */
+  private Recorder recorder;
+
+  /**
    * Initilise the controller.
    *
    * @param actions executed on specific key presses.
    */
   Controls(Actions actions) {
+    this.recorder = new Recorder();
     this.actions = actions;
     pressedKeys = new HashSet<>();;
   }
@@ -84,6 +92,7 @@ public class Controls implements KeyListener {
   @Override
   public void keyPressed(KeyEvent event) {
     pressedKeys.add(event.getKeyCode());
+    this.recorder.saveMovement(event.getKeyCode());
     handle();
   }
 
