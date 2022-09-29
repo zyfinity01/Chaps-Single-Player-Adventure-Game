@@ -62,7 +62,7 @@ public class App extends JFrame implements Actions {
 
   @Override
   public void moveUp() {
-
+    
   }
 
   @Override
