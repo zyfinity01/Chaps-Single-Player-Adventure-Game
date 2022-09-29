@@ -1,6 +1,7 @@
 package nz.ac.vuw.ecs.swen225.gp22.recorder;
 
-import java.io.FileWriter;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import org.jdom2.Document;
 import org.jdom2.Element;
@@ -13,7 +14,6 @@ import org.jdom2.output.XMLOutputter;
  */
 public class Recorder {
   ArrayList<String> savedSnapshots;
-  String recordingName;
   /**
    * Creates an Recorder,
    * If recordingName matches any current .XML files, load Recording from file.
@@ -21,14 +21,8 @@ public class Recorder {
    * $ @param recordingName Name of XML file.
    */
   
-  public Recorder(String recordingName) {
-    //recordingName.toLowerCase();
-    //TODO: Implement loading from file via string name
-    if (recordingName.equals("ASavedFile"))  {
-      this.loadFromXml(recordingName);
-    } else  {
-      savedSnapshots = new ArrayList<>();
-    }
+  public Recorder() {
+    savedSnapshots = new ArrayList<>();
   }
 
   /**
@@ -56,7 +50,8 @@ public class Recorder {
     document.setContent(root);
 
     try {
-      FileWriter writer = new FileWriter("userinfo.xml");
+      FileOutputStream outstream = new FileOutputStream("moves.xml");
+      OutputStreamWriter writer = new OutputStreamWriter(outstream, "UTF-8");
       XMLOutputter outputter = new XMLOutputter();
       outputter.setFormat(Format.getPrettyFormat());
       outputter.output(document, writer);
@@ -66,13 +61,5 @@ public class Recorder {
     }
 
 
-  }
-
-  /**
-   * Loads local .XML recording if it exists
-   * $ @param recordingName Used to find local .XML saved recording
-   */
-  private void loadFromXml(String recordingName){
-    //TODO
   }
 }
