@@ -13,6 +13,8 @@ import nz.ac.vuw.ecs.swen225.gp22.domain.Maze;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Tile;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Treasure;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Wall;
+
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -178,4 +180,5 @@ public class MazeTest {
 
     Assertions.assertEquals("Cannot move chap in that direction", exception.getMessage());
   }
+
 }
