@@ -9,7 +9,7 @@ import java.util.Set;
 /**
  * Handles key presses and initialising corresponding actions.
  */
-public class Controls implements KeyListener {
+public class KeyController implements KeyListener {
 
   /**
    * Stores keys being pressed at a given time.
@@ -19,14 +19,14 @@ public class Controls implements KeyListener {
   /**
    * Actions to perform on key bind.
    */
-  private Actions actions;
+  private WindowActions actions;
 
   /**
    * Initilise the controller.
    *
    * @param actions executed on specific key presses.
    */
-  Controls(Actions actions) {
+  KeyController(WindowActions actions) {
     this.actions = actions;
     pressedKeys = new HashSet<>();;
   }
