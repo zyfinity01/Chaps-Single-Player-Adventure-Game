@@ -8,6 +8,7 @@ import nz.ac.vuw.ecs.swen225.gp22.domain.Chap;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Color;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Direction;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Door;
+import nz.ac.vuw.ecs.swen225.gp22.domain.Info;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Key;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Maze;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Tile;
@@ -233,5 +234,18 @@ public class MazeTest {
     });
 
     Assertions.assertEquals("Cannot move chap in that direction", exception.getMessage());
+  }
+
+  @Test
+  public void canGetInfoText() {
+    var tiles = new Tile[4][4];
+    tiles[1][2] = new Chap();
+    tiles[0][2] = new Info("Test text");
+
+    var maze = new Maze(tiles, 4, 4, List.of(new Key(Color.Green)), 1);
+
+    assert(maze.getInfoText() == null);
+    maze.moveChap(Direction.Up);
+    assert(maze.getInfoText() == "Test text");
   }
 }

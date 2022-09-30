@@ -7,12 +7,7 @@ import javax.swing.JPanel;
 /**
  * UI Container displaying game statistics.
  */
-public class StateWindow extends JPanel implements StateUpdateHandler {
-
-  /**
-   * State of the game at a point in time.
-   */
-  public GameState state;
+public class StateWindow extends JPanel {
 
   /**
    * The games current level.
@@ -33,7 +28,6 @@ public class StateWindow extends JPanel implements StateUpdateHandler {
    * Displays Game Information.
    */
   public StateWindow() {
-    state = new GameState(this);
     setLayout(new GridLayout(3, 2, 5, 10));
     
     add(new JLabel("Level:"));
@@ -46,28 +40,18 @@ public class StateWindow extends JPanel implements StateUpdateHandler {
     
     add(new JLabel("Chips Left:"));
     chipsLeft = new JLabel("0");
-    add(chipsLeft);    
+    add(chipsLeft);
   }
 
-  @Override
-  public void handle(String field, Object updatedValue) {
-    switch (field) {
-      case "timeLeft" -> setTime((Double) updatedValue);
-      case "currentLevel" -> setLevel((Integer) updatedValue);
-      case "chipsLeft" -> setChipsLeft((Integer) updatedValue);
-      default -> { }
-    }
-  }
-
-  private void setLevel(int level) {
+  public void setLevel(int level) {
     currentLevel.setText(String.valueOf(level));
   }
 
-  private void setTime(double time) {
+  public void setTime(double time) {
     timeLeft.setText(String.format("%.2fs", time));
   }
 
-  private void setChipsLeft(int chips) {
+  public void setChipsLeft(int chips) {
     chipsLeft.setText(String.valueOf(chips));
   }
 
