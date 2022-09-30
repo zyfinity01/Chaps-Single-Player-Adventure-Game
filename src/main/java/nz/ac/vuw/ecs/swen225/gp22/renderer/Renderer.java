@@ -46,12 +46,12 @@ public class Renderer {
       String s = Paths.get("").toAbsolutePath().toString();
       // free = ImageIO.read(new File("images//free.png"));
       wall = ImageIO.read(new File("images//wall.png"));
-      key = ImageIO.read(new File("images//wall.png"));
-      door = ImageIO.read(new File("images//wall.png"));
-      lock = ImageIO.read(new File("images//wall.png"));
-      info = ImageIO.read(new File("images//wall.png"));
-      treasure = ImageIO.read(new File("images//wall.png"));
-      exit = ImageIO.read(new File("images//wall.png"));
+      key = ImageIO.read(new File("images//key.png"));
+      door = ImageIO.read(new File("images//door.png"));
+      lock = ImageIO.read(new File("images//lock.png"));
+      info = ImageIO.read(new File("images//info.png"));
+      treasure = ImageIO.read(new File("images//treasure.png"));
+      exit = ImageIO.read(new File("images//exit.png"));
       chap = ImageIO.read(new File("images//chap.png"));
     } catch (IOException e) {
       e.printStackTrace();
