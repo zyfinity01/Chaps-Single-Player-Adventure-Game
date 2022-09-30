@@ -7,6 +7,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Chap;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Color;
+import nz.ac.vuw.ecs.swen225.gp22.domain.Door;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Exit;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Info;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Key;
@@ -76,6 +77,10 @@ public class Persistency {
                   case "INFO" -> {
                     text = tile.getChild("text").getValue();
                     board[y][x] = new Info(text);
+                  }
+                  case "DOOR" -> {
+                    c = Color.valueOf(tile.getChild("color").getValue());
+                    board[y][x] = new Door(c);
                   }
                   default -> {
                   }
