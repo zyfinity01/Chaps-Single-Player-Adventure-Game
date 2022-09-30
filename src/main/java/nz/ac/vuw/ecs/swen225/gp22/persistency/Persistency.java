@@ -5,16 +5,8 @@ import java.util.List;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import nz.ac.vuw.ecs.swen225.gp22.domain.Chap;
-import nz.ac.vuw.ecs.swen225.gp22.domain.Color;
-import nz.ac.vuw.ecs.swen225.gp22.domain.Exit;
-import nz.ac.vuw.ecs.swen225.gp22.domain.Info;
-import nz.ac.vuw.ecs.swen225.gp22.domain.Key;
-import nz.ac.vuw.ecs.swen225.gp22.domain.Lock;
-import nz.ac.vuw.ecs.swen225.gp22.domain.Maze;
-import nz.ac.vuw.ecs.swen225.gp22.domain.Tile;
-import nz.ac.vuw.ecs.swen225.gp22.domain.Treasure;
-import nz.ac.vuw.ecs.swen225.gp22.domain.Wall;
+
+import nz.ac.vuw.ecs.swen225.gp22.domain.*;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.input.DOMBuilder;
@@ -76,6 +68,10 @@ public class Persistency {
                   case "INFO" -> {
                     text = tile.getChild("text").getValue();
                     board[x][y] = new Info(text);
+                  }
+                  case "DOOR" -> {
+                    c = Color.valueOf(tile.getChild("color").getValue());
+                    board[x][y] = new Door(c);
                   }
                   default -> {
                   }
