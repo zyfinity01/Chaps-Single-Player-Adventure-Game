@@ -87,7 +87,7 @@ public class Persistency {
           break;
       }
     }
-    return new Maze(board, boardRows, boardCols);
+    return new Maze(board, boardRows, boardCols, 60);
   }
   
   private static Document getParsedDoc(final String fileName) {
