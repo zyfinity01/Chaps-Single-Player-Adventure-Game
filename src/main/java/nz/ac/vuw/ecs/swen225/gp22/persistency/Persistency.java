@@ -64,18 +64,18 @@ public class Persistency {
                 String text;
                 System.out.println(tile.getName());
                 switch (tile.getName()) {
-                  case "TREASURE" -> board[x][y] = new Treasure();
-                  case "WALL" -> board[x][y] = new Wall();
-                  case "LOCK" -> board[x][y] = new Lock();
-                  case "EXIT" -> board[x][y] = new Exit();
-                  case "CHAP" -> board[x][y] = new Chap();
+                  case "TREASURE" -> board[y][x] = new Treasure();
+                  case "WALL" -> board[y][x] = new Wall();
+                  case "LOCK" -> board[y][x] = new Lock();
+                  case "EXIT" -> board[y][x] = new Exit();
+                  case "CHAP" -> board[y][x] = new Chap();
                   case "KEY" -> {
                     c = Color.valueOf(tile.getChild("color").getValue());
-                    board[x][y] = new Key(c);
+                    board[y][x] = new Key(c);
                   }
                   case "INFO" -> {
                     text = tile.getChild("text").getValue();
-                    board[x][y] = new Info(text);
+                    board[y][x] = new Info(text);
                   }
                   default -> {
                   }
