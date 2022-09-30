@@ -80,7 +80,7 @@ public class Persistency {
                   }
                   case "DOOR" -> {
                     c = Color.valueOf(tile.getChild("color").getValue());
-                    board[x][y] = new Door(c);
+                    board[y][x] = new Door(c);
                   }
                   default -> {
                   }
