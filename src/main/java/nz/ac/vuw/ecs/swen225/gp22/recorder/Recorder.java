@@ -3,6 +3,9 @@ package nz.ac.vuw.ecs.swen225.gp22.recorder;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.output.Format;
@@ -29,7 +32,12 @@ public class Recorder {
    * Saves (all actions, or state each tick).
    */
   public void saveMovement(int keyCode) {
-    savedSnapshots.add(keyCode);
+    Integer[] keyArray = new Integer[] {38, 40, 37, 39, 32, 27, 17, 88, 83, 82, 49, 50};
+    List<Integer> validKeys = new ArrayList<Integer>(Arrays.asList(keyArray));
+    if (!validKeys.contains(keyCode)) {
+      return;
+    }
+    this.savedSnapshots.add(keyCode);
     this.saveToXml();
   }
 
