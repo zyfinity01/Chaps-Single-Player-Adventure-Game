@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Direction;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Maze;
+import nz.ac.vuw.ecs.swen225.gp22.domain.Treasure;
 import nz.ac.vuw.ecs.swen225.gp22.persistency.Persistency;
 
 /**
@@ -45,6 +46,16 @@ public class App extends JFrame implements WindowActions {
   private final Maze maze;
 
   /**
+   * Game is paused.
+   */
+  private boolean isPaused;
+
+  /**
+   * Number of current tick.
+   */
+  private int tick;
+
+  /**
    * Create the frame.
    */
   public App() {
@@ -69,12 +80,13 @@ public class App extends JFrame implements WindowActions {
     contentPane.add(canvas);
     
     // Game statistics
+    isPaused = false;
     stats = new StateWindow();
     contentPane.add(stats);
 
     // Load maze
-    stats.state.set("currentLevel", 1);
     maze = Persistency.loadGame("level1.xml", 16, 17);
+    stats.setLevel(1);
 
     // Start game ticker
     new javax.swing.Timer(TICK_RATE, new ActionListener() {
@@ -92,15 +104,14 @@ public class App extends JFrame implements WindowActions {
    * Update each tick.
    */
   public void gameLoop() {
+    // only update time once a second
+    if (tick % (1000 / TICK_RATE) == 0) {
+      maze.tick();
+      stats.setTime(maze.getTimeLeft());
+    }
+    stats.setChipsLeft(maze.getCountOfMazeTiles(Treasure.class));
     canvas.update(maze);
-
-    var timeLeft = (Double) stats.state.get("timeLeft");
-    //if (timeLeft <= 0) {
-    //  gameOver = true;
-    //}
-
-    // update time left
-    stats.state.set("timeLeft", timeLeft - 0.001);
+    tick++;
   }
 
   /**
@@ -109,7 +120,7 @@ public class App extends JFrame implements WindowActions {
    * @param direction direction to move
    */
   public void move(Direction direction) {
-    if (!((Boolean) stats.state.get("isPaused"))) {
+    if (!isPaused && maze.canMoveChap(direction)) {
       maze.moveChap(direction);
     }
   }
@@ -136,8 +147,7 @@ public class App extends JFrame implements WindowActions {
 
   @Override
   public void pause() {
-    var paused = (Boolean) stats.state.get("isPaused");
-    stats.state.set("isPaused", !paused);
+    isPaused = !isPaused;
   }
 
   @Override
@@ -147,8 +157,10 @@ public class App extends JFrame implements WindowActions {
 
   @Override
   public void exit() {
-    // TODO: save current game level so that next time game started
-    // the first level is that.
+    /*
+      TODO: save current game level so that next time game started
+      the first level is that.
+    */
     System.exit(0);
   }
 

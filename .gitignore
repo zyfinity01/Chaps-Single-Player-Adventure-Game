@@ -1,3 +1,6 @@
+# Game generated files
+moves.xml
+
 # Marven directories
 target/*
 bin/

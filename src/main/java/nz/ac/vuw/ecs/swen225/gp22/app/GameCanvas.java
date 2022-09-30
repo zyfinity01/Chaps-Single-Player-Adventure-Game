@@ -14,10 +14,9 @@ import nz.ac.vuw.ecs.swen225.gp22.renderer.Renderer;
 public class GameCanvas extends JPanel {
 
   public Maze maze;
-  //private Maze maze;
 
   public void update(Maze maze) {
-    this.maze = maze; //maze.clone();
+    this.maze = maze;
     repaint();
   }
 
