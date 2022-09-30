@@ -22,19 +22,19 @@ public class PersistencyTest {
 //        new Persistency().saveGameStatus("test1.xml", "level1", 100, 10, 5, 3, board);
 //    }
 
-    @Test
-    public void test2() {
-        Maze myMaze = new Persistency().loadGame("level1.xml", 10, 10);
-        Tile[][] tiles = myMaze.getTiles();
-        //iterate over tiles length and width and print them
-        for(int i = 0; i < tiles.length; i++) {
-            for(int j = 0; j < tiles[i].length; j++) {
-                //System.out.print(tiles[i][j].getClass().getSimpleName() + " ");
-                if(tiles[i][j] == null) System.out.println("x:" + i + " y:" + j +" : null tile");
-                else System.out.println("x:" + i + " y:" + j + " : " + tiles[i][j].toString());
-            }
-        }
-
-
-    }
+//    @Test
+//    public void test2() {
+//        Maze myMaze = new Persistency().loadGame("level1.xml", 10, 10);
+//        Tile[][] tiles = myMaze.getTiles();
+//        //iterate over tiles length and width and print them
+//        for(int i = 0; i < tiles.length; i++) {
+//            for(int j = 0; j < tiles[i].length; j++) {
+//                //System.out.print(tiles[i][j].getClass().getSimpleName() + " ");
+//                if(tiles[i][j] == null) System.out.println("x:" + i + " y:" + j +" : null tile");
+//                else System.out.println("x:" + i + " y:" + j + " : " + tiles[i][j].toString());
+//            }
+//        }
+//
+//
+//    }
 }
