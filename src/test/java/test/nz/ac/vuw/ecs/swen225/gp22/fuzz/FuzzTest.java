@@ -18,7 +18,7 @@ import nz.ac.vuw.ecs.swen225.gp22.app.App;
  * 
  */
 public class FuzzTest {
-  static final int numMoves = 50;     // change for however many tests needed
+  static final int numMoves = 100;     // change for however many tests needed
   /**
    * App context.
    * This should be reset on each test
@@ -71,7 +71,6 @@ public class FuzzTest {
       if(keyMap.keySet().contains(rand)){
         keyCodes.add(keyMap.get(rand));
 
-
       }
 
     }
@@ -79,11 +78,28 @@ public class FuzzTest {
     return keyCodes;
   }
 
+  /**
+   * Runs the keyPress method on each element in supplied list. 
+   * 
+   * @param randList
+   */
+  public void randomTests(ArrayList<Integer> randList){
+
+    for(Integer i : randList){
+      try{
+        pressKey(i);
+
+      }
+      catch(IllegalStateException e){System.out.println("Invalid input - check the input for keyCode: " + i); }
+
+    }
+
+  }
 
   @Test
   public void test1() {
     // move player up
-    pressKey(KeyEvent.VK_UP);
+    randomTests(GenerateRandomMoves());
   }
 
   @Test
@@ -95,8 +111,6 @@ public class FuzzTest {
    /** 
    * Testing for random number generator and map intialization.
    * 
-   * @author Lawrence Schwabe, 300570719.
-   * 
    */
   @Test
   public void testMapGen(){
@@ -105,12 +119,11 @@ public class FuzzTest {
 
     assertTrue(test.size()==numMoves);
 
-
   }
 
   /*
    * The fuzz module should have at least one test that randomly
-   * calls methods in the application module
+   * calls methods in the application module.
    */
 
 }
