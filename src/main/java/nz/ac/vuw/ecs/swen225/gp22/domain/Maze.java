@@ -16,6 +16,7 @@ public class Maze {
   private int cols;
   private Tile[][] tiles;
   private List<Tile> inventory;
+  private int timeLeft;
 
   private Position chapPosition;
   private Direction chapDirection;
@@ -27,8 +28,8 @@ public class Maze {
    * @param rows count of maze rows.
    * @param cols count of maze coluns.
    */
-  public Maze(Tile[][] tiles, int rows, int cols) {
-    this(tiles, rows, cols, List.of());
+  public Maze(Tile[][] tiles, int rows, int cols, int timeLeft) {
+    this(tiles, rows, cols, List.of(), timeLeft);
   }
 
   /**
@@ -39,13 +40,14 @@ public class Maze {
    * @param cols count of maze coluns
    * @param inventory player inventory
    */
-  public Maze(Tile[][] tiles, int rows, int cols, List<Tile> inventory) {
-    verifyMazeSetup(tiles, rows, cols, inventory);
+  public Maze(Tile[][] tiles, int rows, int cols, List<Tile> inventory, int timeLeft) {
+    verifyMazeSetup(tiles, rows, cols, inventory, timeLeft);
 
     this.tiles = tiles.clone();
     this.rows = rows;
     this.cols = cols;
     this.inventory = new ArrayList<>(inventory);
+    this.timeLeft = timeLeft;
 
     setupChapsLocation();
   }
@@ -105,6 +107,26 @@ public class Maze {
   }
 
   /**
+   * Get the time left.
+   *
+   * @return time left.
+   */
+  public int getTimeLeft() {
+    return timeLeft;
+  }
+
+  /**
+   * Perform a level tick.
+   */
+  public void tick() {
+    if (this.timeLeft <= 0) {
+      return;
+    }
+
+    this.timeLeft--;
+  }
+
+  /**
    * Check if the player can move in a direction.
    *
    * @param direction the target direction.
@@ -120,6 +142,11 @@ public class Maze {
     }
 
     if (next.x() >= cols || next.y() >= rows) {
+      return false;
+    }
+
+    // check if out of time
+    if (timeLeft <= 0) {
       return false;
     }
 
@@ -146,8 +173,8 @@ public class Maze {
       chapPosition.y() + direction.getY());
 
     // record counts to later validate state
-    var keyCount1 = getCountOfTileType(Key.class);
-    var treasureCount1 = getCountOfTileType(Treasure.class);
+    var keyCount1 = getCountOfTotalTiles(Key.class);
+    var treasureCount1 = getCountOfTotalTiles(Treasure.class);
 
     // now iteract with the tile we moved to
     var tile = tiles[chapPosition.y()][chapPosition.x()];
@@ -156,8 +183,8 @@ public class Maze {
     }
 
     // then reaffirm the tile counts
-    var keyCount2 = getCountOfTileType(Key.class);
-    var treasureCount2 = getCountOfTileType(Treasure.class);
+    var keyCount2 = getCountOfTotalTiles(Key.class);
+    var treasureCount2 = getCountOfTotalTiles(Treasure.class);
 
     if (keyCount1 != keyCount2 || treasureCount1 != treasureCount2) {
       throw new IllegalStateException("The key or treasure count has changed");
@@ -191,14 +218,26 @@ public class Maze {
 
   /**
    * Counts how many tiles of a given type there are in
+   * both the maze.
+   *
+   * @param <T> the type to search for.
+   * @param type the type to search for.
+   * @return the count of tile type.
+   */
+  public <T extends Tile> int getCountOfMazeTiles(Class<T> type) {
+    return getTilesOfType(type).size();
+  }
+
+  /**
+   * Counts how many tiles of a given type there are in
    * both the maze and player inventory.
    *
    * @param <T> the type to search for.
    * @param type the type to search for.
    * @return the count of tile type.
    */
-  private <T extends Tile> int getCountOfTileType(Class<T> type) {
-    var count = getTilesOfType(type).size();
+  private <T extends Tile> int getCountOfTotalTiles(Class<T> type) {
+    var count = getCountOfMazeTiles(type);
     count += inventory.stream().filter(type::isInstance).count();
     return count;
   }
@@ -211,7 +250,7 @@ public class Maze {
    * @param cols col count.
    * @param inventory player inventory.
    */
-  private void verifyMazeSetup(Tile[][] tiles, int rows, int cols, List<Tile> inventory) {
+  private void verifyMazeSetup(Tile[][] tiles, int rows, int cols, List<Tile> inventory, int timeLeft) {
     if (tiles == null) {
       throw new IllegalArgumentException("Tiles cannot be null");
     }
@@ -225,13 +264,17 @@ public class Maze {
     }
 
     if (rows <= 0 || cols <= 0) {
-      throw new IllegalArgumentException("Must have positive rows and cols.");
+      throw new IllegalArgumentException("Must have positive rows and cols");
     }
 
     for (int i = 0; i < tiles.length; i++) {
       if (tiles[i].length != cols) {
         throw new IllegalArgumentException("Cols don't match maze");
       }
+    }
+
+    if (timeLeft <= 0) {
+      throw new IllegalArgumentException("Time left must be greater than 0");
     }
   }
 

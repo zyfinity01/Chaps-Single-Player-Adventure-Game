@@ -14,7 +14,6 @@ import nz.ac.vuw.ecs.swen225.gp22.domain.Tile;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Treasure;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Wall;
 
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -29,7 +28,7 @@ public class MazeTest {
     var tiles = new Tile[1][1];
     tiles[0][0] = new Chap();
 
-    var maze = new Maze(tiles, 1, 1);
+    var maze = new Maze(tiles, 1, 1, 1);
 
     assertTrue(maze.getTiles().length == 1);
     assertTrue(maze.getInventory().size() == 0);
@@ -42,7 +41,7 @@ public class MazeTest {
     var tiles = new Tile[1][1];
     tiles[0][0] = new Chap();
 
-    var maze = new Maze(tiles, 1, 1, List.of());
+    var maze = new Maze(tiles, 1, 1, List.of(), 1);
 
     assertTrue(maze.getTiles().length == 1);
     assertTrue(maze.getInventory().size() == 0);
@@ -55,7 +54,7 @@ public class MazeTest {
     var tiles = new Tile[4][4];
     tiles[1][2] = new Chap();
 
-    var maze = new Maze(tiles, 4, 4, List.of());
+    var maze = new Maze(tiles, 4, 4, List.of(), 1);
 
     assertTrue(maze.getChapPosition().y() == 1);
     assertTrue(maze.getChapPosition().x() == 2);
@@ -65,7 +64,7 @@ public class MazeTest {
   public void cannotConstructNullMaze() {
     var exception = Assertions.assertThrows(
       IllegalArgumentException.class, () -> {
-      new Maze(null, 1, 2, null);
+      new Maze(null, 1, 2, null, 1);
     });
 
     Assertions.assertEquals("Tiles cannot be null", exception.getMessage());
@@ -75,7 +74,7 @@ public class MazeTest {
   public void cannotConstructWithoutChap() {
     var exception = Assertions.assertThrows(
       IllegalStateException.class, () -> {
-      new Maze(new Tile[1][1], 1, 1);
+      new Maze(new Tile[1][1], 1, 1, 1);
     });
 
     Assertions.assertEquals("Must specify a single chap", exception.getMessage());
@@ -86,7 +85,7 @@ public class MazeTest {
     var tiles = new Tile[4][4];
     tiles[1][2] = new Chap();
 
-    var maze = new Maze(tiles, 4, 4, List.of());
+    var maze = new Maze(tiles, 4, 4, List.of(), 1);
 
     assertTrue(maze.canMoveChap(Direction.Up));
     maze.moveChap(Direction.Up);
@@ -105,7 +104,7 @@ public class MazeTest {
     tiles[0][2] = new Wall();
     tiles[1][2] = new Chap();
 
-    var maze = new Maze(tiles, 4, 4, List.of());
+    var maze = new Maze(tiles, 4, 4, List.of(), 1);
 
     assertFalse(maze.canMoveChap(Direction.Up));
 
@@ -123,7 +122,7 @@ public class MazeTest {
     tiles[1][2] = new Chap();
     tiles[2][2] = new Key(Color.Green);
 
-    var maze = new Maze(tiles, 4, 4, List.of());
+    var maze = new Maze(tiles, 4, 4, List.of(), 1);
 
     maze.moveChap(Direction.Down);
 
@@ -140,7 +139,7 @@ public class MazeTest {
     tiles[1][2] = new Chap();
     tiles[2][2] = new Treasure();
 
-    var maze = new Maze(tiles, 4, 4);
+    var maze = new Maze(tiles, 4, 4, 1);
 
     maze.moveChap(Direction.Down);
 
@@ -155,7 +154,7 @@ public class MazeTest {
     tiles[1][2] = new Chap();
     tiles[2][2] = new Door(Color.Blue);
 
-    var maze = new Maze(tiles, 4, 4, List.of(new Key(Color.Blue)));
+    var maze = new Maze(tiles, 4, 4, List.of(new Key(Color.Blue)), 1);
 
     maze.moveChap(Direction.Down);
 
@@ -169,7 +168,7 @@ public class MazeTest {
     tiles[1][2] = new Chap();
     tiles[2][2] = new Door(Color.Blue);
 
-    var maze = new Maze(tiles, 4, 4, List.of(new Key(Color.Green)));
+    var maze = new Maze(tiles, 4, 4, List.of(new Key(Color.Green)), 1);
 
     assertFalse(maze.canMoveChap(Direction.Down));
 
@@ -181,4 +180,58 @@ public class MazeTest {
     Assertions.assertEquals("Cannot move chap in that direction", exception.getMessage());
   }
 
+  @Test
+  public void canCountDown() {
+    var tiles = new Tile[4][4];
+    tiles[1][2] = new Chap();
+
+    var maze = new Maze(tiles, 4, 4, List.of(new Key(Color.Green)), 3);
+
+    assertTrue(maze.getTimeLeft() == 3);
+
+    maze.tick();
+
+    assertTrue(maze.getTimeLeft() == 2);
+
+    maze.tick();
+    maze.tick();
+    maze.tick();
+
+    assertTrue(maze.getTimeLeft() == 0);
+  }
+
+  @Test
+  public void canCountTiles() {
+    var tiles = new Tile[4][4];
+    tiles[0][0] = new Treasure();
+    tiles[0][1] = new Treasure();
+    tiles[1][2] = new Chap();
+    tiles[2][0] = new Key(Color.Green);
+
+    var maze = new Maze(tiles, 4, 4, List.of(new Key(Color.Green)), 3);
+
+    assertTrue(maze.getCountOfMazeTiles(Treasure.class) == 2);
+    assertTrue(maze.getCountOfMazeTiles(Key.class) == 1);
+    assertTrue(maze.getCountOfMazeTiles(Door.class) == 0);
+  }
+
+  @Test
+  public void cannotMoveWhenOutOfTime() {
+    var tiles = new Tile[4][4];
+    tiles[1][2] = new Chap();
+
+    var maze = new Maze(tiles, 4, 4, List.of(new Key(Color.Green)), 1);
+
+    maze.tick();
+    maze.tick();
+
+    assertFalse(maze.canMoveChap(Direction.Down));
+
+    var exception = Assertions.assertThrows(
+      IllegalStateException.class, () -> {
+      maze.moveChap(Direction.Down);
+    });
+
+    Assertions.assertEquals("Cannot move chap in that direction", exception.getMessage());
+  }
 }
