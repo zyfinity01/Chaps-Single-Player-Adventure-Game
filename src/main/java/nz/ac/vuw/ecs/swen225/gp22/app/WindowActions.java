@@ -3,7 +3,7 @@ package nz.ac.vuw.ecs.swen225.gp22.app;
 /**
  * Actions the player can perform via the keyboard.
  */
-interface Actions {
+interface WindowActions {
   /**
    * Move player in the upwards direction.
    */
@@ -35,7 +35,8 @@ interface Actions {
   void closeDialog();
 
   /**
-   * Discard current level and go to next.
+   * Exit game, current state will be lost but when opened again,
+   * will start on the last unfinished level.s
    */
   void exit();
 
