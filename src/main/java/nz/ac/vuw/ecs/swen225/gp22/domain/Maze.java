@@ -250,7 +250,8 @@ public class Maze {
    * @param cols col count.
    * @param inventory player inventory.
    */
-  private void verifyMazeSetup(Tile[][] tiles, int rows, int cols, List<Tile> inventory, int timeLeft) {
+  private void verifyMazeSetup(Tile[][] tiles, int rows,
+      int cols, List<Tile> inventory, int timeLeft) {
     if (tiles == null) {
       throw new IllegalArgumentException("Tiles cannot be null");
     }
