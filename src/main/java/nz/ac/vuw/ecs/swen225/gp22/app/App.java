@@ -4,10 +4,15 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.AbstractAction;
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Direction;
+import nz.ac.vuw.ecs.swen225.gp22.domain.Key;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Maze;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Treasure;
 import nz.ac.vuw.ecs.swen225.gp22.persistency.Persistency;
@@ -43,7 +48,7 @@ public class App extends JFrame implements WindowActions {
   /**
    * Game maze.
    */
-  private final Maze maze;
+  private Maze maze;
 
   /**
    * Game is paused.
@@ -64,6 +69,9 @@ public class App extends JFrame implements WindowActions {
     setResizable(false);
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setBounds(100, 100, 1270, 720);
+
+    // Menu bar
+    setJMenuBar(createMenu());
 
     // Key Listener
     addKeyListener(new KeyController(this));
@@ -100,25 +108,59 @@ public class App extends JFrame implements WindowActions {
     setVisible(true);
   }
 
+  private JMenuBar createMenu(){
+    var menuBar = new JMenuBar();
+    var optionsMenu = new JMenu("Options");
+
+    // Play/Pause Option
+    var pauseItem = new JMenuItem(new AbstractAction("Toggle Pause (spacebar)") {
+      public void actionPerformed(ActionEvent e) { isPaused = !isPaused; }
+    });
+    optionsMenu.add(pauseItem);
+
+    // Save and Exit Option
+    var saveExitItem = new JMenuItem(new AbstractAction("Save and Exit (CTRL-S)") {
+      public void actionPerformed(ActionEvent e) { saveAndExit(); }
+    });
+    optionsMenu.add(saveExitItem);
+
+    // Exit Option
+    var exitItem = new JMenuItem(new AbstractAction("Exit (CTRL-X)") {
+      public void actionPerformed(ActionEvent e) { exit(); }
+    });
+    optionsMenu.add(exitItem);
+
+    menuBar.add(optionsMenu);
+    return menuBar;
+  }
+
   /**
    * Update each tick.
    */
-  public void gameLoop() {
+  private void gameLoop() {
+    if (isPaused) {
+      /**
+       * TODO: Show paused dialog
+       */
+      return;
+    }
+
     // only update time once a second
     if (tick % (1000 / TICK_RATE) == 0) {
       maze.tick();
       stats.setTime(maze.getTimeLeft());
     }
+
+    // display items left
     stats.setChipsLeft(maze.getCountOfMazeTiles(Treasure.class));
+    stats.setKeysLeft(maze.getCountOfMazeTiles(Key.class));
+    
+    // redraw canvas
     canvas.update(maze);
     tick++;
   }
 
-  /**
-   * Restrict movement when paused.
-   *
-   * @param direction direction to move
-   */
+  @Override
   public void move(Direction direction) {
     if (!isPaused && maze.canMoveChap(direction)) {
       maze.moveChap(direction);
@@ -126,61 +168,43 @@ public class App extends JFrame implements WindowActions {
   }
 
   @Override
-  public void moveUp() {
-    move(Direction.Up);
-  }
-
-  @Override
-  public void moveDown() {
-    move(Direction.Down);
-  }
-
-  @Override
-  public void moveRight() {
-    move(Direction.Right);
-  }
-
-  @Override
-  public void moveLeft() {
-    move(Direction.Left);
-  }
-
-  @Override
   public void pause() {
-    isPaused = !isPaused;
+    isPaused = true;
   }
 
   @Override
-  public void closeDialog() {
+  public void unpause() {
+    isPaused = false;
+  }
 
+  @Override
+  public void saveAndExit() {
+    /*
+      TODO: save level state so that it can be resumed later.
+    */
+    exit();
   }
 
   @Override
   public void exit() {
     /*
-      TODO: save current game level so that next time game started
+      TODO: save level number so that next time game started
       the first level is that.
     */
     System.exit(0);
   }
 
   @Override
-  public void saveAndExit() {
-  }
-
-  @Override
   public void getGameAndResume() {
-
+    /**
+     * TODO: resume a saved game - this will pop up a file selector to select a saved game
+     * to be loaded
+     */
   }
 
   @Override
-  public void startLevel1() {
-
-  }
-
-  @Override
-  public void startLevel2() {
-
+  public void startLevel(String levelName) {
+    maze = Persistency.loadGame(levelName, 16, 17);
   }
 
 }
