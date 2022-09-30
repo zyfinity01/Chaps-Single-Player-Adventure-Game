@@ -28,14 +28,15 @@ import org.xml.sax.SAXException;
  */
 public class Persistency {
   /**
-  * This method is used to load the game status from the XML file.
-  *
-  * @param fileName name of input file
-  */
+   * This method is used to load the game status from the XML file.
+   *
+   * @param fileName name of input file
+   */
   public static Maze loadGame(String fileName, int boardCols, int boardRows) {
     Tile[][] board = new Tile[boardRows][boardCols];
     //read XML file
     Document doc = getParsedDoc("src/levels/" + fileName);
+    int  timeLeft = 60; //Default time
     for (Element element : doc.getRootElement().getChildren()) {
       System.out.println(element.getName() + " " + element.getText());
       switch (element.getName()) {
@@ -43,6 +44,7 @@ public class Persistency {
         case "level":
           break;
         case "time":
+          timeLeft = Integer.parseInt(element.getValue());
           break;
         case "moves":
           break;
@@ -87,9 +89,9 @@ public class Persistency {
           break;
       }
     }
-    return new Maze(board, boardRows, boardCols, 60);
+    return new Maze(board, boardRows, boardCols, timeLeft);
   }
-  
+
   private static Document getParsedDoc(final String fileName) {
     Document doc = null;
     try {
