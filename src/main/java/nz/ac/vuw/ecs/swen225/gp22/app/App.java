@@ -116,7 +116,7 @@ public class App extends JFrame implements WindowActions {
 
   @Override
   public void moveUp() {
-    
+    move(Direction.Up);
   }
 
   @Override
