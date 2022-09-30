@@ -7,7 +7,8 @@ import javax.swing.JPanel;
 /**
  * UI Container displaying game statistics.
  */
-public class Stats extends JPanel {
+public class StateWindow extends JPanel {
+
   /**
    * The games current level.
    */
@@ -26,7 +27,7 @@ public class Stats extends JPanel {
   /**
    * Displays Game Information.
    */
-  public Stats() {
+  public StateWindow() {
     setLayout(new GridLayout(3, 2, 5, 10));
     
     add(new JLabel("Level:"));
@@ -39,7 +40,7 @@ public class Stats extends JPanel {
     
     add(new JLabel("Chips Left:"));
     chipsLeft = new JLabel("0");
-    add(chipsLeft);    
+    add(chipsLeft);
   }
 
   public void setLevel(int level) {
@@ -53,4 +54,5 @@ public class Stats extends JPanel {
   public void setChipsLeft(int chips) {
     chipsLeft.setText(String.valueOf(chips));
   }
+
 }

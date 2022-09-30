@@ -5,11 +5,12 @@ import java.awt.event.KeyListener;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
+import nz.ac.vuw.ecs.swen225.gp22.recorder.Recorder;
 
 /**
  * Handles key presses and initialising corresponding actions.
  */
-public class Controls implements KeyListener {
+public class KeyController implements KeyListener {
 
   /**
    * Stores keys being pressed at a given time.
@@ -19,16 +20,22 @@ public class Controls implements KeyListener {
   /**
    * Actions to perform on key bind.
    */
-  private Actions actions;
+  private WindowActions actions;
+
+  /**
+   * Recorder saves all moves to replay.
+   */
+  private Recorder recorder;
 
   /**
    * Initilise the controller.
    *
    * @param actions executed on specific key presses.
    */
-  Controls(Actions actions) {
+  KeyController(WindowActions actions) {
+    this.recorder = new Recorder();
     this.actions = actions;
-    pressedKeys = new HashSet<>();;
+    pressedKeys = new HashSet<>();
   }
   
   /**
@@ -84,6 +91,7 @@ public class Controls implements KeyListener {
   @Override
   public void keyPressed(KeyEvent event) {
     pressedKeys.add(event.getKeyCode());
+    this.recorder.saveMovement(event.getKeyCode());
     handle();
   }
 

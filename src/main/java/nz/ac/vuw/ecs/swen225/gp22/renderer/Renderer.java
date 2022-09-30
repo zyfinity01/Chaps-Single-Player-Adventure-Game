@@ -22,9 +22,7 @@ import nz.ac.vuw.ecs.swen225.gp22.domain.Wall;
 // TODO: There might be
 // TODO: Better comments
 
-/**
- * Handles rendering.
- */
+/** Handles rendering. */
 public class Renderer {
 
   // TODO: rescale/crop to fit
@@ -71,9 +69,7 @@ public class Renderer {
     }
   }
 
-  /**
-   * get the image for a given tile.
-   */
+  /** get the image for a given tile. */
   private static BufferedImage image(Tile tile) {
     // can't switch on instanceof
     if (tile instanceof Wall) {
@@ -120,10 +116,7 @@ public class Renderer {
     return free;        // instanceof null || fallback
   }
 
-
-  /**
-   * Render.
-   */
+  /** Render. */
   public static void render(Maze maze, Graphics2D image) {
     // Affine transformation is to rescale the image - https://www.geogebra.org/m/Fq8zyEgS
     // new AffineTransformOp(new AffineTransform(0.1,0,0,0.1,0,0), AffineTransformOp.TYPE_BILINEAR)
@@ -140,5 +133,5 @@ public class Renderer {
     int offsetY = (int) (position.y() * tileWidth * -1 + (windowWidth * 0.5));
     image.translate(offsetX, offsetY);
   }
-
 }
+

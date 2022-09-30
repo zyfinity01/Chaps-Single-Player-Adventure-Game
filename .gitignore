@@ -1,3 +1,6 @@
+# Game generated files
+moves.xml
+
 # Marven directories
 target/*
 bin/
@@ -59,7 +62,7 @@ local.properties
 
 # Typically, this file would be tracked if it contains build/dependency configurations
 .project
-
+/target/
 gradle
 .gradle
 .vscode
