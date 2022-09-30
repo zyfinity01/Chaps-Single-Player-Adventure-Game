@@ -108,25 +108,31 @@ public class App extends JFrame implements WindowActions {
     setVisible(true);
   }
 
-  private JMenuBar createMenu(){
-    var menuBar = new JMenuBar();
-    var optionsMenu = new JMenu("Options");
+  private JMenuBar createMenu() {
+    final JMenuBar menuBar = new JMenuBar();
+    final JMenu optionsMenu = new JMenu("Options");
 
     // Play/Pause Option
-    var pauseItem = new JMenuItem(new AbstractAction("Toggle Pause (spacebar)") {
-      public void actionPerformed(ActionEvent e) { isPaused = !isPaused; }
+    final JMenuItem pauseItem = new JMenuItem(new AbstractAction("Toggle Pause (spacebar)") {
+      public void actionPerformed(ActionEvent e) {
+        isPaused = !isPaused;
+      }
     });
     optionsMenu.add(pauseItem);
 
     // Save and Exit Option
-    var saveExitItem = new JMenuItem(new AbstractAction("Save and Exit (CTRL-S)") {
-      public void actionPerformed(ActionEvent e) { saveAndExit(); }
+    final JMenuItem saveExitItem = new JMenuItem(new AbstractAction("Save and Exit (CTRL-S)") {
+      public void actionPerformed(ActionEvent e) {
+        saveAndExit();
+      }
     });
     optionsMenu.add(saveExitItem);
 
     // Exit Option
-    var exitItem = new JMenuItem(new AbstractAction("Exit (CTRL-X)") {
-      public void actionPerformed(ActionEvent e) { exit(); }
+    final JMenuItem exitItem = new JMenuItem(new AbstractAction("Exit (CTRL-X)") {
+      public void actionPerformed(ActionEvent e) {
+        exit();
+      }
     });
     optionsMenu.add(exitItem);
 
@@ -139,8 +145,8 @@ public class App extends JFrame implements WindowActions {
    */
   private void gameLoop() {
     if (isPaused) {
-      /**
-       * TODO: Show paused dialog
+      /*
+       TODO: Show paused dialog
        */
       return;
     }
@@ -196,10 +202,10 @@ public class App extends JFrame implements WindowActions {
 
   @Override
   public void getGameAndResume() {
-    /**
-     * TODO: resume a saved game - this will pop up a file selector to select a saved game
-     * to be loaded
-     */
+    /*
+     TODO: resume a saved game - this will pop up a file selector to select a saved game
+     to be loaded
+    */
   }
 
   @Override

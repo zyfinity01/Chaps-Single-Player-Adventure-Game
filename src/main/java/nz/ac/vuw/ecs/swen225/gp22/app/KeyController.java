@@ -68,23 +68,23 @@ public class KeyController implements KeyListener {
           actions.unpause();
           break;
         case KeyEvent.VK_CONTROL:
-          case KeyEvent.VK_X: // CTRL-X
-            actions.exit();
-            break;
-          case KeyEvent.VK_S: // CTRL-S
-            actions.saveAndExit();
-            break;
-          case KeyEvent.VK_R: // CTRL-R
-            actions.getGameAndResume();
-            break;
-          case KeyEvent.VK_1: // CTRL-1
-            actions.startLevel("level1");
-            break;
-          case KeyEvent.VK_2: // CTRL-2
-            actions.startLevel("level2");
-            break;
-          default:
-            break;
+        case KeyEvent.VK_X: // CTRL-X
+          actions.exit();
+          break;
+        case KeyEvent.VK_S: // CTRL-S
+          actions.saveAndExit();
+          break;
+        case KeyEvent.VK_R: // CTRL-R
+          actions.getGameAndResume();
+          break;
+        case KeyEvent.VK_1: // CTRL-1
+          actions.startLevel("level1");
+          break;
+        case KeyEvent.VK_2: // CTRL-2
+          actions.startLevel("level2");
+          break;
+        default:
+          break;
       }
     }
   }
