@@ -2,10 +2,10 @@ package nz.ac.vuw.ecs.swen225.gp22.app;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.util.Collection;
 import javax.swing.JPanel;
-
-import nz.ac.vuw.ecs.swen225.gp22.domain.*;
+import nz.ac.vuw.ecs.swen225.gp22.domain.Chap;
+import nz.ac.vuw.ecs.swen225.gp22.domain.Maze;
+import nz.ac.vuw.ecs.swen225.gp22.domain.Tile;
 import nz.ac.vuw.ecs.swen225.gp22.renderer.Renderer;
 
 /**
