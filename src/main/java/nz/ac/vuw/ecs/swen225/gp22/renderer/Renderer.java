@@ -1,21 +1,17 @@
 package nz.ac.vuw.ecs.swen225.gp22.renderer;
 
 import java.awt.Graphics2D;
+import java.awt.image.BandCombineOp;
 import java.awt.image.BufferedImage;
+import java.awt.image.RescaleOp;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.stream.IntStream;
 import javax.imageio.ImageIO;
-import nz.ac.vuw.ecs.swen225.gp22.domain.Chap;
-import nz.ac.vuw.ecs.swen225.gp22.domain.Door;
-import nz.ac.vuw.ecs.swen225.gp22.domain.Exit;
-import nz.ac.vuw.ecs.swen225.gp22.domain.Info;
-import nz.ac.vuw.ecs.swen225.gp22.domain.Key;
-import nz.ac.vuw.ecs.swen225.gp22.domain.Lock;
-import nz.ac.vuw.ecs.swen225.gp22.domain.Maze;
-import nz.ac.vuw.ecs.swen225.gp22.domain.Tile;
-import nz.ac.vuw.ecs.swen225.gp22.domain.Treasure;
-import nz.ac.vuw.ecs.swen225.gp22.domain.Wall;
+
+import nz.ac.vuw.ecs.swen225.gp22.domain.*;
+import org.jdom2.filter.AbstractFilter;
 
 // I've made this static because there's really no need to store state
 // TODO: There might be
@@ -32,13 +28,18 @@ public class Renderer {
   // TODO: Find tileset
   static BufferedImage free = null;
   static BufferedImage wall;
-  static BufferedImage key;
-  static BufferedImage door;
   static BufferedImage lock;
   static BufferedImage info;
   static BufferedImage treasure;
   static BufferedImage exit;
   static BufferedImage chap;
+
+  static BufferedImage key_red;
+  static BufferedImage key_blue;
+  static BufferedImage key_green;
+  static BufferedImage door_red;
+  static BufferedImage door_blue;
+  static BufferedImage door_green;
 
   // load images
   static {
@@ -46,13 +47,18 @@ public class Renderer {
       String s = Paths.get("").toAbsolutePath().toString();
       // free = ImageIO.read(new File("images//free.png"));
       wall = ImageIO.read(new File("images//wall.png"));
-      key = ImageIO.read(new File("images//key.png"));
-      door = ImageIO.read(new File("images//door.png"));
       lock = ImageIO.read(new File("images//lock.png"));
       info = ImageIO.read(new File("images//info.png"));
       treasure = ImageIO.read(new File("images//treasure.png"));
       exit = ImageIO.read(new File("images//exit.png"));
       chap = ImageIO.read(new File("images//chap.png"));
+
+      key_red = ImageIO.read(new File("images//key_red.png"));
+      key_blue = ImageIO.read(new File("images//key_blue.png"));
+      key_green = ImageIO.read(new File("images//key_green.png"));
+      door_red = ImageIO.read(new File("images//door_red.png"));
+      door_blue = ImageIO.read(new File("images//door_blue.png"));
+      door_green = ImageIO.read(new File("images//door_green.png"));
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -64,11 +70,25 @@ public class Renderer {
     if (tile instanceof Wall) {
       return wall;
     }
-    if (tile instanceof Key) {
-      return key;
+    if (tile instanceof Key key) {
+      switch (key.color()) {
+        case Red:
+          return key_red;
+        case Blue:
+          return key_blue;
+        case Green:
+          return key_green;
+      }
     }
-    if (tile instanceof Door) {
-      return door;
+    if (tile instanceof Door door) {
+      switch (door.color()) {
+        case Red:
+          return key_red;
+        case Blue:
+          return key_blue;
+        case Green:
+          return key_green;
+      }
     }
     if (tile instanceof Lock) {
       return lock;
@@ -89,6 +109,7 @@ public class Renderer {
     return free;        // instanceof null || fallback
   }
 
+
   /** Render. */
   public static void render(Maze maze, Graphics2D image) {
     // Affine transformation is to rescale the image - https://www.geogebra.org/m/Fq8zyEgS
@@ -103,4 +124,3 @@ public class Renderer {
         maze.getChapPosition().x() * tileWidth, maze.getChapPosition().y() * tileWidth);
   }
 }
-

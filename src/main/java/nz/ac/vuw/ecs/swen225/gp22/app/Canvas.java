@@ -18,19 +18,9 @@ public class Canvas extends JPanel {
   @Override
   public void paint(Graphics graphics) {
     /* Temporary to avoid spotbugs while Maze link is being made */
-//    var tiles = new Tile[10][10];
-    Tile[][] tiles = new Tile[][]{  {new Wall(), new Wall(),new Wall(), new Wall(), new Wall(), new Wall(),           new Wall(),            new Wall(),     new Wall(),         new Wall(),}
-                                  , {new Wall(), null,      null,       null,       new Wall(), new Chap(),           new Info("test"), new Treasure(), new Key(Color.Blue), new Wall()}
-                                  , {new Wall(), null,      new Exit(), null,       new Wall(), null,                 null,                  null,           null,               new Wall()}
-                                  , {new Wall(), null,      null      , null,       new Wall(), new Door(Color.Blue), new Wall(),            new Lock(),     new Wall(),         new Wall()}
-//                                  , {new Wall(),new Wall()}
-//                                  , {new Wall(),new Wall()}
-//                                  , {new Wall(),new Wall()}
-//                                  , {new Wall(),new Wall()}
-//                                  , {new Wall(),new Wall()}
-//                                  , {new Wall(),new Wall()}
-    };
-    var maze = new Maze(tiles, 4, 10);
+    var tiles = new Tile[10][10];
+    tiles[0][0] = new Chap();
+    var maze = new Maze(tiles, 1, 1);
 
     Renderer.render(maze, (Graphics2D) graphics);
   }
