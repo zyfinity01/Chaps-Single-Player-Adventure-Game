@@ -32,7 +32,7 @@ public class Persistency {
   *
   * @param fileName name of input file
   */
-  public Maze loadGame(String fileName, int boardCols, int boardRows) {
+  public static Maze loadGame(String fileName, int boardCols, int boardRows) {
     Tile[][] board = new Tile[boardRows][boardCols];
     //read XML file
     Document doc = getParsedDoc("src/levels/" + fileName);
