@@ -1,5 +1,7 @@
 package nz.ac.vuw.ecs.swen225.gp22.app;
 
+import nz.ac.vuw.ecs.swen225.gp22.domain.Direction;
+
 /**
  * Actions the player can perform via the keyboard.
  */
@@ -7,22 +9,7 @@ interface WindowActions {
   /**
    * Move player in the upwards direction.
    */
-  void moveUp();
-
-  /**
-   * Move player in the downwards direction.
-   */
-  void moveDown();
-
-  /**
-   * Move player in the right direction.
-   */
-  void moveRight();
-
-  /**
-   * Move player in the left direction.
-   */
-  void moveLeft();
+  void move(Direction direction);
 
   /**
    * Pause game.
@@ -32,7 +19,7 @@ interface WindowActions {
   /**
    * Close open dialog box.
    */
-  void closeDialog();
+  void unpause();
 
   /**
    * Exit game, current state will be lost but when opened again,
@@ -51,12 +38,8 @@ interface WindowActions {
   void getGameAndResume();
 
   /**
-   * Play level 1.
+   * Play level.
    */
-  void startLevel1();
+  void startLevel(String levelName);
 
-  /**
-   * Play level 2.
-   */
-  void startLevel2();
 }

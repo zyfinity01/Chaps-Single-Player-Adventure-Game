@@ -5,6 +5,7 @@ import java.awt.event.KeyListener;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
+import nz.ac.vuw.ecs.swen225.gp22.domain.Direction;
 import nz.ac.vuw.ecs.swen225.gp22.recorder.Recorder;
 
 /**
@@ -49,41 +50,41 @@ public class KeyController implements KeyListener {
     for (Iterator<Integer> it = pressedKeys.iterator(); it.hasNext();) {
       switch (it.next()) {
         case KeyEvent.VK_UP: // ⬆️
-          actions.moveUp();
+          actions.move(Direction.Up);
           break;
         case KeyEvent.VK_DOWN: // ⬇️
-          actions.moveDown();
+          actions.move(Direction.Down);
           break;
         case KeyEvent.VK_LEFT: // ⬅️
-          actions.moveLeft();
+          actions.move(Direction.Left);
           break;
         case KeyEvent.VK_RIGHT: // ➡️
-          actions.moveRight();
+          actions.move(Direction.Right);
           break;
         case KeyEvent.VK_SPACE: // Space bar
           actions.pause();
           break;
         case KeyEvent.VK_ESCAPE: // Esc
-          actions.closeDialog();
+          actions.unpause();
           break;
         case KeyEvent.VK_CONTROL:
-        case KeyEvent.VK_X: // CTRL-X
-          actions.exit();
-          break;
-        case KeyEvent.VK_S: // CTRL-S
-          actions.saveAndExit();
-          break;
-        case KeyEvent.VK_R: // CTRL-R
-          actions.getGameAndResume();
-          break;
-        case KeyEvent.VK_1: // CTRL-1
-          actions.startLevel1();
-          break;
-        case KeyEvent.VK_2: // CTRL-2
-          actions.startLevel2();
-          break;
-        default:
-          break;
+          case KeyEvent.VK_X: // CTRL-X
+            actions.exit();
+            break;
+          case KeyEvent.VK_S: // CTRL-S
+            actions.saveAndExit();
+            break;
+          case KeyEvent.VK_R: // CTRL-R
+            actions.getGameAndResume();
+            break;
+          case KeyEvent.VK_1: // CTRL-1
+            actions.startLevel("level1");
+            break;
+          case KeyEvent.VK_2: // CTRL-2
+            actions.startLevel("level2");
+            break;
+          default:
+            break;
       }
     }
   }
