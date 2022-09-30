@@ -243,6 +243,22 @@ public class Maze {
   }
 
   /**
+   * Returns the current info text if any.
+   *
+   * @return the info text or null.
+   */
+  public String getInfoText() {
+    var tile = tiles[chapPosition.y()][chapPosition.x()];
+
+    if (tile instanceof Info) {
+      var info = (Info) tile;
+      return info.text();
+    }
+
+    return null;
+  }
+
+  /**
    * Verifies the maze is valid.
    *
    * @param tiles maze tiles.
