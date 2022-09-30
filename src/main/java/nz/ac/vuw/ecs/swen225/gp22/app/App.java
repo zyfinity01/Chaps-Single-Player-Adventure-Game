@@ -85,7 +85,7 @@ public class App extends JFrame implements WindowActions {
     contentPane.add(stats);
 
     // Load maze
-    maze = Persistency.loadGame("level1.xml", 16, 17);
+    maze = Persistency.loadGame("level1.xml", 17, 17);
     stats.setLevel(1);
 
     // Start game ticker
