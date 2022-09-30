@@ -25,10 +25,15 @@ public class StateWindow extends JPanel {
   private JLabel chipsLeft;
 
   /**
+   * Count of keys remaining in level.
+   */
+  private JLabel keysLeft;
+
+  /**
    * Displays Game Information.
    */
   public StateWindow() {
-    setLayout(new GridLayout(3, 2, 5, 10));
+    setLayout(new GridLayout(4, 2, 5, 10));
     
     add(new JLabel("Level:"));
     currentLevel = new JLabel("0");
@@ -37,6 +42,10 @@ public class StateWindow extends JPanel {
     add(new JLabel("Time Left:"));
     timeLeft = new JLabel("0.00");
     add(timeLeft);
+
+    add(new JLabel("Keys Left:"));
+    keysLeft = new JLabel("0");
+    add(keysLeft);
     
     add(new JLabel("Chips Left:"));
     chipsLeft = new JLabel("0");
@@ -53,6 +62,10 @@ public class StateWindow extends JPanel {
 
   public void setChipsLeft(int chips) {
     chipsLeft.setText(String.valueOf(chips));
+  }
+
+  public void setKeysLeft(int keys) {
+    keysLeft.setText(String.valueOf(keys));
   }
 
 }
