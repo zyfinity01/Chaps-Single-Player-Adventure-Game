@@ -18,7 +18,7 @@ public class Canvas extends JPanel {
   @Override
   public void paint(Graphics graphics) {
     /* Temporary to avoid spotbugs while Maze link is being made */
-    var tiles = new Tile[10][10];
+    var tiles = new Tile[1][1];
     tiles[0][0] = new Chap();
     var maze = new Maze(tiles, 1, 1);
 

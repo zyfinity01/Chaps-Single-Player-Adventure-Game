@@ -21,7 +21,7 @@ import org.jdom2.filter.AbstractFilter;
 public class Renderer {
 
   // TODO: rescale/crop to fit
-  static int windowWidth = 20;
+  static int windowWidth = 300;
   static int tileWidth = 40;
 
   // Cached tiles
@@ -120,7 +120,11 @@ public class Renderer {
         image.drawImage(image(maze.getTiles()[y][x]), null, x * tileWidth, y * tileWidth);
       }
     }
-    image.drawImage(chap, null,
-        maze.getChapPosition().x() * tileWidth, maze.getChapPosition().y() * tileWidth);
+    image.drawImage(chap, null, maze.getChapPosition().x() * tileWidth, maze.getChapPosition().y() * tileWidth);
+    Position position = maze.getChapPosition();
+    int offsetX = (int) (position.x() * tileWidth * -1 + (windowWidth * 0.5));
+    int offsetY = (int) (position.y() * tileWidth * -1 + (windowWidth * 0.5));
+    image.translate(offsetX, offsetY);
   }
+
 }
