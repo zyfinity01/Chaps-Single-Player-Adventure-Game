@@ -13,7 +13,7 @@ import org.jdom2.output.XMLOutputter;
    * $ @author Shae West, 300565911
  */
 public class Recorder {
-  ArrayList<String> savedSnapshots;
+  ArrayList<Integer> savedSnapshots;
   /**
    * Creates an Recorder,
    * If recordingName matches any current .XML files, load Recording from file.
@@ -27,23 +27,21 @@ public class Recorder {
 
   /**
    * Saves (all actions, or state each tick).
-   * TODO: Decide what is passed as argument to save
    */
-  public void saveMovement(String movementType) {
-    //TODO: Probably changing to ENUM saving.
-    savedSnapshots.add(movementType);
+  public void saveMovement(int keyCode) {
+    savedSnapshots.add(keyCode);
+    this.saveToXml();
   }
 
   /**
    * Saves the current savedSnapshots to XML format.
    */
   public void saveToXml() {
-    //create document
     Document document = new Document();
     Element root = new Element("root");
     Element moves = new Element("moves");
-    for (String current : savedSnapshots) {
-      moves.addContent(new Element("move").setText(current));
+    for (Integer current : savedSnapshots) {
+      moves.addContent(new Element("move").setText(current.toString()));
     }
     root.addContent(moves);
 
@@ -55,11 +53,8 @@ public class Recorder {
       XMLOutputter outputter = new XMLOutputter();
       outputter.setFormat(Format.getPrettyFormat());
       outputter.output(document, writer);
-      outputter.output(document, System.out);
     } catch (Exception e) {
       e.printStackTrace();
     }
-
-
   }
 }
