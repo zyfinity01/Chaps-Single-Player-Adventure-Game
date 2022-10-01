@@ -39,7 +39,7 @@ public class Persistency {
     Document doc = getParsedDoc("src/levels/" + fileName);
     int  timeLeft = 60; //Default time
     for (Element element : doc.getRootElement().getChildren()) {
-      System.out.println(element.getName() + " " + element.getText());
+      //System.out.println(element.getName() + " " + element.getText());
       switch (element.getName()) {
         //TODO
         case "level":
@@ -63,7 +63,7 @@ public class Persistency {
                 int y = Integer.parseInt(tile.getChild("y").getValue());
                 Color c;
                 String text;
-                System.out.println(tile.getName());
+                //System.out.println(tile.getName());
                 switch (tile.getName()) {
                   case "TREASURE" -> board[y][x] = new Treasure();
                   case "WALL" -> board[y][x] = new Wall();

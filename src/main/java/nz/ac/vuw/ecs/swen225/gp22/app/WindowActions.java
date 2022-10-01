@@ -4,6 +4,8 @@ import nz.ac.vuw.ecs.swen225.gp22.domain.Direction;
 
 /**
  * Actions the player can perform via the keyboard.
+ *
+ * @author Sam Redmond, 300443508
  */
 interface WindowActions {
   /**
@@ -39,7 +41,13 @@ interface WindowActions {
 
   /**
    * Play level.
+   *
+   * @param level level to play.
    */
-  void startLevel(String levelName);
+  void startLevel(int level);
 
+  /**
+   * Toggle pause state.
+   */
+  void togglePause();
 }

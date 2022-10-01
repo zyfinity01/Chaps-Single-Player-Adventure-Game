@@ -1,5 +1,5 @@
 # Game generated files
-moves.xml
+moves_level_*.xml
 
 # Marven directories
 target/*

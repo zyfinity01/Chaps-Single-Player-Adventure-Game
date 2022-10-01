@@ -2,21 +2,15 @@ package nz.ac.vuw.ecs.swen225.gp22.app;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Direction;
 import nz.ac.vuw.ecs.swen225.gp22.recorder.Recorder;
 
 /**
  * Handles key presses and initialising corresponding actions.
+ *
+ * @author Sam Redmond, 300443508
  */
 public class KeyController implements KeyListener {
-
-  /**
-   * Stores keys being pressed at a given time.
-   */
-  private Set<Integer> pressedKeys;
 
   /**
    * Actions to perform on key bind.
@@ -34,72 +28,82 @@ public class KeyController implements KeyListener {
    * @param actions executed on specific key presses.
    */
   KeyController(WindowActions actions) {
-    //TODO:: Insert current level number into Recorder.
-    this.recorder = new Recorder(1);
     this.actions = actions;
-    pressedKeys = new HashSet<>();
+  }
+
+  /**
+   * Set the recorder.
+   *
+   * @param recorder to save moves to.
+   */
+  public void setRecorder(Recorder recorder) {
+    this.recorder = recorder;
   }
   
   /**
    * Processes each key press state and fires off actions.
+   *
+   * @param event key event from the keyboard.
    */
-  public void handle() {
-    if (pressedKeys.isEmpty()) {
-      return;
-    }
-
-    for (Iterator<Integer> it = pressedKeys.iterator(); it.hasNext();) {
-      switch (it.next()) {
-        case KeyEvent.VK_UP: // ⬆️
-          actions.move(Direction.Up);
-          break;
-        case KeyEvent.VK_DOWN: // ⬇️
-          actions.move(Direction.Down);
-          break;
-        case KeyEvent.VK_LEFT: // ⬅️
-          actions.move(Direction.Left);
-          break;
-        case KeyEvent.VK_RIGHT: // ➡️
-          actions.move(Direction.Right);
-          break;
-        case KeyEvent.VK_SPACE: // Space bar
-          actions.pause();
-          break;
-        case KeyEvent.VK_ESCAPE: // Esc
-          actions.unpause();
-          break;
-        case KeyEvent.VK_CONTROL:
-        case KeyEvent.VK_X: // CTRL-X
+  public void handle(KeyEvent event) {
+    switch (event.getKeyCode()) {
+      // UP
+      case KeyEvent.VK_UP -> actions.move(Direction.Up);
+      // DOWN
+      case KeyEvent.VK_DOWN -> actions.move(Direction.Down);
+      // LEFT
+      case KeyEvent.VK_LEFT -> actions.move(Direction.Left);
+      // RIGHT
+      case KeyEvent.VK_RIGHT -> actions.move(Direction.Right);
+      // SPACE BAR
+      case KeyEvent.VK_SPACE -> actions.pause();
+      // ESC
+      case KeyEvent.VK_ESCAPE -> actions.unpause();
+      // CTRL-X
+      case KeyEvent.VK_X -> {
+        if (event.isControlDown()) {
           actions.exit();
-          break;
-        case KeyEvent.VK_S: // CTRL-S
-          actions.saveAndExit();
-          break;
-        case KeyEvent.VK_R: // CTRL-R
-          actions.getGameAndResume();
-          break;
-        case KeyEvent.VK_1: // CTRL-1
-          actions.startLevel("level1");
-          break;
-        case KeyEvent.VK_2: // CTRL-2
-          actions.startLevel("level2");
-          break;
-        default:
-          break;
+        }
       }
+      // CTRL-S
+      case KeyEvent.VK_S -> {
+        if (event.isControlDown()) {
+          actions.saveAndExit();
+        }
+      }
+      // CTRL-R
+      case KeyEvent.VK_R -> {
+        if (event.isControlDown()) {
+          actions.getGameAndResume();
+        }
+      }
+      // CTRL-1
+      case KeyEvent.VK_1 -> {
+        if (event.isControlDown()) {
+          actions.startLevel(1);
+        }
+      }
+      // CTRL-2
+      case KeyEvent.VK_2 -> {
+        if (event.isControlDown()) {
+          actions.startLevel(2);
+        }
+      }
+      default -> { }
     }
   }
 
   @Override
   public void keyPressed(KeyEvent event) {
-    pressedKeys.add(event.getKeyCode());
-    this.recorder.savePlayerMovement(event.getKeyCode());
-    handle();
+    handle(event);
+    if (this.recorder != null) {
+      this.recorder.savePlayerMovement(event.getKeyCode());
+    }
   }
 
   @Override
   public void keyReleased(KeyEvent event) {
-    pressedKeys.remove(event.getKeyCode());
+    /* not used */
   }
 
   @Override
