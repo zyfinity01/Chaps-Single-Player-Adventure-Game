@@ -7,6 +7,8 @@ import nz.ac.vuw.ecs.swen225.gp22.recorder.Recorder;
 
 /**
  * Handles key presses and initialising corresponding actions.
+ *
+ * @author Sam Redmond, 300443508
  */
 public class KeyController implements KeyListener {
 
@@ -27,16 +29,23 @@ public class KeyController implements KeyListener {
    */
   KeyController(WindowActions actions) {
     this.actions = actions;
-    this.recorder = new Recorder();
+  }
+
+  /**
+   * Set the recorder.
+   *
+   * @param recorder to save moves to.
+   */
+  public void setRecorder(Recorder recorder) {
+    this.recorder = recorder;
   }
   
   /**
    * Processes each key press state and fires off actions.
    *
    * @param event key event from the keyboard.
-   * @return true if the key press was handled.
    */
-  public boolean handle(KeyEvent event) {
+  public void handle(KeyEvent event) {
     switch (event.getKeyCode()) {
       // UP
       case KeyEvent.VK_UP -> actions.move(Direction.Up);
@@ -71,29 +80,24 @@ public class KeyController implements KeyListener {
       // CTRL-1
       case KeyEvent.VK_1 -> {
         if (event.isControlDown()) {
-          actions.startLevel("level1");
+          actions.startLevel(1);
         }
       }
       // CTRL-2
       case KeyEvent.VK_2 -> {
         if (event.isControlDown()) {
-          actions.startLevel("level2");
+          actions.startLevel(2);
         }
       }
-      // No valid key pressed
-      default -> {
-        return false;
-      }
+      default -> { }
     }
-
-    return true;
   }
 
   @Override
   public void keyPressed(KeyEvent event) {
-    var valid = handle(event);
-    if (valid && !event.isControlDown()) {
-      this.recorder.saveMovement(event.getKeyCode());
+    handle(event);
+    if (this.recorder != null) {
+      this.recorder.savePlayerMovement(event.getKeyCode());
     }
   }
 
