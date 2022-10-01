@@ -38,22 +38,14 @@ public class Persistency {
     //read XML file
     Document doc = getParsedDoc("src/levels/" + fileName);
     int  timeLeft = 60; //Default time
+    int chips = 10; //Default chips
+    int keys = 5; //Default chips
     for (Element element : doc.getRootElement().getChildren()) {
-      //System.out.println(element.getName() + " " + element.getText());
       switch (element.getName()) {
-        //TODO
-        case "level":
-          break;
-        case "time":
-          timeLeft = Integer.parseInt(element.getValue());
-          break;
-        case "moves":
-          break;
-        case "chips":
-          break;
-        case "lives":
-          break;
-        case "board":
+        case "time" -> timeLeft = Integer.parseInt(element.getValue());
+        case "chips" -> chips = Integer.parseInt(element.getValue());
+        case "keys" -> keys = Integer.parseInt(element.getValue());
+        case "board" -> {
           List<Element> boardElements = element.getChildren();
           for (Element item : boardElements) {
             if (item.getName().equals("tiles")) {
@@ -74,13 +66,13 @@ public class Persistency {
                     c = Color.valueOf(tile.getChild("color").getValue());
                     board[y][x] = new Key(c);
                   }
-                  case "INFO" -> {
-                    text = tile.getChild("text").getValue();
-                    board[y][x] = new Info(text);
-                  }
                   case "DOOR" -> {
                     c = Color.valueOf(tile.getChild("color").getValue());
                     board[y][x] = new Door(c);
+                  }
+                  case "INFO" -> {
+                    text = tile.getChild("text").getValue();
+                    board[y][x] = new Info(text);
                   }
                   default -> {
                   }
@@ -89,9 +81,9 @@ public class Persistency {
               break;
             }
           }
-          break;
-        default:
-          break;
+        }
+        default -> {
+        }
       }
     }
     return new Maze(board, boardRows, boardCols, timeLeft);

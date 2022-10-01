@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <game>
-    <level>level1</level>
     <time>60</time>
-    <moves>0</moves>
-    <chips>0</chips>
-    <lives>3</lives>
+    <keys>5</keys>
+    <chips>10</chips>
     <board>
         <tiles>
             <WALL>
