@@ -4,11 +4,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.AbstractAction;
 import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Direction;
@@ -16,6 +12,7 @@ import nz.ac.vuw.ecs.swen225.gp22.domain.Key;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Maze;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Treasure;
 import nz.ac.vuw.ecs.swen225.gp22.persistency.Persistency;
+import nz.ac.vuw.ecs.swen225.gp22.recorder.Recorder;
 
 /**
  * GUI Window.
@@ -46,6 +43,11 @@ public class App extends JFrame implements WindowActions {
   private final StateWindow stats;
 
   /**
+   * Game key press handler.
+   */
+  private final KeyController keyController;
+
+  /**
    * Game maze.
    */
   private Maze maze;
@@ -71,10 +73,11 @@ public class App extends JFrame implements WindowActions {
     setBounds(100, 100, 1270, 720);
 
     // Menu bar
-    setJMenuBar(createMenu());
+    setJMenuBar(new MenuBar(this));
 
     // Key Listener
-    addKeyListener(new KeyController(this));
+    keyController = new KeyController(this);
+    addKeyListener(keyController);
     
     // Component Container
     contentPane = new JPanel();
@@ -88,13 +91,11 @@ public class App extends JFrame implements WindowActions {
     contentPane.add(canvas);
     
     // Game statistics
-    isPaused = false;
     stats = new StateWindow();
     contentPane.add(stats);
 
-    // Load maze
-    maze = Persistency.loadGame("level1.xml", 17, 17);
-    stats.setLevel(1);
+    // Load level
+    startLevel(1);
 
     // Start game ticker
     new javax.swing.Timer(TICK_RATE, new ActionListener() {
@@ -108,38 +109,6 @@ public class App extends JFrame implements WindowActions {
     setVisible(true);
   }
 
-  private JMenuBar createMenu() {
-    final JMenuBar menuBar = new JMenuBar();
-    final JMenu optionsMenu = new JMenu("Options");
-
-    // Play/Pause Option
-    final JMenuItem pauseItem = new JMenuItem(new AbstractAction("Toggle Pause (spacebar)") {
-      public void actionPerformed(ActionEvent e) {
-        isPaused = !isPaused;
-      }
-    });
-    optionsMenu.add(pauseItem);
-
-    // Save and Exit Option
-    final JMenuItem saveExitItem = new JMenuItem(new AbstractAction("Save and Exit (CTRL-S)") {
-      public void actionPerformed(ActionEvent e) {
-        saveAndExit();
-      }
-    });
-    optionsMenu.add(saveExitItem);
-
-    // Exit Option
-    final JMenuItem exitItem = new JMenuItem(new AbstractAction("Exit (CTRL-X)") {
-      public void actionPerformed(ActionEvent e) {
-        exit();
-      }
-    });
-    optionsMenu.add(exitItem);
-
-    menuBar.add(optionsMenu);
-    return menuBar;
-  }
-
   /**
    * Update each tick.
    */
@@ -151,15 +120,13 @@ public class App extends JFrame implements WindowActions {
       return;
     }
 
-    // only update time once a second
+    // only update stats once a second
     if (tick % (1000 / TICK_RATE) == 0) {
       maze.tick();
       stats.setTime(maze.getTimeLeft());
+      stats.setChipsLeft(maze.getCountOfMazeTiles(Treasure.class));
+      stats.setKeysLeft(maze.getCountOfMazeTiles(Key.class));
     }
-
-    // display items left
-    stats.setChipsLeft(maze.getCountOfMazeTiles(Treasure.class));
-    stats.setKeysLeft(maze.getCountOfMazeTiles(Key.class));
     
     // redraw canvas
     canvas.update(maze);
@@ -181,6 +148,11 @@ public class App extends JFrame implements WindowActions {
   @Override
   public void unpause() {
     isPaused = false;
+  }
+
+  @Override
+  public void togglePause() {
+    isPaused = !isPaused;
   }
 
   @Override
@@ -209,8 +181,11 @@ public class App extends JFrame implements WindowActions {
   }
 
   @Override
-  public void startLevel(String levelName) {
-    maze = Persistency.loadGame(levelName, 16, 17);
+  public void startLevel(int level) {
+    isPaused = false;
+    maze = Persistency.loadGame("level" + level + ".xml", 17, 17);
+    keyController.setRecorder(new Recorder(level));
+    stats.setLevel(level);
   }
 
 }

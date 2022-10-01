@@ -6,6 +6,8 @@ import javax.swing.JPanel;
 
 /**
  * UI Container displaying game statistics.
+ *
+ * @author Sam Redmond, 300443508
  */
 public class StateWindow extends JPanel {
 
