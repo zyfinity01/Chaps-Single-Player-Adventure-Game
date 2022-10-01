@@ -34,7 +34,8 @@ public class KeyController implements KeyListener {
    * @param actions executed on specific key presses.
    */
   KeyController(WindowActions actions) {
-    this.recorder = new Recorder();
+    //TODO:: Insert current level number into Recorder.
+    this.recorder = new Recorder(1);
     this.actions = actions;
     pressedKeys = new HashSet<>();
   }
@@ -92,7 +93,7 @@ public class KeyController implements KeyListener {
   @Override
   public void keyPressed(KeyEvent event) {
     pressedKeys.add(event.getKeyCode());
-    this.recorder.saveMovement(event.getKeyCode());
+    this.recorder.savePlayerMovement(event.getKeyCode());
     handle();
   }
 
