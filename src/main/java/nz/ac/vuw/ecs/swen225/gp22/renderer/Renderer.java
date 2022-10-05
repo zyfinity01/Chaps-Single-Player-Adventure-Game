@@ -126,20 +126,19 @@ public class Renderer {
 
   /** Render. */
   public static void render(Maze maze, Graphics2D image) {
-    // Affine transformation is to rescale the image - https://www.geogebra.org/m/Fq8zyEgS
-    // new AffineTransformOp(new AffineTransform(0.1,0,0,0.1,0,0), AffineTransformOp.TYPE_BILINEAR)
-    image.drawImage(free, null, 20, 20);
-    for (int x = 0; x < maze.getCols(); x++) {
-      for (int y = 0; y < maze.getRows(); y++) {
-        image.drawImage(image(maze.getTiles()[x][y]), null, x * tileWidth, y * tileWidth);
-      }
-    }
     image.drawImage(chap, null, maze.getChapPosition().x() * tileWidth,
         maze.getChapPosition().y() * tileWidth);
     Position position = maze.getChapPosition();
     int offsetX = (int) (position.x() * tileWidth * -1 + (windowWidth * 0.5));
     int offsetY = (int) (position.y() * tileWidth * -1 + (windowWidth * 0.5));
     image.translate(offsetX, offsetY);
+
+    image.drawImage(free, null, 20, 20);
+    for (int x = 0; x < maze.getCols(); x++) {
+      for (int y = 0; y < maze.getRows(); y++) {
+        image.drawImage(image(maze.getTiles()[y][x]), null, x * tileWidth, y * tileWidth);
+      }
+    }
   }
 }
 
