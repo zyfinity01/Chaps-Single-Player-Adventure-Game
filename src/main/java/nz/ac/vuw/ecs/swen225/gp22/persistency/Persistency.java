@@ -1,5 +1,6 @@
 package nz.ac.vuw.ecs.swen225.gp22.persistency;
 
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 import javax.xml.parsers.DocumentBuilder;
@@ -19,6 +20,8 @@ import nz.ac.vuw.ecs.swen225.gp22.domain.Wall;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.input.DOMBuilder;
+import org.jdom2.output.Format;
+import org.jdom2.output.XMLOutputter;
 import org.xml.sax.SAXException;
 
 
@@ -28,11 +31,70 @@ import org.xml.sax.SAXException;
  * @author  Niraj Gandhi, 300564849.
  */
 public class Persistency {
+
   /**
-   * This method is used to load the game status from the XML file.
+   * Save the maze to a file.
    *
-   * @param fileName name of input file
+   * @param maze maze to save.
+   * @param fileName file to save to.
+   * @throws IOException if file cannot be written to.
    */
+  public void saveGame(String fileName, Maze maze) {
+    Element root = new Element("Game");
+    Document doc = new Document(root);
+    Element timeElement = new Element("time");
+    Element chipsElement = new Element("chips");
+    Element livesElement = new Element("lives");
+    Element boardElement = new Element("board");
+
+    root.addContent(timeElement);
+    root.addContent(chipsElement);
+    root.addContent(livesElement);
+    root.addContent(boardElement);
+
+    timeElement.setText(Integer.toString(maze.getTimeLeft()));
+    chipsElement.setText(Integer.toString(maze.getChipsCollected()));
+    livesElement.setText(Integer.toString(maze.getLivesLeft()));
+
+    Element tiles = new Element("tiles");
+
+    Tile[][] board = maze.getTiles();
+    for (int row = 0; row < maze.getRows(); row++) {
+      for (int col = 0; col < maze.getCols(); col++){
+        Tile tile = board[row][col];
+        if(tile == null) continue;
+        String tileType = board[row][col].getClass().getSimpleName().toUpperCase();
+        Element tileElement = new Element(tileType);
+        tileElement.addContent(new Element("x").setText(Integer.toString(col)));
+        tileElement.addContent(new Element("y").setText(Integer.toString(row)));
+        switch (tileType){
+          case "DOOR" -> tileElement.addContent(new Element("color").setText(((Door) tile).color().toString()));
+          case "KEY" -> tileElement.addContent(new Element("color").setText(((Key) tile).color().toString()));
+          case "INFO" -> tileElement.addContent(new Element("text").setText(((Key) tile).color().toString()));
+        }
+      }
+      tiles.addContent(timeElement);
+      boardElement.addContent(tiles);
+      //save document to XML file
+      try {
+        XMLOutputter xmlOutput = new XMLOutputter();
+        xmlOutput.setFormat(Format.getPrettyFormat());
+        xmlOutput.output(doc, new FileWriter("src/levels/" + fileName));
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+    }
+  }
+
+    /**
+     * Load a maze from a file.
+     *
+     * @param fileName file to load from.
+     * @return loaded maze.
+     * @throws IOException if file cannot be read from.
+     * @throws ParserConfigurationException if XML parser cannot be configured.
+     * @throws SAXException if XML cannot be parsed.
+     */
   public static Maze loadGame(String fileName, int boardCols, int boardRows) {
     Tile[][] board = new Tile[boardRows][boardCols];
     //read XML file
