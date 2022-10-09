@@ -18,4 +18,9 @@ public record Chap() implements Tile {
   public void interactWithPlayer(Tile[][] tiles, List<Tile> inventory, Position position) {
     throw new IllegalStateException("Cannot interact with chap");
   }
+
+  @Override
+  public void tick(Tile[][] tiles, Position position) {
+    // nothing to do on tick
+  }
 }

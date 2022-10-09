@@ -20,4 +20,9 @@ public record Treasure() implements Tile {
     inventory.add(this);
     tiles[position.y()][position.x()] = null;
   }
+
+  @Override
+  public void tick(Tile[][] tiles, Position position) {
+    // nothing to do on tick
+  }
 }

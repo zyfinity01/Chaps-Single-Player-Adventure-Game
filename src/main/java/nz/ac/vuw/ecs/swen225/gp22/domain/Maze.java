@@ -123,7 +123,32 @@ public class Maze {
       return;
     }
 
+    // tick all the tractors
+    for (var tractor : getTilesOfType(Tractor.class)) {
+      tractor.getValue().tick(tiles, tractor.getKey());
+    }
+
     this.timeLeft--;
+  }
+
+  /**
+   * Check if the game is over.
+   *
+   * @return game over state.
+   */
+  public boolean isGameOver() {
+    // have we run out of time
+    if (timeLeft <= 0) {
+      return true;
+    }
+
+    // have we reached the exit tile
+    var tile = tiles[chapPosition.y()][chapPosition.x()];
+    if (tile != null && tile instanceof Exit) {
+      return true;
+    }
+
+    return false;
   }
 
   /**
