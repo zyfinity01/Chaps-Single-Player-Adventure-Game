@@ -14,6 +14,11 @@ public enum Direction {
     public int getY() {
       return -1;
     }
+
+    @Override
+    public Direction opposite() {
+        return Direction.Down;
+    }
   },
   
   Down {
@@ -23,6 +28,11 @@ public enum Direction {
 
     public int getY() {
       return 1;
+    }
+
+    @Override
+    public Direction opposite() {
+        return Direction.Up;
     }
   },
   
@@ -34,6 +44,11 @@ public enum Direction {
     public int getY() {
       return 0;
     }
+
+    @Override
+    public Direction opposite() {
+        return Direction.Right;
+    }
   },
   
   Right {
@@ -44,9 +59,16 @@ public enum Direction {
     public int getY() {
       return 0;
     }
+
+    @Override
+    public Direction opposite() {
+        return Direction.Left;
+    }
   };
 
   public abstract int getX();
   
   public abstract int getY();
+
+  public abstract Direction opposite();
 }

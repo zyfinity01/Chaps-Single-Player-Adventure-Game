@@ -25,4 +25,12 @@ public interface Tile {
    * @param position the player position.
    */
   public void interactWithPlayer(Tile[][] tiles, List<Tile> inventory, Position position);
+
+  /**
+   * Perform tile-specific updates on game tick.
+   *
+   * @param tiles the maze tiles.
+   * @param position the tile position.
+   */
+  public void tick(Tile[][] tiles, Position position);
 }
