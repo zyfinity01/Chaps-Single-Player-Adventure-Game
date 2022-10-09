@@ -127,6 +127,26 @@ public class Maze {
   }
 
   /**
+   * Check if the game is over.
+   *
+   * @return game over state.
+   */
+  public boolean isGameOver() {
+    // have we run out of time
+    if (timeLeft <= 0) {
+      return true;
+    }
+
+    // have we reached the exit tile
+    var tile = tiles[chapPosition.y()][chapPosition.x()];
+    if (tile != null && tile instanceof Exit) {
+      return true;
+    }
+
+    return false;
+  }
+
+  /**
    * Check if the player can move in a direction.
    *
    * @param direction the target direction.
