@@ -3,9 +3,11 @@ package nz.ac.vuw.ecs.swen225.gp22.renderer;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.Paths;
 import javax.imageio.ImageIO;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+
 import nz.ac.vuw.ecs.swen225.gp22.domain.Chap;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Door;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Exit;
@@ -48,7 +50,9 @@ public class Renderer {
   static BufferedImage door_green;
   static BufferedImage door_yellow;
 
-  // load images
+  static AudioInputStream background;
+
+  // load assets
   static {
     try {
       String s = Paths.get("").toAbsolutePath().toString();
@@ -68,7 +72,13 @@ public class Renderer {
       door_blue = ImageIO.read(new File("images//door_blue.png"));
       door_green = ImageIO.read(new File("images//door_green.png"));
       door_yellow = ImageIO.read(new File("images//door_yellow.png"));
-    } catch (IOException e) {
+
+      background = AudioSystem.getAudioInputStream(new File("sounds/background.wav"));
+
+      var clip = AudioSystem.getClip();
+      clip.open(background);
+      clip.start();
+    } catch (Exception e) {
       e.printStackTrace();
     }
   }
