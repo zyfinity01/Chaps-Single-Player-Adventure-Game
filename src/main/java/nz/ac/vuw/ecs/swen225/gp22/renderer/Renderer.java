@@ -154,10 +154,6 @@ public class Renderer {
           return tractor_right;
       }
     }
-    if (tile instanceof Chap) {
-      // TODO: switch on direction
-      return chap;
-    }
 
     return free;        // instanceof null || fallback
   }
