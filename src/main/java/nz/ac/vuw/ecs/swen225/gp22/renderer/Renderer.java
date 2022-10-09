@@ -16,6 +16,7 @@ import nz.ac.vuw.ecs.swen225.gp22.domain.Lock;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Maze;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Position;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Tile;
+import nz.ac.vuw.ecs.swen225.gp22.domain.Tractor;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Treasure;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Wall;
 
@@ -49,6 +50,11 @@ public class Renderer {
   static BufferedImage door_green;
   static BufferedImage door_yellow;
 
+  static BufferedImage tractor_up;
+  static BufferedImage tractor_down;
+  static BufferedImage tractor_left;
+  static BufferedImage tractor_right;
+
   static AudioInputStream background;
 
   // load assets
@@ -71,6 +77,11 @@ public class Renderer {
       door_blue = ImageIO.read(new File("images//door_blue.png"));
       door_green = ImageIO.read(new File("images//door_green.png"));
       door_yellow = ImageIO.read(new File("images//door_yellow.png"));
+
+      tractor_up = ImageIO.read(new File("images//tractor_up.png"));
+      tractor_down = ImageIO.read(new File("images//tractor_down.png"));
+      tractor_left = ImageIO.read(new File("images//tractor_left.png"));
+      tractor_right = ImageIO.read(new File("images//tractor_right.png"));
 
       background = AudioSystem.getAudioInputStream(new File("sounds/background.wav"));
 
@@ -126,6 +137,20 @@ public class Renderer {
     if (tile instanceof Exit) {
       return exit;
     }
+    if (tile instanceof Tractor) {
+      var tractor = (Tractor) tile;
+      switch (tractor.direction()) {
+        case Up:
+          return tractor_up;
+        case Down:
+          return tractor_down;
+        case Left:
+          return tractor_left;
+        case Right:
+        default:
+          return tractor_right;
+      }
+    }
     if (tile instanceof Chap) {
       // TODO: switch on direction
       return chap;
@@ -135,20 +160,22 @@ public class Renderer {
 
   /** Render. */
   public static void render(Maze maze, Graphics2D image) {
+    // Recenter the map around the player
+    Position position = maze.getChapPosition();
+    int offsetX = (int) (position.x() * tileWidth * -1 + (windowWidth * 0.5));
+    int offsetY = (int) (position.y() * tileWidth * -1 + (windowWidth * 0.5));
+    image.translate(offsetX, offsetY);
+
     // Affine transformation is to rescale the image - https://www.geogebra.org/m/Fq8zyEgS
     // new AffineTransformOp(new AffineTransform(0.1,0,0,0.1,0,0), AffineTransformOp.TYPE_BILINEAR)
     image.drawImage(free, null, 20, 20);
     for (int x = 0; x < maze.getCols(); x++) {
       for (int y = 0; y < maze.getRows(); y++) {
-        image.drawImage(image(maze.getTiles()[x][y]), null, x * tileWidth, y * tileWidth);
+        image.drawImage(image(maze.getTiles()[y][x]), null, x * tileWidth, y * tileWidth);
       }
     }
     image.drawImage(chap, null, maze.getChapPosition().x() * tileWidth,
         maze.getChapPosition().y() * tileWidth);
-    Position position = maze.getChapPosition();
-    int offsetX = (int) (position.x() * tileWidth * -1 + (windowWidth * 0.5));
-    int offsetY = (int) (position.y() * tileWidth * -1 + (windowWidth * 0.5));
-    image.translate(offsetX, offsetY);
   }
 }
 
