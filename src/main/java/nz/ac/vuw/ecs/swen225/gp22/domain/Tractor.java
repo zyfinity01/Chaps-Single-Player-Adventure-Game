@@ -25,8 +25,8 @@ public record Tractor(Direction direction) implements Tile {
     var nextY = position.y() + direction.getY();
 
     // check if we should change direction
-    if (nextX < 0 || nextY < 0 || nextY > tiles.length ||
-        nextX >= tiles[nextY].length || tiles[nextY][nextX] != null) {
+    if (nextX < 0 || nextY < 0 || nextY > tiles.length
+        || nextX >= tiles[nextY].length || tiles[nextY][nextX] != null) {
       tiles[position.y()][position.x()] = new Tractor(direction.opposite());
       return;
     }

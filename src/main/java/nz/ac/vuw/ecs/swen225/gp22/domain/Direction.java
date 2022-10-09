@@ -17,7 +17,7 @@ public enum Direction {
 
     @Override
     public Direction opposite() {
-        return Direction.Down;
+      return Direction.Down;
     }
   },
   
@@ -32,7 +32,7 @@ public enum Direction {
 
     @Override
     public Direction opposite() {
-        return Direction.Up;
+      return Direction.Up;
     }
   },
   
@@ -47,7 +47,7 @@ public enum Direction {
 
     @Override
     public Direction opposite() {
-        return Direction.Right;
+      return Direction.Right;
     }
   },
   
@@ -62,7 +62,7 @@ public enum Direction {
 
     @Override
     public Direction opposite() {
-        return Direction.Left;
+      return Direction.Left;
     }
   };
 
