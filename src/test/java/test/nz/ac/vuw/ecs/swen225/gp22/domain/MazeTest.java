@@ -8,6 +8,7 @@ import nz.ac.vuw.ecs.swen225.gp22.domain.Chap;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Color;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Direction;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Door;
+import nz.ac.vuw.ecs.swen225.gp22.domain.Exit;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Info;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Key;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Maze;
@@ -247,5 +248,33 @@ public class MazeTest {
     assert(maze.getInfoText() == null);
     maze.moveChap(Direction.Up);
     assert(maze.getInfoText() == "Test text");
+  }
+
+  @Test
+  public void canFinishOnExit() {
+    var tiles = new Tile[4][4];
+    tiles[1][2] = new Chap();
+    tiles[0][2] = new Exit();
+
+    var maze = new Maze(tiles, 4, 4, List.of(), 1);
+
+    assertFalse(maze.isGameOver());
+    maze.moveChap(Direction.Up);
+    assertTrue(maze.isGameOver());
+  }
+
+  @Test
+  public void canFinishOnTime() {
+    var tiles = new Tile[4][4];
+    tiles[1][2] = new Chap();
+
+    var maze = new Maze(tiles, 4, 4, List.of(), 1);
+
+    assertFalse(maze.isGameOver());
+    
+    maze.tick();
+    maze.tick();
+
+    assertTrue(maze.isGameOver());
   }
 }
