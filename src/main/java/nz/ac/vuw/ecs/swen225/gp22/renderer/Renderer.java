@@ -3,10 +3,13 @@ package nz.ac.vuw.ecs.swen225.gp22.renderer;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Paths;
 import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Chap;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Door;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Exit;
@@ -88,7 +91,11 @@ public class Renderer {
       var clip = AudioSystem.getClip();
       clip.open(background);
       clip.start();
-    } catch (Exception e) {
+    } catch (IOException e) {
+      e.printStackTrace();
+    } catch (UnsupportedAudioFileException e) {
+      e.printStackTrace();
+    } catch (LineUnavailableException e) {
       e.printStackTrace();
     }
   }
