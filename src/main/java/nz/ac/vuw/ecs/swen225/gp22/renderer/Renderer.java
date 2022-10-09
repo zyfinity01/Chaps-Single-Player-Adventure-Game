@@ -6,7 +6,6 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 import javax.imageio.ImageIO;
-import nz.ac.vuw.ecs.swen225.gp22.domain.Chap;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Door;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Exit;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Info;
@@ -18,11 +17,11 @@ import nz.ac.vuw.ecs.swen225.gp22.domain.Tile;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Treasure;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Wall;
 
-// I've made this static because there's really no need to store state
-// TODO: There might be
-// TODO: Better comments
-
-/** Handles rendering. */
+/**
+ * Game renderer.
+ *
+ * @author North.
+ */
 public class Renderer {
 
   // TODO: rescale/crop to fit
@@ -37,7 +36,11 @@ public class Renderer {
   static BufferedImage info;
   static BufferedImage treasure;
   static BufferedImage exit;
-  static BufferedImage chap;
+
+  static BufferedImage chapUp;
+  static BufferedImage chapDown;
+  static BufferedImage chapLeft;
+  static BufferedImage chapRight;
 
   static BufferedImage key_red;
   static BufferedImage key_blue;
@@ -58,7 +61,11 @@ public class Renderer {
       info = ImageIO.read(new File("images//info.png"));
       treasure = ImageIO.read(new File("images//treasure.png"));
       exit = ImageIO.read(new File("images//exit.png"));
-      chap = ImageIO.read(new File("images//chap.png"));
+      
+      chapUp = ImageIO.read(new File("images//chap_up.png"));
+      chapDown = ImageIO.read(new File("images//chap_down.png"));
+      chapLeft = ImageIO.read(new File("images//chap_left.png"));
+      chapRight = ImageIO.read(new File("images//chap_right.png"));
 
       key_red = ImageIO.read(new File("images//key_red.png"));
       key_blue = ImageIO.read(new File("images//key_blue.png"));
@@ -73,7 +80,12 @@ public class Renderer {
     }
   }
 
-  /** get the image for a given tile. */
+  /**
+   * Get the image for a given tile.
+   *
+   * @param tile the tile.
+   * @return the image.
+   */
   private static BufferedImage image(Tile tile) {
     // can't switch on instanceof
     if (tile instanceof Wall) {
@@ -117,25 +129,48 @@ public class Renderer {
     if (tile instanceof Exit) {
       return exit;
     }
-    if (tile instanceof Chap) {
-      // TODO: switch on direction
-      return chap;
-    }
+    
     return free;        // instanceof null || fallback
   }
 
-  /** Render. */
+  /**
+   * Gets the directionional image for chap.
+   *
+   * @param maze the current maze.
+   * @return chaps image.
+   */
+  private static BufferedImage chap(Maze maze) {
+    switch (maze.getChapDirection()) {
+      case Up:
+        return chapUp;
+      case Down:
+        return chapDown;
+      case Left:
+        return chapLeft;
+      case Right:
+      default:
+        return chapRight;
+    }
+  }
+
+  /**
+   * Renders the maze.
+   *
+   * @param maze maze to render.
+   * @param image graphics drawing context.
+   */
   public static void render(Maze maze, Graphics2D image) {
-    // Affine transformation is to rescale the image - https://www.geogebra.org/m/Fq8zyEgS
-    // new AffineTransformOp(new AffineTransform(0.1,0,0,0.1,0,0), AffineTransformOp.TYPE_BILINEAR)
     image.drawImage(free, null, 20, 20);
+    
     for (int x = 0; x < maze.getCols(); x++) {
       for (int y = 0; y < maze.getRows(); y++) {
-        image.drawImage(image(maze.getTiles()[x][y]), null, x * tileWidth, y * tileWidth);
+        image.drawImage(image(maze.getTiles()[y][x]), null, x * tileWidth, y * tileWidth);
       }
     }
-    image.drawImage(chap, null, maze.getChapPosition().x() * tileWidth,
+    
+    image.drawImage(chap(maze), null, maze.getChapPosition().x() * tileWidth,
         maze.getChapPosition().y() * tileWidth);
+    
     Position position = maze.getChapPosition();
     int offsetX = (int) (position.x() * tileWidth * -1 + (windowWidth * 0.5));
     int offsetY = (int) (position.y() * tileWidth * -1 + (windowWidth * 0.5));
