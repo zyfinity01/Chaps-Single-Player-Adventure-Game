@@ -2,7 +2,7 @@ package nz.ac.vuw.ecs.swen225.gp22.persistency;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.List;
+import java.util.*;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -43,21 +43,30 @@ public class Persistency {
     Element root = new Element("Game");
     Document doc = new Document(root);
     Element timeElement = new Element("time");
-    Element chipsElement = new Element("chips");
     Element livesElement = new Element("lives");
+    Element inventoryElement = new Element("inventory");
     Element boardElement = new Element("board");
 
     root.addContent(timeElement);
-    root.addContent(chipsElement);
+    root.addContent(inventoryElement);
     root.addContent(livesElement);
     root.addContent(boardElement);
 
     timeElement.setText(Integer.toString(maze.getTimeLeft()));
-    chipsElement.setText(Integer.toString(maze.getChipsCollected()));
     livesElement.setText(Integer.toString(maze.getLivesLeft()));
 
+    for(Tile tile : maze.getInventory()) {
+      String tileType = tile.getClass().getSimpleName().toUpperCase();
+      Element tileElement = new Element(tileType);
+      switch (tileType) {
+        case "KEY" -> {
+          Element tileColorElement = new Element("color");
+          tileElement.addContent(tileColorElement.setText(((Key) tile).color().toString()));
+        }
+      }
+      inventoryElement.addContent(tileElement);
+    }
     Element tiles = new Element("tiles");
-
     Tile[][] board = maze.getTiles();
     for (int row = 0; row < maze.getRows(); row++) {
       for (int col = 0; col < maze.getCols(); col++){
@@ -100,20 +109,26 @@ public class Persistency {
     //read XML file
     Document doc = getParsedDoc("src/levels/" + fileName);
     int  timeLeft = 60; //Default time
+    List<Tile> inventory = new ArrayList<>();
     for (Element element : doc.getRootElement().getChildren()) {
       //System.out.println(element.getName() + " " + element.getText());
       switch (element.getName()) {
         //TODO
-        case "level":
-          break;
         case "time":
           timeLeft = Integer.parseInt(element.getValue());
           break;
-        case "moves":
-          break;
-        case "chips":
-          break;
         case "lives":
+          break;
+        case "inventory":
+          List<Element> inventoryElements = element.getChildren();
+          for(Element item : inventoryElements){
+            switch (item.getName()) {
+              case "KEY" -> inventory.add(new Key(Color.valueOf(item.getChildText("color"))));
+              case "TREASURE" -> inventory.add(new Treasure());
+              default -> {
+              }
+            }
+          }
           break;
         case "board":
           List<Element> boardElements = element.getChildren();
@@ -156,7 +171,7 @@ public class Persistency {
           break;
       }
     }
-    return new Maze(board, boardRows, boardCols, timeLeft);
+    return new Maze(board, boardRows, boardCols, inventory, timeLeft);
   }
 
   private static Document getParsedDoc(final String fileName) {
