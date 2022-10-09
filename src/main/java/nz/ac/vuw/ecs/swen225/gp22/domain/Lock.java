@@ -27,4 +27,9 @@ public record Lock() implements Tile {
     // remove the lock
     tiles[position.y()][position.x()] = null;
   }
+
+  @Override
+  public void tick(Tile[][] tiles, Position position) {
+    // nothing to do on tick
+  }
 }

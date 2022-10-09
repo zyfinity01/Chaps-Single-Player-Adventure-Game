@@ -123,6 +123,11 @@ public class Maze {
       return;
     }
 
+    // tick all the tractors
+    for (var tractor : getTilesOfType(Tractor.class)) {
+      tractor.getValue().tick(tiles, tractor.getKey());
+    }
+
     this.timeLeft--;
   }
 

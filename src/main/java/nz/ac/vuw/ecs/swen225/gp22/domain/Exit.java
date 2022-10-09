@@ -18,4 +18,9 @@ public record Exit() implements Tile {
   public void interactWithPlayer(Tile[][] tiles, List<Tile> inventory, Position position) {
     // no interaction to perform
   }
+
+  @Override
+  public void tick(Tile[][] tiles, Position position) {
+    // nothing to do on tick
+  }
 }
