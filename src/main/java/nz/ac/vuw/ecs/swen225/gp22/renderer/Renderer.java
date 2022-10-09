@@ -138,6 +138,7 @@ public class Renderer {
         case Left:
           return tractor_left;
         case Right:
+        default:
           return tractor_right;
       }
     }
