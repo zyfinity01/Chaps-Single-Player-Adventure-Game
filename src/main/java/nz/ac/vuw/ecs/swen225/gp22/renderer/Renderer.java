@@ -101,7 +101,7 @@ public class Renderer {
   }
 
   /** get the image for a given tile. */
-  private static BufferedImage image(Tile tile) {
+  public static BufferedImage image(Tile tile) {
     // can't switch on instanceof
     if (tile instanceof Wall) {
       return wall;
