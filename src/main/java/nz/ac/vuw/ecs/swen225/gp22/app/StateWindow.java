@@ -20,7 +20,7 @@ public class StateWindow extends JPanel {
   /**
    * Max number of items that can be in inventory.
    */
-  private final int maxInventorySpace = 8;
+  private static final int maxInventorySpace = 8;
 
   /**
    * The games current level.
