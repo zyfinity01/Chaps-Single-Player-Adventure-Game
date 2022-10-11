@@ -15,7 +15,7 @@ import nz.ac.vuw.ecs.swen225.gp22.renderer.Renderer;
  *
  * @author Sam Redmond, 300443508
  */
-public class StateWindow extends JPanel {
+public class StatePanel extends JPanel {
 
   /**
    * Max number of items that can be in inventory.
@@ -60,7 +60,7 @@ public class StateWindow extends JPanel {
   /**
    * Displays Game Information.
    */
-  public StateWindow() {
+  public StatePanel() {
     setLayout(new GridLayout(0, 1));
 
     statsPanel = new JPanel();
