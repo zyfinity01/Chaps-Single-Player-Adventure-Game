@@ -139,7 +139,7 @@ public class StateWindow extends JPanel {
       var tile = inventory.get(i);
       var icon = inventoryIcons.get(i);
       if (tile != null) {
-        icon.setIcon(new ImageIcon(Renderer.image(tile)));
+        icon.setIcon(new ImageIcon(Renderer.getTileImage(tile)));
       } else {
         icon.setIcon(null);
       }
