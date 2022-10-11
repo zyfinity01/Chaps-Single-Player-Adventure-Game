@@ -20,7 +20,7 @@ public class StateWindow extends JPanel {
   /**
    * Max number of items that can be in inventory.
    */
-  private final static int MAX_INVENTORY_SIZE = 8;
+  private final int maxInventorySpace = 8;
 
   /**
    * The games current level.
@@ -87,7 +87,7 @@ public class StateWindow extends JPanel {
     inventoryPanel = new JPanel();
     inventoryPanel.setLayout(new GridLayout(0, 4));
     inventoryIcons = new ArrayList<>();
-    for (int i = 0; i < MAX_INVENTORY_SIZE; i++) {
+    for (int i = 0; i < maxInventorySpace; i++) {
       var icon = new JLabel();
       icon.setPreferredSize(new Dimension(50, 50));
       inventoryIcons.add(icon);
@@ -100,6 +100,7 @@ public class StateWindow extends JPanel {
 
   /**
    * Set the current level on info panel.
+   *
    * @param level current level
    */
   public void setLevel(int level) {
@@ -108,6 +109,7 @@ public class StateWindow extends JPanel {
 
   /**
    * Set the time left on info panel.
+   *
    * @param time time left
    */
   public void setTime(double time) {
@@ -116,6 +118,7 @@ public class StateWindow extends JPanel {
 
   /**
    * Set the chips left on info panel.
+   *
    * @param chips chips left
    */
   public void setChipsLeft(int chips) {
@@ -124,6 +127,7 @@ public class StateWindow extends JPanel {
 
   /**
    * Set the keys left on info panel.
+   *
    * @param keys keys left
    */
   public void setKeysLeft(int keys) {
@@ -131,7 +135,8 @@ public class StateWindow extends JPanel {
   }
 
   /**
-   * Display the items in the inventory
+   * Display the items in the inventory.
+   *
    * @param inventory inventory to display
    */
   public void setInventory(List<Tile> inventory) {

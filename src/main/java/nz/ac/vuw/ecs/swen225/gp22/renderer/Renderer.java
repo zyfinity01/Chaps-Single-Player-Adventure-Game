@@ -164,6 +164,7 @@ public class Renderer {
 
   /**
    * Get a copy of the tile image.
+   *
    * @param tile tile to find
    * @return image representation
    */
