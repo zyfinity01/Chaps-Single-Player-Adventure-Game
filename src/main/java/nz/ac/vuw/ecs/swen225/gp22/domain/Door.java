@@ -34,4 +34,9 @@ public record Door(Color color) implements Tile {
     // remove the door
     tiles[position.y()][position.x()] = null;
   }
+
+  @Override
+  public void tick(Tile[][] tiles, Position position) {
+    // nothing to do on tick
+  }
 }
