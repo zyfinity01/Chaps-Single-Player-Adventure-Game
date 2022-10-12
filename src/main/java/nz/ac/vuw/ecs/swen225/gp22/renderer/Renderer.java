@@ -1,19 +1,14 @@
 package nz.ac.vuw.ecs.swen225.gp22.renderer;
 
-import static java.awt.Font.PLAIN;
-
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontFormatException;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GraphicsEnvironment;
-import java.awt.desktop.SystemEventListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
-import java.util.Arrays;
 import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -134,9 +129,6 @@ public class Renderer {
 
   /**
    * Get the image for a given tile.
-   *
-   * @param tile the tile.
-   * @return the image.
    */
   private static BufferedImage image(Tile tile, int x, int y) {
     // can't switch on instanceof
@@ -236,21 +228,18 @@ public class Renderer {
   }
 
   /**
-   * Gets the directionional image for chap.
-   *
-   * @param maze the current maze.
-   * @return chaps image.
+   * Gets the  image for chap.
    */
   private static BufferedImage chap(Maze maze) {
     switch (maze.getChapDirection()) {
       case Up:
         return chapUp;
       case Down:
+      default:
         return chapDown;
       case Left:
         return chapLeft;
       case Right:
-      default:
         return chapRight;
     }
   }
