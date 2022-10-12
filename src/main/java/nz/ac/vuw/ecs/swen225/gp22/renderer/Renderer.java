@@ -246,7 +246,7 @@ public class Renderer {
   /**
    * draws the given text at the given location in the bob the builder style.
    */
-  private static void drawText(Graphics2D image, int x, int y, String text) {
+  public static void drawText(Graphics2D image, int x, int y, String text) {
     // Draw a rectangle
     image.setColor(new Color(255, 202, 2));
     image.fillRect((x - 3) * tileWidth,
@@ -308,10 +308,12 @@ public class Renderer {
     if (tile instanceof Chap) {
       image = chapDown;
     }
-    if (tile instanceof Wall) {
+    else if (tile instanceof Wall) {
       image = wall;
     }
-    image = image(tile, 0, 0);
+    else {
+      image = image(tile, 0, 0);
+    }
     // Need to copy it to prevent mutable object errors
     var copy = new BufferedImage(image.getWidth(), image.getHeight(), image.getType());
     var graphics = copy.getGraphics();
