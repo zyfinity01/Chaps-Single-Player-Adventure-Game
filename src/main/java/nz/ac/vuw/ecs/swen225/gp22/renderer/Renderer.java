@@ -4,7 +4,6 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Paths;
 import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -66,8 +65,6 @@ public class Renderer {
   // load assets
   static {
     try {
-      String s = Paths.get("").toAbsolutePath().toString();
-      // free = ImageIO.read(new File("images//free.png"));
       wall = ImageIO.read(new File("images//wall.png"));
       lock = ImageIO.read(new File("images//lock.png"));
       info = ImageIO.read(new File("images//info.png"));
@@ -172,6 +169,22 @@ public class Renderer {
     }
 
     return free;        // instanceof null || fallback
+  }
+
+  /**
+   * Get a copy of the tile image.
+   *
+   * @param tile tile to find
+   * @return image representation
+   */
+  public static BufferedImage getTileImage(Tile tile) {
+    var image = image(tile);
+    // needs to copy to prevent mutable object errors
+    var copy = new BufferedImage(image.getWidth(), image.getHeight(), image.getType());
+    var graphics = copy.getGraphics();
+    graphics.drawImage(image, 0, 0, null);
+    graphics.dispose();
+    return copy;
   }
 
   /**
