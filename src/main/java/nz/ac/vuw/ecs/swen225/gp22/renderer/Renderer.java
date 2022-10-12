@@ -246,7 +246,7 @@ public class Renderer {
   }
 
   /**
-   * draws the given text at the given location in the bob the builder style
+   * draws the given text at the given location in the bob the builder style.
    */
   private static void drawText(Graphics2D image, int x, int y, String text) {
     // Draw a rectangle
