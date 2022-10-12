@@ -1,165 +1,170 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<game>
-    <level>level1</level>
+<Game>
     <time>60</time>
-    <moves>0</moves>
-    <chips>0</chips>
-    <lives>3</lives>
+    <inventory>
+        <KEY>
+            <color>Blue</color>
+        </KEY>
+        <KEY>
+            <color>Red</color>
+        </KEY>
+        <TREASURE/>
+    </inventory>
     <board>
         <tiles>
-          <WALL>
-            <x>0</x>
-            <y>0</y>
-          </WALL>
-          <WALL>
-            <x>1</x>
-            <y>0</y>
-          </WALL>
-          <WALL>
-            <x>2</x>
-            <y>0</y>
-          </WALL>
-          <WALL>
-            <x>3</x>
-            <y>0</y>
-          </WALL>
-          <WALL>
-            <x>4</x>
-            <y>0</y>
-          </WALL>
-          <WALL>
-            <x>5</x>
-            <y>0</y>
-          </WALL>
-          <WALL>
-            <x>6</x>
-            <y>0</y>
-          </WALL>
-          <WALL>
-            <x>7</x>
-            <y>0</y>
-          </WALL>
-          <WALL>
-            <x>8</x>
-            <y>0</y>
-          </WALL>
-          <WALL>
-            <x>9</x>
-            <y>0</y>
-          </WALL>
-          <WALL>
-            <x>10</x>
-            <y>0</y>
-          </WALL>
-          <WALL>
-            <x>11</x>
-            <y>0</y>
-          </WALL>
-          <WALL>
-            <x>12</x>
-            <y>0</y>
-          </WALL>
-          <WALL>
-            <x>13</x>
-            <y>0</y>
-          </WALL>
-          <WALL>
-            <x>14</x>
-            <y>0</y>
-          </WALL>
-          <WALL>
-            <x>15</x>
-            <y>0</y>
-          </WALL>
-          <WALL>
-            <x>16</x>
-            <y>0</y>
-          </WALL>
-          <WALL>
-            <x>0</x>
-            <y>1</y>
-          </WALL>
-          <WALL>
-            <x>1</x>
-            <y>1</y>
-          </WALL>
-          <WALL>
-            <x>2</x>
-            <y>1</y>
-          </WALL>
-          <WALL>
-            <x>3</x>
-            <y>1</y>
-          </WALL>
-          <WALL>
-            <x>4</x>
-            <y>1</y>
-          </WALL>
-          <WALL>
-            <x>5</x>
-            <y>1</y>
-          </WALL>
-          <WALL>
-            <x>6</x>
-            <y>1</y>
-          </WALL>
-          <WALL>
-            <x>7</x>
-            <y>1</y>
-          </WALL>
-          <WALL>
-            <x>8</x>
-            <y>1</y>
-          </WALL>
-          <WALL>
-            <x>9</x>
-            <y>1</y>
-          </WALL>
-          <WALL>
-            <x>10</x>
-            <y>1</y>
-          </WALL>
-          <WALL>
-            <x>11</x>
-            <y>1</y>
-          </WALL>
-          <WALL>
-            <x>12</x>
-            <y>1</y>
-          </WALL>
-          <WALL>
-            <x>13</x>
-            <y>1</y>
-          </WALL>
-          <WALL>
-            <x>14</x>
-            <y>1</y>
-          </WALL>
-          <WALL>
-            <x>15</x>
-            <y>1</y>
-          </WALL>
-          <WALL>
-            <x>16</x>
-            <y>1</y>
-          </WALL>
-          <WALL>
-            <x>0</x>
-            <y>2</y>
-          </WALL>
-          <WALL>
-            <x>1</x>
-            <y>2</y>
-          </WALL>
-          <WALL>
-            <x>2</x>
-            <y>2</y>
-          </WALL>
-          <WALL>
-            <x>3</x>
-            <y>2</y>
-          </WALL>
-          <WALL>
+            <WALL>
+                <x>0</x>
+                <y>0</y>
+            </WALL>
+            <WALL>
+                <x>1</x>
+                <y>0</y>
+            </WALL>
+            <WALL>
+                <x>2</x>
+                <y>0</y>
+            </WALL>
+            <WALL>
+                <x>3</x>
+                <y>0</y>
+            </WALL>
+            <WALL>
+                <x>4</x>
+                <y>0</y>
+            </WALL>
+            <WALL>
+                <x>5</x>
+                <y>0</y>
+            </WALL>
+            <WALL>
+                <x>6</x>
+                <y>0</y>
+            </WALL>
+            <WALL>
+                <x>7</x>
+                <y>0</y>
+            </WALL>
+            <WALL>
+                <x>8</x>
+                <y>0</y>
+            </WALL>
+            <WALL>
+                <x>9</x>
+                <y>0</y>
+            </WALL>
+            <WALL>
+                <x>10</x>
+                <y>0</y>
+            </WALL>
+            <WALL>
+                <x>11</x>
+                <y>0</y>
+            </WALL>
+            <WALL>
+                <x>12</x>
+                <y>0</y>
+            </WALL>
+            <WALL>
+                <x>13</x>
+                <y>0</y>
+            </WALL>
+            <WALL>
+                <x>14</x>
+                <y>0</y>
+            </WALL>
+            <WALL>
+                <x>15</x>
+                <y>0</y>
+            </WALL>
+            <WALL>
+                <x>16</x>
+                <y>0</y>
+            </WALL>
+            <WALL>
+                <x>0</x>
+                <y>1</y>
+            </WALL>
+            <WALL>
+                <x>1</x>
+                <y>1</y>
+            </WALL>
+            <WALL>
+                <x>2</x>
+                <y>1</y>
+            </WALL>
+            <WALL>
+                <x>3</x>
+                <y>1</y>
+            </WALL>
+            <WALL>
+                <x>4</x>
+                <y>1</y>
+            </WALL>
+            <WALL>
+                <x>5</x>
+                <y>1</y>
+            </WALL>
+            <WALL>
+                <x>6</x>
+                <y>1</y>
+            </WALL>
+            <WALL>
+                <x>7</x>
+                <y>1</y>
+            </WALL>
+            <WALL>
+                <x>8</x>
+                <y>1</y>
+            </WALL>
+            <WALL>
+                <x>9</x>
+                <y>1</y>
+            </WALL>
+            <WALL>
+                <x>10</x>
+                <y>1</y>
+            </WALL>
+            <WALL>
+                <x>11</x>
+                <y>1</y>
+            </WALL>
+            <WALL>
+                <x>12</x>
+                <y>1</y>
+            </WALL>
+            <WALL>
+                <x>13</x>
+                <y>1</y>
+            </WALL>
+            <WALL>
+                <x>14</x>
+                <y>1</y>
+            </WALL>
+            <WALL>
+                <x>15</x>
+                <y>1</y>
+            </WALL>
+            <WALL>
+                <x>16</x>
+                <y>1</y>
+            </WALL>
+            <WALL>
+                <x>0</x>
+                <y>2</y>
+            </WALL>
+            <WALL>
+                <x>1</x>
+                <y>2</y>
+            </WALL>
+            <WALL>
+                <x>2</x>
+                <y>2</y>
+            </WALL>
+            <WALL>
+                <x>3</x>
+                <y>2</y>
+            </WALL>
+            <WALL>
                 <x>4</x>
                 <y>2</y>
             </WALL>
@@ -179,10 +184,10 @@
                 <x>8</x>
                 <y>2</y>
             </WALL>
-          <WALL>
-            <x>9</x>
-            <y>2</y>
-          </WALL>
+            <WALL>
+                <x>9</x>
+                <y>2</y>
+            </WALL>
             <WALL>
                 <x>10</x>
                 <y>2</y>
@@ -203,31 +208,31 @@
                 <x>14</x>
                 <y>2</y>
             </WALL>
-          <WALL>
-            <x>15</x>
-            <y>2</y>
-          </WALL>
-          <WALL>
-            <x>16</x>
-            <y>2</y>
-          </WALL>
-          <WALL>
-            <x>0</x>
-            <y>3</y>
-          </WALL>
-          <WALL>
-            <x>1</x>
-            <y>3</y>
-          </WALL>
-          <WALL>
-            <x>2</x>
-            <y>3</y>
-          </WALL>
-          <WALL>
-            <x>3</x>
-            <y>3</y>
-          </WALL>
-          <WALL>
+            <WALL>
+                <x>15</x>
+                <y>2</y>
+            </WALL>
+            <WALL>
+                <x>16</x>
+                <y>2</y>
+            </WALL>
+            <WALL>
+                <x>0</x>
+                <y>3</y>
+            </WALL>
+            <WALL>
+                <x>1</x>
+                <y>3</y>
+            </WALL>
+            <WALL>
+                <x>2</x>
+                <y>3</y>
+            </WALL>
+            <WALL>
+                <x>3</x>
+                <y>3</y>
+            </WALL>
+            <WALL>
                 <x>4</x>
                 <y>3</y>
             </WALL>
@@ -247,30 +252,30 @@
                 <x>14</x>
                 <y>3</y>
             </WALL>
-          <WALL>
-            <x>15</x>
-            <y>3</y>
-          </WALL>
-          <WALL>
-            <x>16</x>
-            <y>3</y>
-          </WALL>
-          <WALL>
-            <x>0</x>
-            <y>4</y>
-          </WALL>
-          <WALL>
-            <x>1</x>
-            <y>4</y>
-          </WALL>
-          <WALL>
-            <x>2</x>
-            <y>4</y>
-          </WALL>
-          <WALL>
-            <x>3</x>
-            <y>4</y>
-          </WALL>
+            <WALL>
+                <x>15</x>
+                <y>3</y>
+            </WALL>
+            <WALL>
+                <x>16</x>
+                <y>3</y>
+            </WALL>
+            <WALL>
+                <x>0</x>
+                <y>4</y>
+            </WALL>
+            <WALL>
+                <x>1</x>
+                <y>4</y>
+            </WALL>
+            <WALL>
+                <x>2</x>
+                <y>4</y>
+            </WALL>
+            <WALL>
+                <x>3</x>
+                <y>4</y>
+            </WALL>
             <WALL>
                 <x>4</x>
                 <y>4</y>
@@ -299,22 +304,22 @@
                 <x>14</x>
                 <y>4</y>
             </WALL>
-          <WALL>
-            <x>15</x>
-            <y>4</y>
-          </WALL>
-          <WALL>
-            <x>16</x>
-            <y>4</y>
-          </WALL>
-          <WALL>
-            <x>0</x>
-            <y>5</y>
-          </WALL>
-          <WALL>
-            <x>1</x>
-            <y>5</y>
-          </WALL>
+            <WALL>
+                <x>15</x>
+                <y>4</y>
+            </WALL>
+            <WALL>
+                <x>16</x>
+                <y>4</y>
+            </WALL>
+            <WALL>
+                <x>0</x>
+                <y>5</y>
+            </WALL>
+            <WALL>
+                <x>1</x>
+                <y>5</y>
+            </WALL>
             <WALL>
                 <x>2</x>
                 <y>5</y>
@@ -377,14 +382,14 @@
                 <x>16</x>
                 <y>5</y>
             </WALL>
-          <WALL>
-            <x>0</x>
-            <y>6</y>
-          </WALL>
-          <WALL>
-            <x>1</x>
-            <y>6</y>
-          </WALL>
+            <WALL>
+                <x>0</x>
+                <y>6</y>
+            </WALL>
+            <WALL>
+                <x>1</x>
+                <y>6</y>
+            </WALL>
             <WALL>
                 <x>2</x>
                 <y>6</y>
@@ -413,14 +418,14 @@
                 <x>16</x>
                 <y>6</y>
             </WALL>
-          <WALL>
-            <x>0</x>
-            <y>7</y>
-          </WALL>
-          <WALL>
-            <x>1</x>
-            <y>7</y>
-          </WALL>
+            <WALL>
+                <x>0</x>
+                <y>7</y>
+            </WALL>
+            <WALL>
+                <x>1</x>
+                <y>7</y>
+            </WALL>
             <WALL>
                 <x>2</x>
                 <y>7</y>
@@ -442,8 +447,9 @@
                 <x>9</x>
                 <y>7</y>
                 <text>Yo this is level 1,
-go out there and
-play the game</text>
+                    go out there and
+                    play the game
+                </text>
             </INFO>
             <KEY>
                 <x>11</x>
@@ -462,14 +468,14 @@ play the game</text>
                 <x>16</x>
                 <y>7</y>
             </WALL>
-          <WALL>
-            <x>0</x>
-            <y>8</y>
-          </WALL>
-          <WALL>
-            <x>1</x>
-            <y>8</y>
-          </WALL>
+            <WALL>
+                <x>0</x>
+                <y>8</y>
+            </WALL>
+            <WALL>
+                <x>1</x>
+                <y>8</y>
+            </WALL>
             <WALL>
                 <x>2</x>
                 <y>8</y>
@@ -494,10 +500,6 @@ play the game</text>
                 <x>7</x>
                 <y>8</y>
             </TREASURE>
-            <CHAP>
-                <x>9</x>
-                <y>8</y>
-            </CHAP>
             <TREASURE>
                 <x>11</x>
                 <y>8</y>
@@ -522,14 +524,14 @@ play the game</text>
                 <x>16</x>
                 <y>8</y>
             </WALL>
-          <WALL>
-            <x>0</x>
-            <y>9</y>
-          </WALL>
-          <WALL>
-            <x>1</x>
-            <y>9</y>
-          </WALL>
+            <WALL>
+                <x>0</x>
+                <y>9</y>
+            </WALL>
+            <WALL>
+                <x>1</x>
+                <y>9</y>
+            </WALL>
             <WALL>
                 <x>2</x>
                 <y>9</y>
@@ -564,14 +566,14 @@ play the game</text>
                 <x>16</x>
                 <y>9</y>
             </WALL>
-          <WALL>
-            <x>0</x>
-            <y>10</y>
-          </WALL>
-          <WALL>
-            <x>1</x>
-            <y>10</y>
-          </WALL>
+            <WALL>
+                <x>0</x>
+                <y>10</y>
+            </WALL>
+            <WALL>
+                <x>1</x>
+                <y>10</y>
+            </WALL>
             <WALL>
                 <x>2</x>
                 <y>10</y>
@@ -594,14 +596,14 @@ play the game</text>
                 <x>16</x>
                 <y>10</y>
             </WALL>
-          <WALL>
-            <x>0</x>
-            <y>11</y>
-          </WALL>
-          <WALL>
-            <x>1</x>
-            <y>11</y>
-          </WALL>
+            <WALL>
+                <x>0</x>
+                <y>11</y>
+            </WALL>
+            <WALL>
+                <x>1</x>
+                <y>11</y>
+            </WALL>
             <WALL>
                 <x>2</x>
                 <y>11</y>
@@ -664,30 +666,30 @@ play the game</text>
                 <x>16</x>
                 <y>11</y>
             </WALL>
-          <WALL>
-            <x>0</x>
-            <y>12</y>
-          </WALL>
-          <WALL>
-            <x>1</x>
-            <y>12</y>
-          </WALL>
-          <WALL>
-            <x>2</x>
-            <y>12</y>
-          </WALL>
-          <WALL>
-            <x>3</x>
-            <y>12</y>
-          </WALL>
-          <WALL>
-            <x>4</x>
-            <y>12</y>
-          </WALL>
-          <WALL>
-            <x>5</x>
-            <y>12</y>
-          </WALL>
+            <WALL>
+                <x>0</x>
+                <y>12</y>
+            </WALL>
+            <WALL>
+                <x>1</x>
+                <y>12</y>
+            </WALL>
+            <WALL>
+                <x>2</x>
+                <y>12</y>
+            </WALL>
+            <WALL>
+                <x>3</x>
+                <y>12</y>
+            </WALL>
+            <WALL>
+                <x>4</x>
+                <y>12</y>
+            </WALL>
+            <WALL>
+                <x>5</x>
+                <y>12</y>
+            </WALL>
             <WALL>
                 <x>6</x>
                 <y>12</y>
@@ -700,46 +702,46 @@ play the game</text>
                 <x>12</x>
                 <y>12</y>
             </WALL>
-          <WALL>
-            <x>0</x>
-            <y>13</y>
-          </WALL>
-          <WALL>
-            <x>1</x>
-            <y>13</y>
-          </WALL>
-          <WALL>
-            <x>2</x>
-            <y>13</y>
-          </WALL>
-          <WALL>
-            <x>3</x>
-            <y>13</y>
-          </WALL>
-          <WALL>
-            <x>4</x>
-            <y>13</y>
-          </WALL>
-          <WALL>
-            <x>5</x>
-            <y>13</y>
-          </WALL>
-          <WALL>
-            <x>13</x>
-            <y>12</y>
-          </WALL>
-          <WALL>
-            <x>14</x>
-            <y>12</y>
-          </WALL>
-          <WALL>
-            <x>15</x>
-            <y>12</y>
-          </WALL>
-          <WALL>
-            <x>16</x>
-            <y>12</y>
-          </WALL>
+            <WALL>
+                <x>0</x>
+                <y>13</y>
+            </WALL>
+            <WALL>
+                <x>1</x>
+                <y>13</y>
+            </WALL>
+            <WALL>
+                <x>2</x>
+                <y>13</y>
+            </WALL>
+            <WALL>
+                <x>3</x>
+                <y>13</y>
+            </WALL>
+            <WALL>
+                <x>4</x>
+                <y>13</y>
+            </WALL>
+            <WALL>
+                <x>5</x>
+                <y>13</y>
+            </WALL>
+            <WALL>
+                <x>13</x>
+                <y>12</y>
+            </WALL>
+            <WALL>
+                <x>14</x>
+                <y>12</y>
+            </WALL>
+            <WALL>
+                <x>15</x>
+                <y>12</y>
+            </WALL>
+            <WALL>
+                <x>16</x>
+                <y>12</y>
+            </WALL>
             <WALL>
                 <x>6</x>
                 <y>13</y>
@@ -760,46 +762,46 @@ play the game</text>
                 <x>12</x>
                 <y>13</y>
             </WALL>
-          <WALL>
-            <x>13</x>
-            <y>13</y>
-          </WALL>
-          <WALL>
-            <x>14</x>
-            <y>13</y>
-          </WALL>
-          <WALL>
-            <x>15</x>
-            <y>13</y>
-          </WALL>
-          <WALL>
-            <x>16</x>
-            <y>13</y>
-          </WALL>
-          <WALL>
-            <x>0</x>
-            <y>14</y>
-          </WALL>
-          <WALL>
-            <x>1</x>
-            <y>14</y>
-          </WALL>
-          <WALL>
-            <x>2</x>
-            <y>14</y>
-          </WALL>
-          <WALL>
-            <x>3</x>
-            <y>14</y>
-          </WALL>
-          <WALL>
-            <x>4</x>
-            <y>14</y>
-          </WALL>
-          <WALL>
-            <x>5</x>
-            <y>14</y>
-          </WALL>
+            <WALL>
+                <x>13</x>
+                <y>13</y>
+            </WALL>
+            <WALL>
+                <x>14</x>
+                <y>13</y>
+            </WALL>
+            <WALL>
+                <x>15</x>
+                <y>13</y>
+            </WALL>
+            <WALL>
+                <x>16</x>
+                <y>13</y>
+            </WALL>
+            <WALL>
+                <x>0</x>
+                <y>14</y>
+            </WALL>
+            <WALL>
+                <x>1</x>
+                <y>14</y>
+            </WALL>
+            <WALL>
+                <x>2</x>
+                <y>14</y>
+            </WALL>
+            <WALL>
+                <x>3</x>
+                <y>14</y>
+            </WALL>
+            <WALL>
+                <x>4</x>
+                <y>14</y>
+            </WALL>
+            <WALL>
+                <x>5</x>
+                <y>14</y>
+            </WALL>
             <WALL>
                 <x>6</x>
                 <y>14</y>
@@ -817,46 +819,46 @@ play the game</text>
                 <x>12</x>
                 <y>14</y>
             </WALL>
-          <WALL>
-            <x>13</x>
-            <y>14</y>
-          </WALL>
-          <WALL>
-            <x>14</x>
-            <y>14</y>
-          </WALL>
-          <WALL>
-            <x>15</x>
-            <y>14</y>
-          </WALL>
-          <WALL>
-            <x>16</x>
-            <y>14</y>
-          </WALL>
-          <WALL>
-            <x>0</x>
-            <y>15</y>
-          </WALL>
-          <WALL>
-            <x>1</x>
-            <y>15</y>
-          </WALL>
-          <WALL>
-            <x>2</x>
-            <y>15</y>
-          </WALL>
-          <WALL>
-            <x>3</x>
-            <y>15</y>
-          </WALL>
-          <WALL>
-            <x>4</x>
-            <y>15</y>
-          </WALL>
-          <WALL>
-            <x>5</x>
-            <y>15</y>
-          </WALL>
+            <WALL>
+                <x>13</x>
+                <y>14</y>
+            </WALL>
+            <WALL>
+                <x>14</x>
+                <y>14</y>
+            </WALL>
+            <WALL>
+                <x>15</x>
+                <y>14</y>
+            </WALL>
+            <WALL>
+                <x>16</x>
+                <y>14</y>
+            </WALL>
+            <WALL>
+                <x>0</x>
+                <y>15</y>
+            </WALL>
+            <WALL>
+                <x>1</x>
+                <y>15</y>
+            </WALL>
+            <WALL>
+                <x>2</x>
+                <y>15</y>
+            </WALL>
+            <WALL>
+                <x>3</x>
+                <y>15</y>
+            </WALL>
+            <WALL>
+                <x>4</x>
+                <y>15</y>
+            </WALL>
+            <WALL>
+                <x>5</x>
+                <y>15</y>
+            </WALL>
             <WALL>
                 <x>6</x>
                 <y>15</y>
@@ -885,90 +887,10 @@ play the game</text>
                 <x>12</x>
                 <y>15</y>
             </WALL>
-          <WALL>
-            <x>13</x>
-            <y>15</y>
-          </WALL>
-          <WALL>
-            <x>14</x>
-            <y>15</y>
-          </WALL>
-          <WALL>
-            <x>15</x>
-            <y>15</y>
-          </WALL>
-          <WALL>
-            <x>16</x>
-            <y>15</y>
-          </WALL>
-          <WALL>
-            <x>0</x>
-            <y>16</y>
-          </WALL>
-          <WALL>
-            <x>1</x>
-            <y>16</y>
-          </WALL>
-          <WALL>
-            <x>2</x>
-            <y>16</y>
-          </WALL>
-          <WALL>
-            <x>3</x>
-            <y>16</y>
-          </WALL>
-          <WALL>
-            <x>4</x>
-            <y>16</y>
-          </WALL>
-          <WALL>
-            <x>5</x>
-            <y>16</y>
-          </WALL>
-          <WALL>
-            <x>6</x>
-            <y>16</y>
-          </WALL>
-          <WALL>
-            <x>7</x>
-            <y>16</y>
-          </WALL>
-          <WALL>
-            <x>8</x>
-            <y>16</y>
-          </WALL>
-          <WALL>
-            <x>9</x>
-            <y>16</y>
-          </WALL>
-          <WALL>
-            <x>10</x>
-            <y>16</y>
-          </WALL>
-          <WALL>
-            <x>11</x>
-            <y>16</y>
-          </WALL>
-          <WALL>
-            <x>12</x>
-            <y>16</y>
-          </WALL>
-          <WALL>
-            <x>13</x>
-            <y>16</y>
-          </WALL>
-          <WALL>
-            <x>14</x>
-            <y>16</y>
-          </WALL>
-          <WALL>
-            <x>15</x>
-            <y>16</y>
-          </WALL>
-          <WALL>
-            <x>16</x>
-            <y>16</y>
-          </WALL>
+            <CHAP>
+                <x>9</x>
+                <y>8</y>
+            </CHAP>
         </tiles>
     </board>
-</game>
+</Game>
