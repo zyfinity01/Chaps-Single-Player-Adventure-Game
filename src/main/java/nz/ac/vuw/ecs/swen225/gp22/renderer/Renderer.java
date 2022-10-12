@@ -82,7 +82,7 @@ public class Renderer {
   static {
     try {
       String s = Paths.get("").toAbsolutePath().toString();
-       free = ImageIO.read(new File("resources//images//free.png"));
+      free = ImageIO.read(new File("resources//images//free.png"));
       free_2 = ImageIO.read(new File("resources//images//free_2.png"));
       free_3 = ImageIO.read(new File("resources//images//free_3.png"));
       free_4 = ImageIO.read(new File("resources//images//free_4.png"));
@@ -126,7 +126,8 @@ public class Renderer {
       GraphicsEnvironment.getLocalGraphicsEnvironment().registerFont(bobFont);
 
       // Not in scope to deal with these
-    } catch (IOException | UnsupportedAudioFileException | LineUnavailableException | FontFormatException e) {
+    } catch (IOException | UnsupportedAudioFileException
+        | LineUnavailableException | FontFormatException e) {
       e.printStackTrace();
     }
   }
@@ -193,14 +194,16 @@ public class Renderer {
           return tractor_right;
       }
     }
-    return getFree(x,y);        // instanceof null || fallback
+    return getFree(x, y);        // instanceof null || fallback
   }
 
-  /** Returns a psuedo random variation of the wall texture, based on the coordinates */
+  /**
+   * Returns a psuedo random variation of the wall texture, based on the coordinates.
+   */
   private static BufferedImage getWall(int x, int y) {
     // helps to break up the monotony of the texture
     // uses modulo so it doesn't flicker
-    switch ((x+2*y)%4){
+    switch ((x + 2 * y) % 4) {
       case 1:
       default:
         return wall;
@@ -213,11 +216,13 @@ public class Renderer {
     }
   }
 
-  /** Returns a psuedo random variation of the free texture, based on the coordinates */
+  /**
+   * Returns a psuedo random variation of the free texture, based on the coordinates.
+   */
   private static BufferedImage getFree(int x, int y) {
     // helps to break up the monotony of the texture
     // uses modulo so it doesn't flicker
-    switch ((x+2*y)%4){
+    switch ((x + 2 * y) % 4) {
       case 1:
       default:
         return free;
