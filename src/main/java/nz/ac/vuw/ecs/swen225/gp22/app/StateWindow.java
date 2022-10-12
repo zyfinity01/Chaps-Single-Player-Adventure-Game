@@ -90,7 +90,7 @@ public class StateWindow extends JPanel {
 
     inventoryPanel = new JPanel();
     inventoryPanel.setLayout(new GridLayout(0, 4));
-    inventoryPanel.setBorder(BorderFactory.createEmptyBorder(2,2,2,2));
+    inventoryPanel.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
     
     for (int i = 0; i < maxInventorySpace; i++) {
       var icon = new JLabel();
