@@ -1,7 +1,9 @@
 package nz.ac.vuw.ecs.swen225.gp22.persistency;
 
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import javax.xml.parsers.DocumentBuilder;
@@ -38,7 +40,6 @@ public class Persistency {
    *
    * @param maze maze to save.
    * @param fileName file to save to.
-   * @throws IOException if file cannot be written to.
    */
   public static void saveGame(String fileName, Maze maze) {
     Element root = new Element("Game");
@@ -113,9 +114,11 @@ public class Persistency {
     chapElement.addContent(new Element("y").setText(String.valueOf(maze.getChapPosition().y())));
     //save document to XML file
     try {
+      FileOutputStream fileStream = new FileOutputStream("src/levels/" + fileName);
+      OutputStreamWriter writer = new OutputStreamWriter(fileStream, StandardCharsets.UTF_8);
       XMLOutputter xmlOutput = new XMLOutputter();
       xmlOutput.setFormat(Format.getPrettyFormat());
-      xmlOutput.output(doc, new FileWriter("src/levels/" + fileName));
+      xmlOutput.output(doc, writer);
     } catch (IOException e) {
       e.printStackTrace();
     }
