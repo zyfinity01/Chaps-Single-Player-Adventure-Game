@@ -254,7 +254,7 @@ public class Renderer {
     // Recenter the map around the player
     Position position = maze.getChapPosition();
     int offsetX = (int) (position.x() * tileWidth * -1 + (windowWidth * 0.5));
-    int offsetY = (int) (position.y() * tileWidth * -1 + (windowWidth * 0.5));
+    int offsetY = (int) (position.y() * tileWidth * -1 + (windowWidth * 0.5) + 60);
     image.translate(offsetX, offsetY);
 
     for (int x = -20; x < maze.getCols() + 20; x++) {
