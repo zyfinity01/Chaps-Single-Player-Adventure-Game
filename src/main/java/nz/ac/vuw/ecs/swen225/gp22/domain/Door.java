@@ -1,6 +1,7 @@
 package nz.ac.vuw.ecs.swen225.gp22.domain;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 /**
  * The door tile. Requires a key.
@@ -10,19 +11,8 @@ import java.util.List;
 public record Door(Color color) implements Tile {
   @Override
   public boolean canInteractWithPlayer(Tile[][] tiles, List<Tile> inventory) {
-    /*
-     * return Stream.of(tiles)
-      .flatMap(Stream::of)
-      .filter(Key.class::isInstance)
-      .map(Key.class::cast)
-      .anyMatch(x -> x.color() == color());
-     */
-
     // check player has the matching key
-    return inventory.stream()
-      .filter(Key.class::isInstance)
-      .map(Key.class::cast)
-      .anyMatch(x -> x.color() == color());
+    return getMatchingInventoryKeys(inventory).findAny().isPresent();
   }
 
   @Override
@@ -33,10 +23,27 @@ public record Door(Color color) implements Tile {
 
     // remove the door
     tiles[position.y()][position.x()] = null;
+
+    // remove the 1st matching key from inventory
+    var key = getMatchingInventoryKeys(inventory).findFirst().get();
+    inventory.remove(key);
   }
 
   @Override
   public void tick(Tile[][] tiles, Position position) {
     // nothing to do on tick
+  }
+
+  /**
+   * Finds all matching keys in the inventory.
+   *
+   * @param inventory player inventory.
+   * @return matching player inventory keys.
+   */
+  private Stream<Key> getMatchingInventoryKeys(List<Tile> inventory) {
+    return inventory.stream()
+      .filter(Key.class::isInstance)
+      .map(Key.class::cast)
+      .filter(x -> x.color() == color());
   }
 }
