@@ -4,12 +4,18 @@ import nz.ac.vuw.ecs.swen225.gp22.domain.*;
 import nz.ac.vuw.ecs.swen225.gp22.persistency.Persistency;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
+
 
 /**
  * @author  Niraj Gandhi, 300564849.
  */
 
 public class PersistencyTest {
+//    @Test
+//    public void test1() {
+//        Persistency.saveGame("test5.xml", Persistency.loadGame("level1.xml", 17, 17));
+//    }
 //    @Test
 //    public void test1() {
 //        Tile[][] board = new Tile[10][10];
