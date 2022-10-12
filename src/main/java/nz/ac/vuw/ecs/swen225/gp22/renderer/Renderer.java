@@ -304,13 +304,20 @@ public class Renderer {
    * Used for the inventory.
    */
   public static BufferedImage getTileImage(Tile tile) {
+    BufferedImage image;
     if (tile instanceof Chap) {
-      return chapDown;
+      image = chapDown;
     }
     if (tile instanceof Wall) {
-      return wall;
+      image = wall;
     }
-    return image(tile, 0, 0);
+    image = image(tile, 0, 0);
+    // Need to copy it to prevent mutable object errors
+    var copy = new BufferedImage(image.getWidth(), image.getHeight(), image.getType());
+    var graphics = copy.getGraphics();
+    graphics.drawImage(image, 0, 0, null);
+    graphics.dispose();
+    return copy;
   }
 
 }
