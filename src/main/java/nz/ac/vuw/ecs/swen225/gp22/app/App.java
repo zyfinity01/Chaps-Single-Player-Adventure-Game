@@ -29,16 +29,14 @@ public class App extends JFrame implements WindowActions {
    */
   private Maze maze;
 
-
   /**
    * Create the frame.
    */
-  public App() {
+  public App(boolean useStartScreen) {
     // Window Settings
     setTitle("Chaps Challenge");
     setResizable(false);
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    //setBounds(100, 100, 1270, 720);
 
     // Menu bar
     setJMenuBar(new MenuBar(this));
@@ -47,8 +45,13 @@ public class App extends JFrame implements WindowActions {
     keyController = new KeyController(this);
     addKeyListener(keyController);
 
-    // Load level
-    startLevel(1);
+    if (useStartScreen) {
+      // Start Screen
+      setContentPane(new StartPanel(this));
+    } else {
+      // Game Screen
+      startLevel(1);
+    }
 
     // Display window
     pack();
@@ -64,17 +67,17 @@ public class App extends JFrame implements WindowActions {
 
   @Override
   public void pause() {
-    gamePanel.pause();
+    gamePanel.setPause(true);
   }
 
   @Override
   public void unpause() {
-    gamePanel.unpause();
+    gamePanel.setPause(false);
   }
 
   @Override
   public void togglePause() {
-    gamePanel.togglePause();
+    gamePanel.setPause(!gamePanel.isPaused());
   }
 
   @Override
@@ -110,6 +113,8 @@ public class App extends JFrame implements WindowActions {
     gamePanel = new GamePanel(maze);
     setContentPane(gamePanel);
     gamePanel.startLevel(level);
+
+    pack(); // resize to fit new content
   }
 
 }

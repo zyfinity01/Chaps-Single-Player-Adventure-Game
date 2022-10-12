@@ -31,7 +31,7 @@ public class FuzzTest {
    */
   @BeforeEach
   void setUp() {
-    app = new App();
+    app = new App(false);
   }
 
   /**
