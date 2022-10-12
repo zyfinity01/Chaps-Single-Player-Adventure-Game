@@ -1,0 +1,22 @@
+Index: .gitignore
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+># Marven directories\r\ntarget/*\r\nbin/\r\n\r\n# ==============\r\n# InteliJ IDE\r\n# ==============\r\n.idea/*\r\nout/\r\n\r\n# ==============\r\n# Eclipse IDE\r\n# ==============\r\n.checkstyle\r\n.classpath\r\n.metadata\r\ntmp/\r\n*.tmp\r\n*.bak\r\n*.swp\r\n*~.nib\r\nlocal.properties\r\n.settings/\r\n.loadpath\r\n.recommenders\r\n\r\n# External tool builders\r\n.externalToolBuilders/\r\n\r\n# Locally stored \"Eclipse launch configurations\"\r\n*.launch\r\n\r\n# Java annotation processor (APT)\r\n.factorypath\r\n\r\n# sbteclipse plugin\r\n.target\r\n\r\n# Tern plugin\r\n.tern-project\r\n\r\n# TeXlipse plugin\r\n.texlipse\r\n\r\n# STS (Spring Tool Suite)\r\n.springBeans\r\n\r\n# Code Recommenders\r\n.recommenders/\r\n\r\n# Annotation Processing\r\n.apt_generated/\r\n.apt_generated_test/\r\n\r\n# Scala IDE specific (Scala & Java development for Eclipse)\r\n.cache-main\r\n.scala_dependencies\r\n.worksheet\r\n\r\n# Typically, this file would be tracked if it contains build/dependency configurations\r\n.project\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.gitignore b/.gitignore
+--- a/.gitignore	(revision eb27e4f4a8852a65156eb53d69e8a76ed7d72989)
++++ b/.gitignore	(date 1663288445494)
+@@ -2,6 +2,11 @@
+ target/*
+ bin/
+ 
++# ==============
++# VSCode
++# ==============
++.vscode/*
++
+ # ==============
+ # InteliJ IDE
+ # ==============

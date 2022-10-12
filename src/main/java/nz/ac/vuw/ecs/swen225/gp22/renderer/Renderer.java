@@ -42,7 +42,10 @@ public class Renderer {
   static int tileWidth = 40;
 
   // Cached tiles
-  static BufferedImage free = null;
+  static BufferedImage free;
+  static BufferedImage free_2;
+  static BufferedImage free_3;
+  static BufferedImage free_4;
   static BufferedImage wall;
   static BufferedImage wall_2;
   static BufferedImage wall_3;
@@ -79,7 +82,10 @@ public class Renderer {
   static {
     try {
       String s = Paths.get("").toAbsolutePath().toString();
-      // free = ImageIO.read(new File("images//free.png"));
+       free = ImageIO.read(new File("resources//images//free.png"));
+      free_2 = ImageIO.read(new File("resources//images//free_2.png"));
+      free_3 = ImageIO.read(new File("resources//images//free_3.png"));
+      free_4 = ImageIO.read(new File("resources//images//free_4.png"));
       wall = ImageIO.read(new File("resources//images//wall.png"));
       wall_2 = ImageIO.read(new File("resources//images//wall_2.png"));
       wall_3 = ImageIO.read(new File("resources//images//wall_3.png"));
@@ -187,7 +193,7 @@ public class Renderer {
           return tractor_right;
       }
     }
-    return free;        // instanceof null || fallback
+    return getFree(x,y);        // instanceof null || fallback
   }
 
   /** Returns a psuedo random variation of the wall texture, based on the coordinates */
@@ -204,6 +210,23 @@ public class Renderer {
         return wall_3;
       case 0:
         return wall_4;
+    }
+  }
+
+  /** Returns a psuedo random variation of the free texture, based on the coordinates */
+  private static BufferedImage getFree(int x, int y) {
+    // helps to break up the monotony of the texture
+    // uses modulo so it doesn't flicker
+    switch ((x+2*y)%4){
+      case 1:
+      default:
+        return free;
+      case 2:
+        return free_2;
+      case 3:
+        return free_3;
+      case 0:
+        return free_4;
     }
   }
 
@@ -246,6 +269,7 @@ public class Renderer {
         if (x < 0 || x >= maze.getCols() || y < 0 || y >= maze.getRows()) {
           image.drawImage(getWall(x, y), null, x * tileWidth, y * tileWidth);
         } else {
+          image.drawImage(getFree(x, y), null, x * tileWidth, y * tileWidth);
           image.drawImage(image(maze.getTiles()[y][x], x, y), null, x * tileWidth, y * tileWidth);
         }
       }
