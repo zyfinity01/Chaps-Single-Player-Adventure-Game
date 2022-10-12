@@ -188,7 +188,7 @@ public class Maze {
   public void moveChap(Direction direction) {
     // double check we can move there
     if (!canMoveChap(direction)) {
-      throw new IllegalStateException("Cannot move chap in that direction");
+      throw new IllegalArgumentException("Cannot move chap in that direction");
     }
 
     // move chap to the target
@@ -197,9 +197,8 @@ public class Maze {
       chapPosition.x() + direction.getX(),
       chapPosition.y() + direction.getY());
 
-    // record counts to later validate state
-    var keyCount1 = getCountOfTotalTiles(Key.class);
-    var treasureCount1 = getCountOfTotalTiles(Treasure.class);
+    // record count to later validate state
+    var treasureCount = getCountOfTotalTiles(Treasure.class);
 
     // now iteract with the tile we moved to
     var tile = tiles[chapPosition.y()][chapPosition.x()];
@@ -207,13 +206,8 @@ public class Maze {
       tile.interactWithPlayer(tiles, inventory, chapPosition);
     }
 
-    // then reaffirm the tile counts
-    var keyCount2 = getCountOfTotalTiles(Key.class);
-    var treasureCount2 = getCountOfTotalTiles(Treasure.class);
-
-    if (keyCount1 != keyCount2 || treasureCount1 != treasureCount2) {
-      throw new IllegalStateException("The key or treasure count has changed");
-    }
+    // then reaffirm the tile count
+    assert treasureCount == getCountOfTotalTiles(Treasure.class);
   }
 
   /**
@@ -294,29 +288,29 @@ public class Maze {
   private void verifyMazeSetup(Tile[][] tiles, int rows,
       int cols, List<Tile> inventory, int timeLeft) {
     if (tiles == null) {
-      throw new IllegalArgumentException("Tiles cannot be null");
+      throw new IllegalStateException("Tiles cannot be null");
     }
 
     if (inventory == null) {
-      throw new IllegalArgumentException("Inventory cannot be null");
+      throw new IllegalStateException("Inventory cannot be null");
     }
 
     if (tiles.length != rows) {
-      throw new IllegalArgumentException("Rows don't match maze");
+      throw new IllegalStateException("Rows don't match maze");
     }
 
     if (rows <= 0 || cols <= 0) {
-      throw new IllegalArgumentException("Must have positive rows and cols");
+      throw new IllegalStateException("Must have positive rows and cols");
     }
 
     for (int i = 0; i < tiles.length; i++) {
       if (tiles[i].length != cols) {
-        throw new IllegalArgumentException("Cols don't match maze");
+        throw new IllegalStateException("Cols don't match maze");
       }
     }
 
     if (timeLeft <= 0) {
-      throw new IllegalArgumentException("Time left must be greater than 0");
+      throw new IllegalStateException("Time left must be greater than 0");
     }
   }
 
