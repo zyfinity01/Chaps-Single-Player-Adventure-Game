@@ -3,6 +3,7 @@ package nz.ac.vuw.ecs.swen225.gp22.renderer;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontFormatException;
+import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GraphicsEnvironment;
 import java.awt.image.BufferedImage;
@@ -245,6 +246,28 @@ public class Renderer {
   }
 
   /**
+   * draws the given text at the given location in the bob the builder style
+   */
+  private static void drawText(Graphics2D image, int x, int y, String text) {
+    // Draw a rectangle
+    image.setColor(new Color(255, 202, 2));
+    image.fillRect((x - 3) * tileWidth,
+        y * tileWidth, 7 * tileWidth, 3 * tileWidth);
+
+    // Draw the text
+    image.setFont(bobFont);
+    image.setColor(new Color(7, 0, 45));
+
+    int textY = y * tileWidth + 25;
+    String[] lines = text.split("\n");   // Drawstring doesn't handle newlines on its own
+
+    for (String line : lines) {
+      image.drawString(line, (x - 3) * tileWidth + 5, textY);
+      textY += 25;
+    }
+  }
+
+  /**
    * Renders the maze.
    *
    * @param maze  maze to render.
@@ -272,22 +295,7 @@ public class Renderer {
     // Display info if chap is on an info tile
     if (maze.getTiles()[maze.getChapPosition().y()][maze.getChapPosition()
         .x()] instanceof Info tile) {
-      // Draw a rectangle
-      image.setColor(new Color(255, 202, 2));
-      image.fillRect((maze.getChapPosition().x() - 3) * tileWidth,
-          maze.getChapPosition().y() * tileWidth, 7 * tileWidth, 3 * tileWidth);
-
-      // Draw the text
-      image.setFont(bobFont);
-      image.setColor(new Color(7, 0, 45));
-
-      int y = maze.getChapPosition().y() * tileWidth + 25;
-      String[] lines = tile.text().split("\n");   // Drawstring doesn't handle newlines on its own
-
-      for (String line : lines) {
-        image.drawString(line, (maze.getChapPosition().x() - 3) * tileWidth + 5, y);
-        y += 25;
-      }
+      drawText(image, maze.getChapPosition().x(), maze.getChapPosition().y(), tile.text());
     } else {    // otherwise just draw chap
       image.drawImage(chap(maze), null, maze.getChapPosition().x() * tileWidth,
           maze.getChapPosition().y() * tileWidth);
