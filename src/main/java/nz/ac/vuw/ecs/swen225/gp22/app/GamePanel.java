@@ -1,16 +1,20 @@
 package nz.ac.vuw.ecs.swen225.gp22.app;
 
-import javax.swing.JPanel;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Key;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Maze;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Treasure;
-import nz.ac.vuw.ecs.swen225.gp22.persistency.Persistency;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
+/**
+ * Game logic panel.
+ *
+ * @author Sam Redmond, 300443508
+ */
 public class GamePanel extends JPanel {
 
   /**
@@ -18,8 +22,14 @@ public class GamePanel extends JPanel {
    */
   private static final int TICK_RATE = 100;
 
+  /**
+   * Panel displaying game stats and inventory.
+   */
   private StatePanel statsPanel;
 
+  /**
+   * Panel displaying the game screen.
+   */
   private GameCanvas gameCanvas;
 
   /**
@@ -37,6 +47,11 @@ public class GamePanel extends JPanel {
    */
   private boolean isPaused;
 
+  /**
+   * Create the panel.
+   *
+   * @param maze Game maze
+   */
   public GamePanel(Maze maze) {
     this.maze = maze;
 
@@ -61,7 +76,7 @@ public class GamePanel extends JPanel {
     }).start();
   }
 
-    /**
+  /**
    * Update each tick.
    */
   private void gameLoop() {
@@ -87,7 +102,6 @@ public class GamePanel extends JPanel {
   }
 
   public void startLevel(int level) {
-    //isPaused = false;
     statsPanel.setLevel(level);
   }
 
@@ -95,16 +109,8 @@ public class GamePanel extends JPanel {
     return isPaused;
   }
 
-  public void pause() {
-    isPaused = true;
-  }
-
-  public void unpause() {
-    isPaused = false;
-  }
-  
-  public void togglePause() {
-    isPaused = !isPaused;
+  public void setPause(boolean isPaused) {
+    this.isPaused = isPaused;
   }
 
 }
