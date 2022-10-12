@@ -9,7 +9,6 @@ import java.awt.GraphicsEnvironment;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Paths;
 import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -210,6 +209,7 @@ public class Renderer {
   }
 
   /**
+<<<<<<< src/main/java/nz/ac/vuw/ecs/swen225/gp22/renderer/Renderer.java
    * Returns a psuedo random variation of the free texture, based on the coordinates.
    */
   private static BufferedImage getFree(int x, int y) {

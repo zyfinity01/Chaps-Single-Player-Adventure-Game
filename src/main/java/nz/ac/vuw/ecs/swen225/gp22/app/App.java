@@ -126,6 +126,7 @@ public class App extends JFrame implements WindowActions {
       stats.setTime(maze.getTimeLeft());
       stats.setChipsLeft(maze.getCountOfMazeTiles(Treasure.class));
       stats.setKeysLeft(maze.getCountOfMazeTiles(Key.class));
+      stats.setInventory(maze.getInventory());
     }
     
     // redraw canvas
