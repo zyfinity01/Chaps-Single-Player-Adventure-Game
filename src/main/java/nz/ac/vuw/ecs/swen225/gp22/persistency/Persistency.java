@@ -39,21 +39,21 @@ public class Persistency {
    * @param fileName file to save to.
    * @throws IOException if file cannot be written to.
    */
-  public void saveGame(String fileName, Maze maze) {
+  public static void saveGame(String fileName, Maze maze) {
     Element root = new Element("Game");
     Document doc = new Document(root);
     Element timeElement = new Element("time");
-    Element livesElement = new Element("lives");
+    //Element livesElement = new Element("lives");
     Element inventoryElement = new Element("inventory");
     Element boardElement = new Element("board");
 
     root.addContent(timeElement);
     root.addContent(inventoryElement);
-    root.addContent(livesElement);
+    //root.addContent(livesElement);
     root.addContent(boardElement);
 
     timeElement.setText(Integer.toString(maze.getTimeLeft()));
-    livesElement.setText(Integer.toString(maze.getLivesLeft()));
+    //livesElement.setText(Integer.toString(maze.getLivesLeft()));
 
     for(Tile tile : maze.getInventory()) {
       String tileType = tile.getClass().getSimpleName().toUpperCase();
@@ -66,44 +66,58 @@ public class Persistency {
       }
       inventoryElement.addContent(tileElement);
     }
-    Element tiles = new Element("tiles");
-    Tile[][] board = maze.getTiles();
+    Tile[][] board2 = maze.getTiles();
     for (int row = 0; row < maze.getRows(); row++) {
-      for (int col = 0; col < maze.getCols(); col++){
-        Tile tile = board[row][col];
-        if(tile == null) continue;
-        String tileType = board[row][col].getClass().getSimpleName().toUpperCase();
-        Element tileElement = new Element(tileType);
-        tileElement.addContent(new Element("x").setText(Integer.toString(col)));
-        tileElement.addContent(new Element("y").setText(Integer.toString(row)));
-        switch (tileType){
-          case "DOOR" -> tileElement.addContent(new Element("color").setText(((Door) tile).color().toString()));
-          case "KEY" -> tileElement.addContent(new Element("color").setText(((Key) tile).color().toString()));
-          case "INFO" -> tileElement.addContent(new Element("text").setText(((Key) tile).color().toString()));
+      for (int col = 0; col < maze.getCols(); col++) {
+        if(board2[row][col] != null){
+          System.out.println(board2[row][col].getClass().getSimpleName().toUpperCase());
         }
       }
-      tiles.addContent(timeElement);
-      boardElement.addContent(tiles);
-      //save document to XML file
-      try {
-        XMLOutputter xmlOutput = new XMLOutputter();
-        xmlOutput.setFormat(Format.getPrettyFormat());
-        xmlOutput.output(doc, new FileWriter("src/levels/" + fileName));
-      } catch (IOException e) {
-        e.printStackTrace();
+    }
+
+    Element tiles = new Element("tiles");
+    boardElement.addContent(tiles);
+    Tile[][] board = maze.getTiles();
+    for (int row = 0; row < maze.getRows(); row++) {
+      for (int col = 0; col < maze.getCols(); col++) {
+        Tile tile = board[row][col];
+        if (tile == null) continue;
+        String tileType = tile.getClass().getSimpleName().toUpperCase();
+        Element tileElement = new Element(tileType);
+        tiles.addContent(tileElement);
+        tileElement.addContent(new Element("x").setText(Integer.toString(col)));
+        tileElement.addContent(new Element("y").setText(Integer.toString(row)));
+        switch (tileType) {
+          case "DOOR" -> tileElement.addContent(new Element("color").setText(((Door) tile).color().toString()));
+          case "KEY" -> tileElement.addContent(new Element("color").setText(((Key) tile).color().toString()));
+          case "INFO" -> tileElement.addContent(new Element("text").setText(((Info) tile).text()));
+        }
       }
+    }
+    Element chapElement = new Element("CHAP");
+    tiles.addContent(chapElement);
+    chapElement.addContent(new Element("x").setText(String.valueOf(maze.getChapPosition().x())));
+    chapElement.addContent(new Element("y").setText(String.valueOf(maze.getChapPosition().y())));
+    //save document to XML file
+    try {
+      XMLOutputter xmlOutput = new XMLOutputter();
+      xmlOutput.setFormat(Format.getPrettyFormat());
+      xmlOutput.output(doc, new FileWriter("src/levels/" + fileName));
+    } catch (IOException e) {
+      e.printStackTrace();
     }
   }
 
-    /**
-     * Load a maze from a file.
-     *
-     * @param fileName file to load from.
-     * @return loaded maze.
-     * @throws IOException if file cannot be read from.
-     * @throws ParserConfigurationException if XML parser cannot be configured.
-     * @throws SAXException if XML cannot be parsed.
-     */
+
+  /**
+   * Load a maze from a file.
+   *
+   * @param fileName file to load from.
+   * @return loaded maze.
+   * @throws IOException if file cannot be read from.
+   * @throws ParserConfigurationException if XML parser cannot be configured.
+   * @throws SAXException if XML cannot be parsed.
+   */
   public static Maze loadGame(String fileName, int boardCols, int boardRows) {
     Tile[][] board = new Tile[boardRows][boardCols];
     //read XML file
