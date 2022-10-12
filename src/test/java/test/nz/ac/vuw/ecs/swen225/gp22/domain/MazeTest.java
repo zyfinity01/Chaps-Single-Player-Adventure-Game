@@ -65,7 +65,7 @@ public class MazeTest {
   @Test
   public void cannotConstructNullMaze() {
     var exception = Assertions.assertThrows(
-      IllegalArgumentException.class, () -> {
+      IllegalStateException.class, () -> {
       new Maze(null, 1, 2, null, 1);
     });
 
@@ -111,7 +111,7 @@ public class MazeTest {
     assertFalse(maze.canMoveChap(Direction.Up));
 
     var exception = Assertions.assertThrows(
-      IllegalStateException.class, () -> {
+      IllegalArgumentException.class, () -> {
       maze.moveChap(Direction.Up);
     });
 
@@ -161,7 +161,7 @@ public class MazeTest {
     maze.moveChap(Direction.Down);
 
     assertTrue(maze.getTilesOfType(Door.class).size() == 0);
-    assertTrue(maze.getInventory().size() == 1);
+    assertTrue(maze.getInventory().size() == 0);
   }
 
   @Test
@@ -175,7 +175,7 @@ public class MazeTest {
     assertFalse(maze.canMoveChap(Direction.Down));
 
     var exception = Assertions.assertThrows(
-      IllegalStateException.class, () -> {
+      IllegalArgumentException.class, () -> {
       maze.moveChap(Direction.Down);
     });
 
@@ -230,7 +230,7 @@ public class MazeTest {
     assertFalse(maze.canMoveChap(Direction.Down));
 
     var exception = Assertions.assertThrows(
-      IllegalStateException.class, () -> {
+      IllegalArgumentException.class, () -> {
       maze.moveChap(Direction.Down);
     });
 
