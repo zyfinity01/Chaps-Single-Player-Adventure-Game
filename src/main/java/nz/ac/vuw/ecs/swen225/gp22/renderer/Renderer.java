@@ -301,5 +301,12 @@ public class Renderer {
           maze.getChapPosition().y() * tileWidth);
     }
   }
+
+  public static BufferedImage getTileImage(Tile tile) {
+    if (tile instanceof chap) return chapDown;
+    if (tile instanceof Wall) return wall;
+    return image(tile, 0, 0);
+  }
+
 }
 
