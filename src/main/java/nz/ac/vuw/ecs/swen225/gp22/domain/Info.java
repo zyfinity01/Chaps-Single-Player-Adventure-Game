@@ -1,5 +1,6 @@
 package nz.ac.vuw.ecs.swen225.gp22.domain;
 
+import java.awt.image.BufferedImage;
 import java.util.List;
 
 /**
@@ -8,6 +9,12 @@ import java.util.List;
  * @author Jonty Morris, 300563915.
  */
 public record Info(String text) implements Tile {
+  @Override
+  public BufferedImage getCustomImage() {
+    // not used by renderer
+    return null;
+  }
+
   @Override
   public boolean canInteractWithPlayer(Tile[][] tiles, List<Tile> inventory) {
     // can always stand on info

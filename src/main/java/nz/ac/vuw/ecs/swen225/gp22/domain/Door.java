@@ -1,5 +1,6 @@
 package nz.ac.vuw.ecs.swen225.gp22.domain;
 
+import java.awt.image.BufferedImage;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -9,6 +10,12 @@ import java.util.stream.Stream;
  * @author Jonty Morris, 300563915.
  */
 public record Door(Color color) implements Tile {
+  @Override
+  public BufferedImage getCustomImage() {
+    // not used by renderer
+    return null;
+  }
+  
   @Override
   public boolean canInteractWithPlayer(Tile[][] tiles, List<Tile> inventory) {
     // check player has the matching key
