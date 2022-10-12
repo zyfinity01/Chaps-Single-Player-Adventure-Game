@@ -40,7 +40,7 @@ public class GamePanel extends JPanel {
   /**
    * Game maze.
    */
-  private Maze maze;
+  public Maze maze;
 
   /**
    * Game is paused.
