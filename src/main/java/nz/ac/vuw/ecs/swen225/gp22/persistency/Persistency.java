@@ -2,7 +2,8 @@ package nz.ac.vuw.ecs.swen225.gp22.persistency;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -55,7 +56,7 @@ public class Persistency {
     timeElement.setText(Integer.toString(maze.getTimeLeft()));
     //livesElement.setText(Integer.toString(maze.getLivesLeft()));
 
-    for(Tile tile : maze.getInventory()) {
+    for (Tile tile : maze.getInventory()) {
       String tileType = tile.getClass().getSimpleName().toUpperCase();
       Element tileElement = new Element(tileType);
       switch (tileType) {
@@ -63,13 +64,15 @@ public class Persistency {
           Element tileColorElement = new Element("color");
           tileElement.addContent(tileColorElement.setText(((Key) tile).color().toString()));
         }
+        default -> {
+        }
       }
       inventoryElement.addContent(tileElement);
     }
     Tile[][] board2 = maze.getTiles();
     for (int row = 0; row < maze.getRows(); row++) {
       for (int col = 0; col < maze.getCols(); col++) {
-        if(board2[row][col] != null){
+        if (board2[row][col] != null) {
           System.out.println(board2[row][col].getClass().getSimpleName().toUpperCase());
         }
       }
@@ -81,16 +84,26 @@ public class Persistency {
     for (int row = 0; row < maze.getRows(); row++) {
       for (int col = 0; col < maze.getCols(); col++) {
         Tile tile = board[row][col];
-        if (tile == null) continue;
+        if (tile == null) {
+          continue;
+        }
         String tileType = tile.getClass().getSimpleName().toUpperCase();
         Element tileElement = new Element(tileType);
         tiles.addContent(tileElement);
         tileElement.addContent(new Element("x").setText(Integer.toString(col)));
         tileElement.addContent(new Element("y").setText(Integer.toString(row)));
         switch (tileType) {
-          case "DOOR" -> tileElement.addContent(new Element("color").setText(((Door) tile).color().toString()));
-          case "KEY" -> tileElement.addContent(new Element("color").setText(((Key) tile).color().toString()));
-          case "INFO" -> tileElement.addContent(new Element("text").setText(((Info) tile).text()));
+          case "DOOR" -> tileElement
+                  .addContent(new Element("color")
+                          .setText(((Door) tile).color().toString()));
+          case "KEY" -> tileElement
+                  .addContent(new Element("color")
+                          .setText(((Key) tile).color().toString()));
+          case "INFO" -> tileElement
+                  .addContent(new Element("text")
+                          .setText(((Info) tile).text()));
+          default -> {
+          }
         }
       }
     }
@@ -127,15 +140,10 @@ public class Persistency {
     for (Element element : doc.getRootElement().getChildren()) {
       //System.out.println(element.getName() + " " + element.getText());
       switch (element.getName()) {
-        //TODO
-        case "time":
-          timeLeft = Integer.parseInt(element.getValue());
-          break;
-        case "lives":
-          break;
-        case "inventory":
+        case "time" -> timeLeft = Integer.parseInt(element.getValue());
+        case "inventory" -> {
           List<Element> inventoryElements = element.getChildren();
-          for(Element item : inventoryElements){
+          for (Element item : inventoryElements) {
             switch (item.getName()) {
               case "KEY" -> inventory.add(new Key(Color.valueOf(item.getChildText("color"))));
               case "TREASURE" -> inventory.add(new Treasure());
@@ -143,8 +151,8 @@ public class Persistency {
               }
             }
           }
-          break;
-        case "board":
+        }
+        case "board" -> {
           List<Element> boardElements = element.getChildren();
           for (Element item : boardElements) {
             if (item.getName().equals("tiles")) {
@@ -180,9 +188,9 @@ public class Persistency {
               break;
             }
           }
-          break;
-        default:
-          break;
+        }
+        default -> {
+        }
       }
     }
     return new Maze(board, boardRows, boardCols, inventory, timeLeft);
