@@ -262,7 +262,7 @@ public class Renderer {
     String[] lines = text.split("\n");   // Drawstring doesn't handle newlines on its own
 
     for (String line : lines) {
-      image.drawString(line, (x - 3) * tileWidth + 5, textY);
+      image.drawString(line.strip(), (x - 3) * tileWidth + 5, textY);
       textY += 25;
     }
   }
