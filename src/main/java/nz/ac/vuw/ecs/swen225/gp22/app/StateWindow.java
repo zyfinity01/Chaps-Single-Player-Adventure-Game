@@ -1,9 +1,11 @@
 package nz.ac.vuw.ecs.swen225.gp22.app;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -20,7 +22,7 @@ public class StateWindow extends JPanel {
   /**
    * Max number of items that can be in inventory.
    */
-  private static final int maxInventorySpace = 8;
+  private static final int maxInventorySpace = 20;
 
   /**
    * The games current level.
@@ -84,11 +86,15 @@ public class StateWindow extends JPanel {
 
     add(statsPanel);
 
+    inventoryIcons = new ArrayList<>();
+
     inventoryPanel = new JPanel();
     inventoryPanel.setLayout(new GridLayout(0, 4));
-    inventoryIcons = new ArrayList<>();
+    inventoryPanel.setBorder(BorderFactory.createEmptyBorder(2,2,2,2));
+    
     for (int i = 0; i < maxInventorySpace; i++) {
       var icon = new JLabel();
+      icon.setBorder(BorderFactory.createLineBorder(Color.BLACK));
       icon.setPreferredSize(new Dimension(50, 50));
       inventoryIcons.add(icon);
       inventoryPanel.add(icon);
@@ -140,9 +146,9 @@ public class StateWindow extends JPanel {
    * @param inventory inventory to display
    */
   public void setInventory(List<Tile> inventory) {
-    for (int i = 0; i < inventory.size(); i++) {
-      var tile = inventory.get(i);
+    for (int i = 0; i < maxInventorySpace; i++) {
       var icon = inventoryIcons.get(i);
+      var tile = i < inventory.size() ? inventory.get(i) : null;
       if (tile != null) {
         icon.setIcon(new ImageIcon(Renderer.getTileImage(tile)));
       } else {
