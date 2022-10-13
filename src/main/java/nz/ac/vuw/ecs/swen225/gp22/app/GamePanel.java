@@ -113,4 +113,11 @@ public class GamePanel extends JPanel {
     this.isPaused = isPaused;
   }
 
+  /**
+   * Gets current tick
+   */
+  public int getTick(){
+    return tick;
+  }
+
 }

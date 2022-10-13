@@ -1,34 +1,51 @@
 package nz.ac.vuw.ecs.swen225.gp22.recorder;
 
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
 import org.jdom2.Document;
 import org.jdom2.Element;
+import org.jdom2.input.DOMBuilder;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
+import org.xml.sax.SAXException;
+
+import nz.ac.vuw.ecs.swen225.gp22.app.GamePanel;
 
 /**
    * Recorder object saves, stores and exports all movements made by users and players.
    * $ @author Shae West, 300565911
  */
 public class Recorder {
-  private ArrayList<Integer> playerMovements;
-  private ArrayList<Integer> enemyMovements;
+  private ArrayList<String> playerMovements;
+  private ArrayList<String> enemyMovements;
+  private GamePanel gamePanel;
   private int levelNumber;
+  private HashMap<Integer, Integer> replayedPlayerMovements;
+  private HashMap<Integer, Integer> replayedEnemyMovements;
+
   /**
    * Creates an Recorder,
    * If recordingName matches any current .XML files, load Recording from file.
    * Else, create a new empty Recorder object to be saved at a later date.
    * $ @param levelNumber Determines if enemy movements are saved && what file they are saved to.
+   * $ @param gamePanel Game's gamePanel to access current tick. 
    */
   
-  public Recorder(int levelNumber) {
+  public Recorder(int levelNumber, GamePanel gamePanel) {
     this.playerMovements = new ArrayList<>();
     this.enemyMovements = new ArrayList<>();
     this.levelNumber = levelNumber;
+    this.gamePanel = gamePanel;
   }
 
   /**
@@ -41,8 +58,9 @@ public class Recorder {
     if (!validKeys.contains(keyCode)) {
       return;
     }
-    this.playerMovements.add(keyCode);
+    this.playerMovements.add(keyCode + ":" + this.gamePanel.getTick());
     this.saveToXml();
+    loadToXml(1);
   }
 
   /**
@@ -54,13 +72,13 @@ public class Recorder {
     Element playerMovements = new Element("PlayerMovements");
     Element enemyMovements = new Element("EnemyMovements");
 
-    for (Integer movement : this.playerMovements) {
+    for (String movement : this.playerMovements) {
       playerMovements.addContent(new Element("movement").setText(movement.toString()));
     }
     root.addContent(playerMovements);
 
     if (this.levelNumber == 2) {
-      for (Integer movement : this.enemyMovements) {
+      for (String movement : this.enemyMovements) {
         enemyMovements.addContent(new Element(movement.toString()));
       }
       root.addContent(enemyMovements);
@@ -82,4 +100,39 @@ public class Recorder {
     //this.playerMovements = new ArrayList<>();
     //this.enemyMovements = new ArrayList<>();
   }
+
+  /**
+   * Loads all movements based off level number
+   * 
+   * $ @param level Determines which moves' file to load
+   */
+  private void loadToXml(int level){
+    Document doc = null;
+    try {
+      DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+      DocumentBuilder documentBuilder = factory.newDocumentBuilder();
+      org.w3c.dom.Document w3cDocument = documentBuilder.parse("moves_level_" + level + ".xml");
+      doc = new DOMBuilder().build(w3cDocument);
+    } catch (IOException | SAXException | ParserConfigurationException e) {
+      e.printStackTrace();
+    }
+    Element playerMovementsElement =  doc.getRootElement().getChild("PlayerMovements");
+    for(Element element : playerMovementsElement.getChildren()){
+      String[] split = element.getValue().split(":");
+      int keycode = Integer.valueOf(split[0]);
+      int tick = Integer.valueOf(split[1]);
+      this.replayedPlayerMovements.put(tick, keycode);
+    }
+
+    if(level == 2){
+      Element enemyMovementsElement = doc.getRootElement().getChild("EnemyMovements");
+      for(Element element : enemyMovementsElement.getChildren()){
+        String[] split = element.getValue().split(":");
+        int keycode = Integer.valueOf(split[0]);
+        int tick = Integer.valueOf(split[1]);
+        this.replayedEnemyMovements.put(tick, keycode);
+      }
+    }
+  }
+
 }

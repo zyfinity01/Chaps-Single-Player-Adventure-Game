@@ -108,11 +108,12 @@ public class App extends JFrame implements WindowActions {
   @Override
   public void startLevel(int level) {
     maze = Persistency.loadGame("level" + level + ".xml", 17, 17);
-    keyController.setRecorder(new Recorder(level));
 
     gamePanel = new GamePanel(maze);
     setContentPane(gamePanel);
     gamePanel.startLevel(level);
+
+    keyController.setRecorder(new Recorder(level, this.gamePanel));
 
     pack(); // resize to fit new content
   }

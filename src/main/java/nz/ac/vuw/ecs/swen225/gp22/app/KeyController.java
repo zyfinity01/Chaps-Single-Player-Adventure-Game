@@ -46,6 +46,9 @@ public class KeyController implements KeyListener {
    * @param event key event from the keyboard.
    */
   public void handle(KeyEvent event) {
+    if (this.recorder != null) {
+      this.recorder.savePlayerMovement(event.getKeyCode());
+    }
     switch (event.getKeyCode()) {
       // UP
       case KeyEvent.VK_UP -> actions.move(Direction.Up);
@@ -96,9 +99,6 @@ public class KeyController implements KeyListener {
   @Override
   public void keyPressed(KeyEvent event) {
     handle(event);
-    if (this.recorder != null) {
-      this.recorder.savePlayerMovement(event.getKeyCode());
-    }
   }
 
   @Override
