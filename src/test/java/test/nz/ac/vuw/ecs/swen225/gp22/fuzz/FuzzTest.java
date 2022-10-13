@@ -18,7 +18,7 @@ import nz.ac.vuw.ecs.swen225.gp22.app.App;
  * 
  */
 public class FuzzTest {
-  static final int numMoves = 1000; // change for however many tests needed
+  static final int numMoves = 500; // change for however many tests needed
   /**
    * App context.
    * This should be reset on each test
@@ -50,16 +50,19 @@ public class FuzzTest {
   /**
    * Generate random keyPresses.
    * 
+   * @return keyCodes
    */
   public static ArrayList<Integer> GenerateRandomMoves() {
     final int min = 1;
+
+    // max should be altered in accordance with however many keys are being tested. 
+    // increase it/decrease it as needed
     final int max = 4;
 
     final Random random = new Random();
 
     ArrayList<Integer> keyCodes = new ArrayList<Integer>();
-    HashMap<Integer, Integer> keyMap = new HashMap<Integer, Integer>(); // Int to Int, <K, V> where K is a counter and V
-                                                                        // is keyCode
+    HashMap<Integer, Integer> keyMap = new HashMap<Integer, Integer>(); // Int to Int, <K, V> where K is a counter and V is keyCode
 
     keyMap.put(1, KeyEvent.VK_UP);
     keyMap.put(2, KeyEvent.VK_DOWN);
@@ -75,7 +78,7 @@ public class FuzzTest {
       }
 
     }
-    System.out.println(keyCodes);
+
     return keyCodes;
   }
 
@@ -126,7 +129,7 @@ public class FuzzTest {
   public void test2() {
     // TODO: implement level 2 when available.
     // start level
-    app.startLevel(1);
+    app.startLevel(2);
     // run tests
     randomTests(GenerateRandomMoves());
   }
