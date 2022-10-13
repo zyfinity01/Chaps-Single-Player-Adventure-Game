@@ -113,7 +113,7 @@ public class App extends JFrame implements WindowActions {
     setContentPane(gamePanel);
     gamePanel.startLevel(level);
 
-    keyController.setRecorder(new Recorder(level, this.gamePanel));
+    keyController.setRecorder(new Recorder(level));
 
     pack(); // resize to fit new content
   }

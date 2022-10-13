@@ -1,5 +1,6 @@
 package nz.ac.vuw.ecs.swen225.gp22.recorder;
 
+import java.awt.event.KeyEvent;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -11,12 +12,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.awt.event.KeyEvent;
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-
+import nz.ac.vuw.ecs.swen225.gp22.app.GamePanel;
+import nz.ac.vuw.ecs.swen225.gp22.domain.Direction;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.input.DOMBuilder;
@@ -24,17 +24,14 @@ import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 import org.xml.sax.SAXException;
 
-import nz.ac.vuw.ecs.swen225.gp22.app.GamePanel;
-import nz.ac.vuw.ecs.swen225.gp22.domain.Direction;
 
 /**
  * Recorder object saves, stores and exports all movements made by users and players.
  * $ @author Shae West, 300565911
  */
-public class Recorder{
+public class Recorder {
   private ArrayList<Entry<Integer, String>> playerMovements;
   private ArrayList<Entry<Integer, String>> actorMovements;
-  private GamePanel gamePanel;
   private int levelNumber;
   private HashMap<Integer, Direction> replayedPlayerMovements;
   private HashMap<Integer, Direction> replayedActorMovements;
@@ -47,11 +44,10 @@ public class Recorder{
    * $ @param gamePanel Game's gamePanel to access current tick. 
    */
   
-  public Recorder(int levelNumber, GamePanel gamePanel) {
+  public Recorder(int levelNumber) {
     this.playerMovements = new ArrayList<>();
     this.actorMovements = new ArrayList<>();
     this.levelNumber = levelNumber;
-    this.gamePanel = gamePanel;
   }
 
   /**
@@ -59,13 +55,14 @@ public class Recorder{
    * $ @param keyCode Integer value of keybind press 
    */
   public void savePlayerMovement(int keyCode) {
-    Integer[] keyArray = new Integer[] {KeyEvent.VK_UP, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_DOWN};
+    Integer[] keyArray = new Integer[] {KeyEvent.VK_UP, KeyEvent.VK_LEFT, 
+        KeyEvent.VK_RIGHT, KeyEvent.VK_DOWN};
     List<Integer> validKeys = new ArrayList<Integer>(Arrays.asList(keyArray));
     if (!validKeys.contains(keyCode)) {
       return;
     }
-    String directionString = "empty";
-    switch(keyCode){
+    String directionString;
+    switch (keyCode) {
       case KeyEvent.VK_UP:
         directionString = "up";
         break;
@@ -78,19 +75,23 @@ public class Recorder{
       case KeyEvent.VK_RIGHT:
         directionString = "right";
         break;
+      default:
+        directionString = "empty";
+        break;
     }
-    Map.Entry<Integer, String> entry = new AbstractMap.SimpleEntry<Integer, String>(this.gamePanel.getTick(), directionString);
+    Map.Entry<Integer, String> entry = 
+        new AbstractMap.SimpleEntry<Integer, String>(GamePanel.getTick(), directionString);
     this.playerMovements.add(entry);
     this.saveToXml();
   }
 
   /**
-   * Adds a actor movement to storage
+   * Adds a actor movement to storage.
    * $ @param direction Actor direction
    */
-  public void saveActorMovement(Direction direction){
-    String directionString = "empty";
-    switch(direction){
+  public void saveActorMovement(Direction direction) {
+    String directionString;
+    switch (direction) {
       case Up:
         directionString = "up";
         break;
@@ -103,8 +104,13 @@ public class Recorder{
       case Down:
         directionString = "empty";
         break;
+      default:
+        directionString = "empty";
+        break;
     }
-    Map.Entry<Integer, String> entry = new AbstractMap.SimpleEntry<Integer, String>(this.gamePanel.getTick(), directionString);
+    
+    Map.Entry<Integer, String> entry = 
+        new AbstractMap.SimpleEntry<Integer, String>(GamePanel.getTick(), directionString);
     this.actorMovements.add(entry);
     this.saveToXml();
   }
@@ -164,11 +170,10 @@ public class Recorder{
   }
 
   /**
-   * Loads all movements based off level number
-   * 
+   * Loads all movements based off level number.
    * $ @param level Determines which moves' file to load
    */
-  private void loadToXml(int level){
+  private void loadToXml(int level) {
     Document doc = null;
     try {
       DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -178,11 +183,11 @@ public class Recorder{
     } catch (IOException | SAXException | ParserConfigurationException e) {
       e.printStackTrace();
     }
-    if(level == 1){
+    if (level == 1) {
       this.replayedPlayerMovements = new HashMap<Integer, Direction>();
       Element playerMovementsElement =  doc.getRootElement().getChild("PlayerMovements");
       saveMovesToHashMap(playerMovementsElement, this.replayedPlayerMovements);
-    } else if (level == 2){
+    } else if (level == 2) {
       this.replayedActorMovements = new HashMap<Integer, Direction>();
       Element actorMovementsElement = doc.getRootElement().getChild("ActorMovements");
       saveMovesToHashMap(actorMovementsElement, this.replayedActorMovements);
@@ -194,11 +199,11 @@ public class Recorder{
    * $ @param element Document element
    * $ @param hashMap HashMap to put into
    */
-  private void saveMovesToHashMap(Element element, HashMap<Integer, Direction> hashMap){
-    for(Element subElement : element.getChildren()){
-      int tick = Integer.valueOf(subElement.getChild("Movement").getChild("Tick").getValue());
+  private void saveMovesToHashMap(Element element, HashMap<Integer, Direction> hashMap) {
+    for (Element subElement : element.getChildren()) {
+      int tick = Integer.parseInt(subElement.getChild("Movement").getChild("Tick").getValue());
       String directionString = subElement.getChild("Movement").getChild("Direction").getValue();
-      switch(directionString){
+      switch (directionString) {
         case "up":
           hashMap.put(tick, Direction.Up);
           break;
@@ -211,51 +216,50 @@ public class Recorder{
         case "down":
           hashMap.put(tick, Direction.Down);
           break;
+        default:
+          break;
       }
     }
   }
 
   /**
    * If there is a move to be done for the player, return the keycode
-   * 
    * $ @param tick Tick that connects to movement wanting to be played.
    */
-  public Direction doPlayerMovement(int tick){
+  public Direction doPlayerMovement(int tick) {
     return this.replayedPlayerMovements.get(tick);
   }
 
   /**
    * If there is a move to be done for the actor, return the keycode
-   * 
    * $ @param tick Tick that connects to movement wanting to be played.
    */
-  public Direction doActorMovement(int tick){
+  public Direction doActorMovement(int tick) {
     return this.replayedActorMovements.get(tick);
   }
 
   /**
-   * Gets the next tick with a movement from parameter tick
+   * Gets the next tick with a movement from parameter tick.
    * $ @param tick current tick
    * $ @param type String which contains "actor" or "player"
    */
-  public Integer getNextMovementTick(int tick, String type){
-    if(type.equals("player")){
-      Iterator<Entry<Integer, Direction> > iterator = replayedPlayerMovements.entrySet().iterator();
+  public Integer getNextMovementTick(int tick, String type) {
+    if (type.equals("player")) {
+      Iterator<Entry<Integer, Direction>> iterator = replayedPlayerMovements.entrySet().iterator();
       while (iterator.hasNext()) {
         Map.Entry<Integer, Direction> entry = (Map.Entry<Integer, Direction>) iterator.next();
 
-        if(entry.getKey().intValue() > tick){
-          return entry.getKey().intValue();
+        if (entry.getKey().intValue() > tick) {
+          return entry.getKey();
         }
       }
-    }
-    else if (type.equals("actor")){
-      Iterator<Entry<Integer, Direction> > iterator = replayedActorMovements.entrySet().iterator();
+    } else if (type.equals("actor")) {
+      Iterator<Entry<Integer, Direction>> iterator = replayedActorMovements.entrySet().iterator();
       while (iterator.hasNext()) {
         Map.Entry<Integer, Direction> entry = (Map.Entry<Integer, Direction>) iterator.next();
 
-        if(entry.getKey().intValue() > tick){
-          return entry.getKey().intValue();
+        if (entry.getKey().intValue() > tick) {
+          return entry.getKey();
         }
       }
     }
