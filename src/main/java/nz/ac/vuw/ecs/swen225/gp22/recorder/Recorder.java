@@ -231,7 +231,7 @@ public class Recorder {
   }
 
   /**
-   * If there is a move to be done for the player, return the keycode
+   * If there is a move to be done for the player, return the direction
    * $ @param tick Tick that connects to movement wanting to be played.
    */
   public Direction doPlayerMovement(int tick) {
@@ -239,7 +239,7 @@ public class Recorder {
   }
 
   /**
-   * If there is a move to be done for the actor, return the keycode
+   * If there is a move to be done for the actor, return the direction
    * $ @param tick Tick that connects to movement wanting to be played.
    */
   public Direction doActorMovement(int tick) {
