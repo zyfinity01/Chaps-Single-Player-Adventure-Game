@@ -29,23 +29,23 @@ import nz.ac.vuw.ecs.swen225.gp22.domain.Direction;
  */
 public class Recorder{
   private ArrayList<String> playerMovements;
-  private ArrayList<String> enemyMovements;
+  private ArrayList<String> actorMovements;
   private GamePanel gamePanel;
   private int levelNumber;
   private HashMap<Integer, Direction> replayedPlayerMovements;
-  private HashMap<Integer, Direction> replayedEnemyMovements;
+  private HashMap<Integer, Direction> replayedActorMovements;
 
   /**
    * Creates an Recorder,
    * If recordingName matches any current .XML files, load Recording from file.
    * Else, create a new empty Recorder object to be saved at a later date.
-   * $ @param levelNumber Determines if enemy movements are saved && what file they are saved to.
+   * $ @param levelNumber Determines if actor movements are saved && what file they are saved to.
    * $ @param gamePanel Game's gamePanel to access current tick. 
    */
   
   public Recorder(int levelNumber, GamePanel gamePanel) {
     this.playerMovements = new ArrayList<>();
-    this.enemyMovements = new ArrayList<>();
+    this.actorMovements = new ArrayList<>();
     this.levelNumber = levelNumber;
     this.gamePanel = gamePanel;
   }
@@ -86,7 +86,7 @@ public class Recorder{
     Element root = new Element("root");
     
     Element playerMovements = new Element("PlayerMovements");
-    Element enemyMovements = new Element("EnemyMovements");
+    Element actorMovements = new Element("ActorMovements");
 
     for (String movement : this.playerMovements) {
       playerMovements.addContent(new Element("movement").setText(movement.toString()));
@@ -94,10 +94,10 @@ public class Recorder{
     root.addContent(playerMovements);
 
     if (this.levelNumber == 2) {
-      for (String movement : this.enemyMovements) {
-        enemyMovements.addContent(new Element(movement.toString()));
+      for (String movement : this.actorMovements) {
+        actorMovements.addContent(new Element(movement.toString()));
       }
-      root.addContent(enemyMovements);
+      root.addContent(actorMovements);
     }
     Document document = new Document();
     document.setContent(root);
@@ -133,9 +133,9 @@ public class Recorder{
       Element playerMovementsElement =  doc.getRootElement().getChild("PlayerMovements");
       saveMovesToHashMap(playerMovementsElement, this.replayedPlayerMovements);
     } else if (level == 2){
-      this.replayedEnemyMovements = new HashMap<Integer, Direction>();
-      Element enemyMovementsElement = doc.getRootElement().getChild("EnemyMovements");
-      saveMovesToHashMap(enemyMovementsElement, this.replayedEnemyMovements);
+      this.replayedActorMovements = new HashMap<Integer, Direction>();
+      Element actorMovementsElement = doc.getRootElement().getChild("ActorMovements");
+      saveMovesToHashMap(actorMovementsElement, this.replayedActorMovements);
     }
   }
 
@@ -175,11 +175,11 @@ public class Recorder{
   }
 
   /**
-   * If there is a move to be done for the enemy, return the keycode
+   * If there is a move to be done for the actor, return the keycode
    * 
    * $ @param tick Tick that connects to movement wanting to be played.
    */
-  public Direction doEnemyMovement(int tick){
-    return this.replayedEnemyMovements.get(tick);
+  public Direction doActorMovement(int tick){
+    return this.replayedActorMovements.get(tick);
   }
 }
