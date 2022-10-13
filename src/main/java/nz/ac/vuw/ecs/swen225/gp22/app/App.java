@@ -107,9 +107,11 @@ public class App extends JFrame implements WindowActions {
 
   @Override
   public void startLevel(int level) {
+    requestFocusInWindow();
+
     maze = Persistency.loadGame("level" + level + ".xml", 17, 17);
 
-    gamePanel = new GamePanel(maze);
+    gamePanel = new GamePanel(this, maze);
     setContentPane(gamePanel);
     gamePanel.startLevel(level);
 
