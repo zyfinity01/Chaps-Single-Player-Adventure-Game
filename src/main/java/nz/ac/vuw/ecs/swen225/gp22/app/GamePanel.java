@@ -44,7 +44,7 @@ public class GamePanel extends JPanel {
   /**
    * Number of current tick.
    */
-  private int tick;
+  private static int tick;
 
   /**
    * Game maze.
@@ -157,10 +157,16 @@ public class GamePanel extends JPanel {
     this.tick = tick;
   }
 
+  /**
+   * Gets current tick.
+   */
+  public static int getTick() {
+    return tick;
+  }
+  
   @Override
   protected void paintComponent(Graphics g) {
     super.paintComponent(g);
     g.drawImage(background, 0, 0, null);
   }
-
 }
