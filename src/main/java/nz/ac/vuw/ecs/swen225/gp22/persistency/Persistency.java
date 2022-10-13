@@ -108,6 +108,8 @@ public class Persistency {
           case "INFO" -> tileElement
                   .addContent(new Element("text")
                           .setText(((Info) tile).text()));
+          case "ACTOR" -> tileElement
+                  .addContent(new Element("direction").setText(getCustomActorDirection(tile).toString()));
           default -> {
           }
         }
@@ -169,6 +171,7 @@ public class Persistency {
                 int y = Integer.parseInt(tile.getChild("y").getValue());
                 Color c;
                 String text;
+                Direction d;
                 //System.out.println(tile.getName());
                 switch (tile.getName()) {
                   case "TREASURE" -> board[y][x] = new Treasure();
@@ -187,6 +190,10 @@ public class Persistency {
                   case "DOOR" -> {
                     c = Color.valueOf(tile.getChild("color").getValue());
                     board[y][x] = new Door(c);
+                  }
+                  case "ACTOR" -> {
+                    d = Direction.valueOf(tile.getChild("direction").getValue());
+                    board[y][x] = newCustomActor("./src/levels/level2.jar", d);
                   }
                   default -> {
                   }
@@ -228,7 +235,7 @@ public class Persistency {
    * @param path path to the jar file
    * @return return the actor class
    */
-  private Class loadCustomActorClass(String path) {
+  private static Class loadCustomActorClass(String path) {
     try {
       var jarFile = new File(path);
       var fileUrl = jarFile.toURI().toURL();
@@ -251,7 +258,7 @@ public class Persistency {
    * @param direction the direction the actor is facing
    * @return direction tile
    */
-  private Tile newCustomActor(String jarFile, Direction direction) {
+  private static Tile newCustomActor(String jarFile, Direction direction) {
     try {
       var actorClass = loadCustomActorClass(jarFile);
       assert actorClass != null;
@@ -271,7 +278,7 @@ public class Persistency {
    * @param tile the tile to check
    * @return return the firection of the actor
    */
-  private Direction getCustomActorDirection(Tile tile) {
+  private static Direction getCustomActorDirection(Tile tile) {
     try {
       var field = tile.getClass().getDeclaredField("direction");
       field.setAccessible(true);
