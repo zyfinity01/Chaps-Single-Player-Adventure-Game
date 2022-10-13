@@ -80,6 +80,30 @@ public class Recorder{
   }
 
   /**
+   * Adds a actor movement to storage
+   * $ @param direction Actor direction
+   */
+  public void saveActorMovement(Direction direction){
+    String directionString = "empty";
+    switch(direction){
+      case Up:
+        directionString = "up";
+        break;
+      case Left:
+        directionString = "left";
+        break;
+      case Right:
+        directionString = "right";
+        break;
+      case Down:
+        directionString = "empty";
+        break;
+    }
+    this.actorMovements.add(this.gamePanel.getTick() + ":" + directionString);
+    this.saveToXml();
+  }
+
+  /**
    * Saves the current savedSnapshots to XML format.
    */
   public void saveToXml() {
