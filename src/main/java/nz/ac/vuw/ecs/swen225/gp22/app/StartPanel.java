@@ -29,7 +29,7 @@ public class StartPanel extends JPanel {
     setLayout(new BorderLayout());
 
     try {
-      background = ImageIO.read(new File("images//start_screen.png"));
+      background = ImageIO.read(new File("resources//images//start_screen.png"));
     } catch (IOException e) {
       e.printStackTrace();
     }
