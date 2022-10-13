@@ -110,11 +110,12 @@ public class App extends JFrame implements WindowActions {
     requestFocusInWindow();
 
     maze = Persistency.loadGame("level" + level + ".xml", 17, 17);
-    keyController.setRecorder(new Recorder(level));
 
     gamePanel = new GamePanel(this, maze);
     setContentPane(gamePanel);
     gamePanel.startLevel(level);
+
+    keyController.setRecorder(new Recorder(level));
 
     pack(); // resize to fit new content
   }
