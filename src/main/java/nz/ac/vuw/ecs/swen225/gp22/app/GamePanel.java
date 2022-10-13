@@ -165,11 +165,13 @@ public class GamePanel extends JPanel {
     timer.setDelay((int) (TICK_RATE * speed));
   }
 
+  /**
+   * Update game tick for skipping.
+   *
+   * @param tick new tick
+   */
   public void setTick(int tick) {
     this.tick = tick;
-    if (recorder != null) {
-      recorder.setTick(tick);
-    }
   }
   
   @Override
