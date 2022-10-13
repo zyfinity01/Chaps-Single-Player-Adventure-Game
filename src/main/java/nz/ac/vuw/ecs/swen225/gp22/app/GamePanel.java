@@ -60,7 +60,7 @@ public class GamePanel extends JPanel {
 
   private Timer timer;
 
-  private Recorder recorder;
+  public Recorder recorder;
 
   private boolean isReplaying;
 
