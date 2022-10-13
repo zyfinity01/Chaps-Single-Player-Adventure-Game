@@ -1,10 +1,15 @@
 package nz.ac.vuw.ecs.swen225.gp22.persistency;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.lang.reflect.InvocationTargetException;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -210,5 +215,26 @@ public class Persistency {
       e.printStackTrace();
     }
     return doc;
+  }
+
+  private Class loadCustomActorClass(String path) {
+    try {
+      var jarFile = new File(path);
+      var fileUrl = jarFile.toURI().toURL();
+      var jarUrl = "jar:" + fileUrl + "!/";
+      var urls = new URL[] { new URL(jarUrl) };
+      var loader = new URLClassLoader(urls);
+
+      return Class.forName("nz.ac.vuw.ecs.swen225.gp22.domain.Actor", true, loader);
+    } catch (IOException ex) {
+      ex.printStackTrace();
+    } catch (IllegalArgumentException e) {
+      e.printStackTrace();
+    } catch (SecurityException e) {
+      e.printStackTrace();
+    } catch (ClassNotFoundException e) {
+      e.printStackTrace();
+    }
+    return null;
   }
 }
