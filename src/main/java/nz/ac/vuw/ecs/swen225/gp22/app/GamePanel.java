@@ -16,8 +16,8 @@ import javax.swing.border.EmptyBorder;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Key;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Maze;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Treasure;
-import nz.ac.vuw.ecs.swen225.gp22.renderer.Renderer;
 import nz.ac.vuw.ecs.swen225.gp22.recorder.Recorder;
+import nz.ac.vuw.ecs.swen225.gp22.renderer.Renderer;
 
 /**
  * Game logic panel.
