@@ -11,12 +11,13 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
+import javax.swing.Timer;
 import javax.swing.border.EmptyBorder;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Key;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Maze;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Treasure;
 import nz.ac.vuw.ecs.swen225.gp22.renderer.Renderer;
-
+import nz.ac.vuw.ecs.swen225.gp22.recorder.Recorder;
 
 /**
  * Game logic panel.
@@ -43,7 +44,7 @@ public class GamePanel extends JPanel {
   /**
    * Number of current tick.
    */
-  private static int tick;
+  private int tick;
 
   /**
    * Game maze.
@@ -57,13 +58,21 @@ public class GamePanel extends JPanel {
 
   private BufferedImage background;
 
+  private Timer timer;
+
+  public Recorder recorder;
+
+  private boolean isReplaying;
+
   /**
    * Create the panel.
    *
    * @param maze Game maze
    */
-  public GamePanel(WindowActions actions, Maze maze) {
+  public GamePanel(Maze maze, Recorder recorder, JPanel actionButtons, boolean isReplaying) {
     this.maze = maze;
+    this.isReplaying = isReplaying;
+    this.recorder = recorder;
     
     try {
       background = ImageIO.read(new File("resources//images//game_background.png"));
@@ -86,7 +95,6 @@ public class GamePanel extends JPanel {
     sidePanel.setOpaque(false);
     sidePanel.setLayout(new BoxLayout(sidePanel, BoxLayout.Y_AXIS));
 
-    var actionButtons = new ActionButtons(actions);
     sidePanel.add(actionButtons);
 
     // Game statistics
@@ -96,11 +104,25 @@ public class GamePanel extends JPanel {
     add(sidePanel);
 
     // Game loop
-    new javax.swing.Timer(TICK_RATE, new ActionListener() {
+    timer = new Timer(TICK_RATE, new ActionListener() {
       public void actionPerformed(ActionEvent e) {
         gameLoop();
+        if (recorder != null) {
+          // get move for this tick
+          recorder.setTick(tick);
+
+          if (isReplaying) {
+            // get move from recorder
+            // if exists, execute move
+          }
+
+        }
+        tick++;
+        
       }
-    }).start();
+    });
+
+    timer.start();
   }
 
   /**
@@ -118,7 +140,6 @@ public class GamePanel extends JPanel {
     
     // redraw canvas
     gameCanvas.update(maze);
-    tick++;
   }
 
   public void startLevel(int level) {
@@ -134,11 +155,17 @@ public class GamePanel extends JPanel {
     Renderer.setShowPauseText(isPaused);
   }
 
+  public void setSpeed(double speed) {
+    timer.setDelay((int) (TICK_RATE * speed));
+  }
+
   /**
-   * Gets current tick.
+   * Update game tick for skipping.
+   *
+   * @param tick new tick
    */
-  public static int getTick() {
-    return tick;
+  public void setTick(int tick) {
+    this.tick = tick;
   }
   
   @Override

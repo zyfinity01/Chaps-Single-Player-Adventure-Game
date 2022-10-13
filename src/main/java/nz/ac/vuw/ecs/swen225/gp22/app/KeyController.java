@@ -20,7 +20,7 @@ public class KeyController implements KeyListener {
   /**
    * Recorder saves all moves to replay.
    */
-  private Recorder recorder;
+  public Recorder recorder;
 
   /**
    * Initilise the controller.
