@@ -159,7 +159,7 @@ public class App extends JFrame implements WindowActions {
   public void replayLevel(int level) {
     requestFocusInWindow();
 
-    String xmlPath = getXMLFileFromUser();
+    String xmlPath = getXmlFileFromUser();
     if (xmlPath == null) {
       return; // user didn't select a file
     }
