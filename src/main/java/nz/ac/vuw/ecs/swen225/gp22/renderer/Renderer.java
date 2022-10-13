@@ -34,7 +34,7 @@ import nz.ac.vuw.ecs.swen225.gp22.domain.Wall;
 public class Renderer {
 
   static int windowWidth = 300;
-  static int tileWidth = 40;
+  static int tileWidth = 60;
 
   // Cached tiles
   static BufferedImage free;
