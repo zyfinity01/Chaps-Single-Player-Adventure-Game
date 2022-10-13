@@ -11,6 +11,7 @@ import nz.ac.vuw.ecs.swen225.gp22.domain.Door;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Exit;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Info;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Key;
+import nz.ac.vuw.ecs.swen225.gp22.domain.Lock;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Maze;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Tile;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Treasure;
@@ -276,5 +277,21 @@ public class MazeTest {
     maze.tick();
 
     assertTrue(maze.isGameOver());
+  }
+
+  @Test
+  public void canOpenLock() {
+    var tiles = new Tile[4][4];
+    tiles[0][2] = new Lock();
+    tiles[1][2] = new Chap();
+    tiles[2][2] = new Treasure();
+
+    var maze = new Maze(tiles, 4, 4, List.of(), 1);
+
+    assertFalse(maze.isGameOver());
+    assertFalse(maze.canMoveChap(Direction.Up));
+    maze.moveChap(Direction.Down);
+    maze.moveChap(Direction.Up);
+    maze.moveChap(Direction.Up);
   }
 }
