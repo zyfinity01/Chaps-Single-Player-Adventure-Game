@@ -221,7 +221,7 @@ public class Renderer {
   /**
    * Setter for show pause text.
    *
-   * @param showPauseText new value.
+   * @param newValue new value.
    */
   public static void setShowPauseText(boolean newValue) {
     showPauseText = newValue;
