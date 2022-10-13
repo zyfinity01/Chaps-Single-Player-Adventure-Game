@@ -1,12 +1,16 @@
 package nz.ac.vuw.ecs.swen225.gp22.app;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Tile;
 import nz.ac.vuw.ecs.swen225.gp22.renderer.Renderer;
 
@@ -15,12 +19,17 @@ import nz.ac.vuw.ecs.swen225.gp22.renderer.Renderer;
  *
  * @author Sam Redmond, 300443508
  */
-public class StateWindow extends JPanel {
+public class StatePanel extends JPanel {
 
   /**
    * Max number of items that can be in inventory.
    */
-  private static final int maxInventorySpace = 8;
+  private static final int maxInventorySpace = 12;
+
+  /**
+   * Size of icons in the inventory.
+   */
+  private static final int iconSize = 40;
 
   /**
    * The games current level.
@@ -60,36 +69,50 @@ public class StateWindow extends JPanel {
   /**
    * Displays Game Information.
    */
-  public StateWindow() {
-    setLayout(new GridLayout(0, 1));
+  public StatePanel() {
+    setLayout(new GridLayout(0, 1, 5, 5));
+    setPreferredSize(new Dimension(220, 450));
+    setOpaque(false);
 
+    /*
+     * Stats panel
+     */
     statsPanel = new JPanel();
-    statsPanel.setLayout(new GridLayout(4, 2, 5, 10));
+    statsPanel.setOpaque(false);
+    statsPanel.setLayout(new GridLayout(4, 2));
     
-    statsPanel.add(new JLabel("Level:"));
-    currentLevel = new JLabel("0");
+    statsPanel.add(new FancyLabel("Level:"));
+    currentLevel = new FancyLabel("0");
     statsPanel.add(currentLevel);
     
-    statsPanel.add(new JLabel("Time Left:"));
-    timeLeft = new JLabel("0.00");
+    statsPanel.add(new FancyLabel("Time Left:"));
+    timeLeft = new FancyLabel("0.00");
     statsPanel.add(timeLeft);
 
-    statsPanel.add(new JLabel("Keys Left:"));
-    keysLeft = new JLabel("0");
+    statsPanel.add(new FancyLabel("Keys Left:"));
+    keysLeft = new FancyLabel("0");
     statsPanel.add(keysLeft);
     
-    statsPanel.add(new JLabel("Chips Left:"));
-    chipsLeft = new JLabel("0");
+    statsPanel.add(new FancyLabel("Chips Left:"));
+    chipsLeft = new FancyLabel("0");
     statsPanel.add(chipsLeft);
 
     add(statsPanel);
 
-    inventoryPanel = new JPanel();
-    inventoryPanel.setLayout(new GridLayout(0, 4));
+    /*
+     * Inventory panel
+     */
     inventoryIcons = new ArrayList<>();
+
+    inventoryPanel = new JPanel();
+    inventoryPanel.setOpaque(false);
+    inventoryPanel.setLayout(new GridLayout(0, 4, 10, 0));
+    inventoryPanel.setBorder(new EmptyBorder(10, 20, 10, 10));
+    
     for (int i = 0; i < maxInventorySpace; i++) {
       var icon = new JLabel();
-      icon.setPreferredSize(new Dimension(50, 50));
+      //icon.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+      icon.setPreferredSize(new Dimension(iconSize, iconSize));
       inventoryIcons.add(icon);
       inventoryPanel.add(icon);
     }
@@ -140,11 +163,13 @@ public class StateWindow extends JPanel {
    * @param inventory inventory to display
    */
   public void setInventory(List<Tile> inventory) {
-    for (int i = 0; i < inventory.size(); i++) {
-      var tile = inventory.get(i);
+    for (int i = 0; i < maxInventorySpace; i++) {
       var icon = inventoryIcons.get(i);
+      var tile = i < inventory.size() ? inventory.get(i) : null;
       if (tile != null) {
-        icon.setIcon(new ImageIcon(Renderer.getTileImage(tile)));
+        var image = Renderer.getTileImage(tile)
+            .getScaledInstance(iconSize, iconSize, Image.SCALE_FAST);
+        icon.setIcon(new ImageIcon(image));
       } else {
         icon.setIcon(null);
       }

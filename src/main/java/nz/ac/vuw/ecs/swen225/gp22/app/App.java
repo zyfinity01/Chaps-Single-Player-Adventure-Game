@@ -1,16 +1,8 @@
 package nz.ac.vuw.ecs.swen225.gp22.app;
 
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Direction;
-import nz.ac.vuw.ecs.swen225.gp22.domain.Key;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Maze;
-import nz.ac.vuw.ecs.swen225.gp22.domain.Treasure;
 import nz.ac.vuw.ecs.swen225.gp22.persistency.Persistency;
 import nz.ac.vuw.ecs.swen225.gp22.recorder.Recorder;
 
@@ -21,26 +13,11 @@ import nz.ac.vuw.ecs.swen225.gp22.recorder.Recorder;
  *
  */
 public class App extends JFrame implements WindowActions {
-
-  /**
-   * How often the game updates in milliseconds.
-   */
-  private static final int TICK_RATE = 100;
-
-  /**
-   * Panel holding all UI components.
-   */
-  private final JPanel contentPane;
-
-  /**
-   * Panel for drawing game.
-   */
-  private final GameCanvas canvas;
   
   /**
    * Current game statistics.
    */
-  private final StateWindow stats;
+  private GamePanel gamePanel;
 
   /**
    * Game key press handler.
@@ -53,24 +30,13 @@ public class App extends JFrame implements WindowActions {
   private Maze maze;
 
   /**
-   * Game is paused.
-   */
-  private boolean isPaused;
-
-  /**
-   * Number of current tick.
-   */
-  private int tick;
-
-  /**
    * Create the frame.
    */
-  public App() {
+  public App(boolean useStartScreen) {
     // Window Settings
     setTitle("Chaps Challenge");
     setResizable(false);
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    setBounds(100, 100, 1270, 720);
 
     // Menu bar
     setJMenuBar(new MenuBar(this));
@@ -78,82 +44,40 @@ public class App extends JFrame implements WindowActions {
     // Key Listener
     keyController = new KeyController(this);
     addKeyListener(keyController);
-    
-    // Component Container
-    contentPane = new JPanel();
-    contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-    contentPane.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
-    setContentPane(contentPane);
 
-    // Drawing Canvas
-    canvas = new GameCanvas();
-    canvas.setPreferredSize(new Dimension(500, 500));
-    contentPane.add(canvas);
-    
-    // Game statistics
-    stats = new StateWindow();
-    contentPane.add(stats);
-
-    // Load level
-    startLevel(1);
-
-    // Start game ticker
-    new javax.swing.Timer(TICK_RATE, new ActionListener() {
-      public void actionPerformed(ActionEvent e) {
-        gameLoop();
-      }
-    }).start();
+    if (useStartScreen) {
+      // Start Screen
+      setContentPane(new StartPanel(this));
+    } else {
+      // Game Screen
+      startLevel(1);
+    }
 
     // Display window
     pack();
     setVisible(true);
   }
 
-  /**
-   * Update each tick.
-   */
-  private void gameLoop() {
-    if (isPaused) {
-      /*
-       TODO: Show paused dialog
-       */
-      return;
-    }
-
-    // only update stats once a second
-    if (tick % (1000 / TICK_RATE) == 0) {
-      maze.tick();
-      stats.setTime(maze.getTimeLeft());
-      stats.setChipsLeft(maze.getCountOfMazeTiles(Treasure.class));
-      stats.setKeysLeft(maze.getCountOfMazeTiles(Key.class));
-      stats.setInventory(maze.getInventory());
-    }
-    
-    // redraw canvas
-    canvas.update(maze);
-    tick++;
-  }
-
   @Override
   public void move(Direction direction) {
-    if (!isPaused && maze.canMoveChap(direction)) {
+    if (maze.canMoveChap(direction) && !gamePanel.isPaused()) {
       maze.moveChap(direction);
     }
   }
 
   @Override
   public void pause() {
-    isPaused = true;
+    gamePanel.setPause(true);
   }
 
   @Override
   public void unpause() {
-    isPaused = false;
+    gamePanel.setPause(false);
   }
 
   @Override
   public void togglePause() {
-    isPaused = !isPaused;
+    gamePanel.setPause(!gamePanel.isPaused());
   }
 
   @Override
@@ -183,10 +107,16 @@ public class App extends JFrame implements WindowActions {
 
   @Override
   public void startLevel(int level) {
-    isPaused = false;
+    requestFocusInWindow();
+
     maze = Persistency.loadGame("level" + level + ".xml", 17, 17);
     keyController.setRecorder(new Recorder(level));
-    stats.setLevel(level);
+
+    gamePanel = new GamePanel(this, maze);
+    setContentPane(gamePanel);
+    gamePanel.startLevel(level);
+
+    pack(); // resize to fit new content
   }
 
 }

@@ -1,5 +1,6 @@
 package nz.ac.vuw.ecs.swen225.gp22.domain;
 
+import java.awt.image.BufferedImage;
 import java.util.List;
 
 /**
@@ -8,6 +9,13 @@ import java.util.List;
  * @author Jonty Morris, 300563915
  */
 public interface Tile {
+  /**
+   * Returns the tile's custom image.
+   *
+   * @return tiles image.
+   */
+  public BufferedImage getCustomImage();
+
   /**
    * Check if the player can interact with this.
    *

@@ -123,9 +123,9 @@ public class Maze {
       return;
     }
 
-    // tick all the tractors
-    for (var tractor : getTilesOfType(Tractor.class)) {
-      tractor.getValue().tick(tiles, tractor.getKey());
+    // tick all the actors
+    for (var tile : getTilesOfType(Tile.class)) {
+      tile.getValue().tick(tiles, tile.getKey());
     }
 
     this.timeLeft--;
