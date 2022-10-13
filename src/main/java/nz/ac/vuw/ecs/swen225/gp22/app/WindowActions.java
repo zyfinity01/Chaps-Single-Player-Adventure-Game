@@ -59,11 +59,9 @@ interface WindowActions {
   void togglePause();
 
   /**
-   * Set replay speed.
-   *
-   * @param speed updated speed
+   * User to select replay speed.
    */
-  void setReplaySpeed(double speed);
+  void setReplaySpeed();
 
   /**
    * Skip to next move in replay.
