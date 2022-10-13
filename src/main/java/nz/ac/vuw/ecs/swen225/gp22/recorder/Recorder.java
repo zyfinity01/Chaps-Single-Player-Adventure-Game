@@ -33,6 +33,7 @@ public class Recorder {
   private ArrayList<Entry<Integer, String>> playerMovements;
   private ArrayList<Entry<Integer, String>> actorMovements;
   private int levelNumber;
+  private int tick;
   private HashMap<Integer, Direction> replayedPlayerMovements;
   private HashMap<Integer, Direction> replayedActorMovements;
 
@@ -48,6 +49,7 @@ public class Recorder {
     this.playerMovements = new ArrayList<>();
     this.actorMovements = new ArrayList<>();
     this.levelNumber = levelNumber;
+    tick = 0;
   }
 
   /**
@@ -80,7 +82,7 @@ public class Recorder {
         break;
     }
     Map.Entry<Integer, String> entry = 
-        new AbstractMap.SimpleEntry<Integer, String>(GamePanel.getTick(), directionString);
+        new AbstractMap.SimpleEntry<Integer, String>(tick, directionString);
     this.playerMovements.add(entry);
     this.saveToXml();
   }
@@ -110,7 +112,7 @@ public class Recorder {
     }
     
     Map.Entry<Integer, String> entry = 
-        new AbstractMap.SimpleEntry<Integer, String>(GamePanel.getTick(), directionString);
+        new AbstractMap.SimpleEntry<Integer, String>(tick, directionString);
     this.actorMovements.add(entry);
     this.saveToXml();
   }
@@ -265,4 +267,14 @@ public class Recorder {
     }
     return null;
   }
+
+  /**
+   * Updated current tick.
+   *
+   * @param tick current game tick
+   */
+  public void setTick(int tick) {
+    this.tick = tick;
+  }
+
 }

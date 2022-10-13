@@ -44,7 +44,7 @@ public class GamePanel extends JPanel {
   /**
    * Number of current tick.
    */
-  private static int tick;
+  private int tick;
 
   /**
    * Game maze.
@@ -62,13 +62,17 @@ public class GamePanel extends JPanel {
 
   private Recorder recorder;
 
+  private boolean isReplaying;
+
   /**
    * Create the panel.
    *
    * @param maze Game maze
    */
-  public GamePanel(Maze maze, Recorder recorder, JPanel actionButtons) {
+  public GamePanel(Maze maze, Recorder recorder, JPanel actionButtons, boolean isReplaying) {
     this.maze = maze;
+    this.isReplaying = isReplaying;
+    this.recorder = recorder;
     
     try {
       background = ImageIO.read(new File("resources//images//game_background.png"));
@@ -105,8 +109,16 @@ public class GamePanel extends JPanel {
         gameLoop();
         if (recorder != null) {
           // get move for this tick
+          recorder.setTick(tick);
+
+          if (isReplaying) {
+            // get move from recorder
+            // if exists, execute move
+          }
+
         }
         tick++;
+        
       }
     });
 
@@ -155,13 +167,9 @@ public class GamePanel extends JPanel {
 
   public void setTick(int tick) {
     this.tick = tick;
-  }
-
-  /**
-   * Gets current tick.
-   */
-  public static int getTick() {
-    return tick;
+    if (recorder != null) {
+      recorder.setTick(tick);
+    }
   }
   
   @Override

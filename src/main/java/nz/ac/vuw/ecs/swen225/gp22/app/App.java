@@ -147,7 +147,8 @@ public class App extends JFrame implements WindowActions {
     replaying = false; 
     maze = Persistency.loadGame("level" + level + ".xml", 17, 17);
 
-    gamePanel = new GamePanel(maze, null, new PlayingButtons(this));
+    // todo add recorder
+    gamePanel = new GamePanel(maze, null, new PlayingButtons(this), false);
     setContentPane(gamePanel);
     gamePanel.startLevel(level);
 
@@ -170,7 +171,7 @@ public class App extends JFrame implements WindowActions {
     maze = Persistency.loadGame("level" + level + ".xml", 17, 17);
     //Recorder recorder = new Recorder(level);
 
-    gamePanel = new GamePanel(maze, null, new ReplayingButtons(this));
+    gamePanel = new GamePanel(maze, null, new ReplayingButtons(this), true);
     setContentPane(gamePanel);
     
     pause();
