@@ -222,7 +222,7 @@ public class Renderer {
   public static void drawText(Graphics2D image, int x, int y, String text) {
     // Draw a rectangle
     image.setColor(new Color(255, 202, 2));
-    image.fillRect((x - 3) * tileWidth,
+    image.fillRect((x - 2) * tileWidth,
         y * tileWidth, 7 * tileWidth, 3 * tileWidth);
 
     // Draw the text
@@ -233,7 +233,7 @@ public class Renderer {
     String[] lines = text.split("\n");   // Drawstring doesn't handle newlines on its own
 
     for (String line : lines) {
-      image.drawString(line.strip(), (x - 3) * tileWidth + 5, textY);
+      image.drawString(line.strip(), (x - 2) * tileWidth + 5, textY);
       textY += 25;
     }
   }
@@ -263,11 +263,11 @@ public class Renderer {
       }
     }
 
-    // Display info if chap is on an info tile
-    if (maze.getTiles()[maze.getChapPosition().y()][maze.getChapPosition()
-        .x()] instanceof Info tile) {
-      drawText(image, maze.getChapPosition().x(), maze.getChapPosition().y(), tile.text());
-    } else {    // otherwise just draw chap
+    if (maze.getInfoText() != null) {
+      // Display info if chap is on an info tile
+      drawText(image, maze.getChapPosition().x(), maze.getChapPosition().y(), maze.getInfoText());
+    } else {
+      // otherwise just draw chap
       image.drawImage(chap(maze), null, maze.getChapPosition().x() * tileWidth,
           maze.getChapPosition().y() * tileWidth);
     }
@@ -280,11 +280,9 @@ public class Renderer {
     BufferedImage image;
     if (tile instanceof Chap) {
       image = chapDown;
-    }
-    else if (tile instanceof Wall) {
+    } else if (tile instanceof Wall) {
       image = wall;
-    }
-    else {
+    } else {
       image = image(tile, 0, 0);
     }
     // Need to copy it to prevent mutable object errors
