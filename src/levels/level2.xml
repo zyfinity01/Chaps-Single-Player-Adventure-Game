@@ -336,6 +336,18 @@
                 <y>15</y>
             </WALL>
             <WALL>
+                <x>8</x>
+                <y>15</y>
+            </WALL>
+            <WALL>
+                <x>9</x>
+                <y>15</y>
+            </WALL>
+            <WALL>
+                <x>10</x>
+                <y>15</y>
+            </WALL>
+            <WALL>
                 <x>11</x>
                 <y>15</y>
             </WALL>
@@ -355,6 +367,10 @@
                 <x>15</x>
                 <y>15</y>
             </WALL>
+            <CHAP>
+                <x>9</x>
+                <y>9</y>
+            </CHAP>
         </tiles>
     </board>
 </game>
