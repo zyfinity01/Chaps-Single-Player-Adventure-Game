@@ -11,10 +11,12 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
+import javax.swing.Timer;
 import javax.swing.border.EmptyBorder;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Key;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Maze;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Treasure;
+import nz.ac.vuw.ecs.swen225.gp22.recorder.Recorder;
 
 
 /**
@@ -56,12 +58,16 @@ public class GamePanel extends JPanel {
 
   private BufferedImage background;
 
+  private Timer timer;
+
+  private Recorder recorder;
+
   /**
    * Create the panel.
    *
    * @param maze Game maze
    */
-  public GamePanel(WindowActions actions, Maze maze) {
+  public GamePanel(Maze maze, Recorder recorder, JPanel actionButtons) {
     this.maze = maze;
     
     try {
@@ -85,7 +91,6 @@ public class GamePanel extends JPanel {
     sidePanel.setOpaque(false);
     sidePanel.setLayout(new BoxLayout(sidePanel, BoxLayout.Y_AXIS));
 
-    var actionButtons = new ActionButtons(actions);
     sidePanel.add(actionButtons);
 
     // Game statistics
@@ -95,11 +100,17 @@ public class GamePanel extends JPanel {
     add(sidePanel);
 
     // Game loop
-    new javax.swing.Timer(TICK_RATE, new ActionListener() {
+    timer = new Timer(TICK_RATE, new ActionListener() {
       public void actionPerformed(ActionEvent e) {
         gameLoop();
+        if (recorder != null) {
+          // get move for this tick
+        }
+        tick++;
       }
-    }).start();
+    });
+
+    timer.start();
   }
 
   /**
@@ -124,7 +135,6 @@ public class GamePanel extends JPanel {
     
     // redraw canvas
     gameCanvas.update(maze);
-    tick++;
   }
 
   public void startLevel(int level) {
@@ -137,6 +147,14 @@ public class GamePanel extends JPanel {
 
   public void setPause(boolean isPaused) {
     this.isPaused = isPaused;
+  }
+
+  public void setSpeed(double speed) {
+    timer.setDelay((int) (TICK_RATE * speed));
+  }
+
+  public void setTick(int tick) {
+    this.tick = tick;
   }
 
   @Override
