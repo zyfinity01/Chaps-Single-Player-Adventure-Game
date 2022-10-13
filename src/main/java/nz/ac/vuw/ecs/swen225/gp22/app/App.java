@@ -83,8 +83,8 @@ public class App extends JFrame implements WindowActions {
    * @return file path
    */
   private String getXmlFileFromUser(boolean isOpening) {
-    int returnVal = isOpening ?
-        fileChooser.showOpenDialog(this) :
+    int returnVal = isOpening
+        ? fileChooser.showOpenDialog(this) :
         fileChooser.showSaveDialog(this);
 
     if (returnVal == JFileChooser.APPROVE_OPTION) {
@@ -189,12 +189,12 @@ public class App extends JFrame implements WindowActions {
   }
 
   /**
-   * Get new speed from user
+   * Get new speed from user.
    */
   public void setReplaySpeed() {
     try {
-    var speed = Double.parseDouble(
-        JOptionPane.showInputDialog("Enter a speed between 0 and 1"));
+      var speed = Double.parseDouble(
+          JOptionPane.showInputDialog("Enter a speed between 0 and 1"));
       if (speed < 0 || speed > 1) {
         throw new NumberFormatException();
       }
