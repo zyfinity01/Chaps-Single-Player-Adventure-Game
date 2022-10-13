@@ -137,7 +137,7 @@ public class Recorder{
       for (Map.Entry<Integer, String> entry : this.actorMovements) {
         Integer tickCollect = entry.getKey();
         String directionString = entry.getValue();
-        
+
         Element movement = new Element("Movement");
         Element direction = new Element("Direction").setText(directionString);
         Element tick = new Element("Tick").setText(tickCollect.toString());
@@ -196,9 +196,9 @@ public class Recorder{
    */
   private void saveMovesToHashMap(Element element, HashMap<Integer, Direction> hashMap){
     for(Element subElement : element.getChildren()){
-      String[] split = subElement.getValue().split(":");
-      int tick = Integer.valueOf(split[1]);
-      switch(split[0]){
+      int tick = Integer.valueOf(subElement.getChild("Movement").getChild("Tick").getValue());
+      String directionString = subElement.getChild("Movement").getChild("Direction").getValue();
+      switch(directionString){
         case "up":
           hashMap.put(tick, Direction.Up);
           break;
