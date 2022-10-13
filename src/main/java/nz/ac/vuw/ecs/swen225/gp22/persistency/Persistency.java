@@ -109,7 +109,8 @@ public class Persistency {
                   .addContent(new Element("text")
                           .setText(((Info) tile).text()));
           case "ACTOR" -> tileElement
-                  .addContent(new Element("direction").setText(getCustomActorDirection(tile).toString()));
+                  .addContent(new Element("direction")
+                          .setText(getCustomActorDirection(tile).toString()));
           default -> {
           }
         }
