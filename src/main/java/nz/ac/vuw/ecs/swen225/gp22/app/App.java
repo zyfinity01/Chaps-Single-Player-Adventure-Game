@@ -192,7 +192,7 @@ public class App extends JFrame implements WindowActions {
 
   @Override
   public void setReplaySpeed(double speed) {
-    if(gamePanel != null){
+    if (gamePanel != null) {
       gamePanel.setSpeed(speed);
     }
   }
