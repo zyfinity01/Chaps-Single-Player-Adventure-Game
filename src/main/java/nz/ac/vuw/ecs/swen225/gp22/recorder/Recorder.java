@@ -50,7 +50,7 @@ public class Recorder {
     this.actorMovements = new ArrayList<>();
     this.levelNumber = levelNumber;
     tick = 0;
-    if(load && xmlPath != null){
+    if (load && xmlPath != null) {
       this.loadToXml(levelNumber, xmlPath);
     }
   }

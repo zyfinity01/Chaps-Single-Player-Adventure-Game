@@ -91,6 +91,9 @@ public class App extends JFrame implements WindowActions {
 
   @Override
   public void move(Direction direction) {
+    if (maze == null || gamePanel == null) {
+      return;
+    }
     if (maze.canMoveChap(direction) && !gamePanel.isPaused() && !replaying) {
       maze.moveChap(direction);
     }
@@ -98,17 +101,23 @@ public class App extends JFrame implements WindowActions {
 
   @Override
   public void pause() {
-    gamePanel.setPause(true);
+    if (gamePanel != null) {
+      gamePanel.setPause(true);
+    }
   }
 
   @Override
   public void unpause() {
-    gamePanel.setPause(false);
+    if (gamePanel != null) {
+      gamePanel.setPause(false);
+    }
   }
 
   @Override
   public void togglePause() {
-    gamePanel.setPause(!gamePanel.isPaused());
+    if (gamePanel != null) {
+      gamePanel.setPause(!gamePanel.isPaused());
+    }
   }
 
   @Override
@@ -183,7 +192,9 @@ public class App extends JFrame implements WindowActions {
 
   @Override
   public void setReplaySpeed(double speed) {
-    gamePanel.setSpeed(speed);
+    if(gamePanel != null){
+      gamePanel.setSpeed(speed);
+    }
   }
 
   @Override

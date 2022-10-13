@@ -13,7 +13,6 @@ import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 import javax.swing.border.EmptyBorder;
-
 import nz.ac.vuw.ecs.swen225.gp22.domain.Direction;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Key;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Maze;
@@ -117,7 +116,7 @@ public class GamePanel extends JPanel {
             // get move from recorder
             // if exists, execute move
             Direction dir = recorder.doPlayerMovement(tick);
-            if(dir != null){
+            if (dir != null) {
               maze.moveChap(dir);
             }
           }
