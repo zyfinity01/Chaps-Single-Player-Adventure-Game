@@ -9,13 +9,13 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Chap;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Color;
+import nz.ac.vuw.ecs.swen225.gp22.domain.Direction;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Door;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Exit;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Info;
@@ -204,6 +204,15 @@ public class Persistency {
     return new Maze(board, boardRows, boardCols, inventory, timeLeft);
   }
 
+  /**
+   * Get a parsed XML document.
+   *
+   * @param fileName file to parse.
+   * @return parsed XML document.
+   * @throws ParserConfigurationException if XML parser cannot be configured.
+   * @throws SAXException if XML cannot be parsed.
+   * @throws IOException if file cannot be read from.
+   */
   private static Document getParsedDoc(final String fileName) {
     Document doc = null;
     try {
@@ -217,6 +226,12 @@ public class Persistency {
     return doc;
   }
 
+  /**
+   * This function loads the custom actor from the jar file at the specified path.
+   *
+   * @param path path to the jar file
+   * @return return the actor class
+   */
   private Class loadCustomActorClass(String path) {
     try {
       var jarFile = new File(path);
@@ -233,6 +248,57 @@ public class Persistency {
     } catch (SecurityException e) {
       e.printStackTrace();
     } catch (ClassNotFoundException e) {
+      e.printStackTrace();
+    }
+    return null;
+  }
+
+  /**
+   * This function creates a new actor and returns the direction tile at which it is facing.
+   *
+   * @param jarFile the jar file to save the actor to
+   * @param direction the direction the actor is facing
+   * @return direction tile
+   */
+  private Tile newCustomActor(String jarFile, Direction direction) {
+    try {
+      var actorClass = loadCustomActorClass(jarFile);
+      var constructor = actorClass.getDeclaredConstructor(new Class[]{ Direction.class});
+      return (Tile) constructor.newInstance(new Object[] { direction });
+    } catch (InstantiationException e) {
+      e.printStackTrace();
+    } catch (IllegalAccessException e) {
+      e.printStackTrace();
+    } catch (IllegalArgumentException e) {
+      e.printStackTrace();
+    } catch (InvocationTargetException e) {
+      e.printStackTrace();
+    } catch (NoSuchMethodException e) {
+      e.printStackTrace();
+    } catch (SecurityException e) {
+      e.printStackTrace();
+    }
+    return null;
+  }
+
+  /**
+   * This function gets our actors direction.
+   *
+   * @param tile the tile to check
+   * @return return the firection of the actor
+   */
+  private Direction getCustomActorDirection(Tile tile) {
+    try {
+      var field = tile.getClass().getDeclaredField("direction");
+      field.setAccessible(true);
+      return (Direction) field.get(tile);
+    } catch (IllegalArgumentException e) {
+      e.printStackTrace();
+    } catch (IllegalAccessException e) {
+      e.printStackTrace();
+    } catch (NoSuchFieldException e) {
+      e.printStackTrace();
+    } catch (SecurityException e) {
       e.printStackTrace();
     }
     return null;
