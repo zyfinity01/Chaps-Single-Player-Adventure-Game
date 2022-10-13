@@ -32,7 +32,7 @@ import nz.ac.vuw.ecs.swen225.gp22.domain.Wall;
  */
 public class Renderer {
 
-  public static boolean showPauseText;
+  static boolean showPauseText;
 
   static int windowWidth = 300;
   static int tileWidth = 60;
@@ -216,6 +216,15 @@ public class Renderer {
       case Right:
         return chapRight;
     }
+  }
+
+  /**
+   * Setter for show pause text.
+   *
+   * @param showPauseText new value.
+   */
+  public static void setShowPauseText(boolean newValue) {
+    showPauseText = newValue;
   }
 
   /**
