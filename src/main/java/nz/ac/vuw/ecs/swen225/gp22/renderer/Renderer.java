@@ -22,7 +22,6 @@ import nz.ac.vuw.ecs.swen225.gp22.domain.Lock;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Maze;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Position;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Tile;
-import nz.ac.vuw.ecs.swen225.gp22.domain.Tractor;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Treasure;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Wall;
 
@@ -34,7 +33,7 @@ import nz.ac.vuw.ecs.swen225.gp22.domain.Wall;
 public class Renderer {
 
   static int windowWidth = 300;
-  static int tileWidth = 40;
+  static int tileWidth = 60;
 
   // Cached tiles
   static BufferedImage free;
@@ -63,11 +62,6 @@ public class Renderer {
   static BufferedImage door_blue;
   static BufferedImage door_green;
   static BufferedImage door_yellow;
-
-  static BufferedImage tractor_up;
-  static BufferedImage tractor_down;
-  static BufferedImage tractor_left;
-  static BufferedImage tractor_right;
 
   static AudioInputStream background;
 
@@ -103,11 +97,6 @@ public class Renderer {
       chapLeft = ImageIO.read(new File("resources//images//chap_left.png"));
       chapRight = ImageIO.read(new File("resources//images//chap_right.png"));
 
-      tractor_up = ImageIO.read(new File("resources//images//tractor_up.png"));
-      tractor_down = ImageIO.read(new File("resources//images//tractor_down.png"));
-      tractor_left = ImageIO.read(new File("resources//images//tractor_left.png"));
-      tractor_right = ImageIO.read(new File("resources//images//tractor_right.png"));
-
       // sound
       background = AudioSystem.getAudioInputStream(new File("resources//sounds/background.wav"));
       var clip = AudioSystem.getClip();
@@ -133,8 +122,7 @@ public class Renderer {
     // can't switch on instanceof
     if (tile instanceof Wall) {
       return getWall(x, y);
-    }
-    if (tile instanceof Key key) {
+    } else if (tile instanceof Key key) {
       switch (key.color()) {
         case Yellow:
           return key_yellow;
@@ -146,8 +134,7 @@ public class Renderer {
         default:
           return key_red;
       }
-    }
-    if (tile instanceof Door door) {
+    } else if (tile instanceof Door door) {
       switch (door.color()) {
         case Yellow:
           return door_yellow;
@@ -159,33 +146,19 @@ public class Renderer {
         default:
           return door_red;
       }
-    }
-    if (tile instanceof Lock) {
+    } else if (tile instanceof Lock) {
       return lock;
-    }
-    if (tile instanceof Info) {
+    } else if (tile instanceof Info) {
       return info;
-    }
-    if (tile instanceof Treasure) {
+    } else if (tile instanceof Treasure) {
       return treasure;
-    }
-    if (tile instanceof Exit) {
+    } else if (tile instanceof Exit) {
       return exit;
+    } else if (tile != null) {
+      return tile.getCustomImage();
     }
-    if (tile instanceof Tractor tractor) {
-      switch (tractor.direction()) {
-        case Up:
-          return tractor_up;
-        case Down:
-          return tractor_down;
-        case Left:
-          return tractor_left;
-        case Right:
-        default:
-          return tractor_right;
-      }
-    }
-    return getFree(x, y);        // instanceof null || fallback
+
+    return getFree(x, y);
   }
 
   /**
