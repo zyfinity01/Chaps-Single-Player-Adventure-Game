@@ -148,11 +148,12 @@ public class App extends JFrame implements WindowActions {
     maze = Persistency.loadGame("level" + level + ".xml", 17, 17);
 
     // todo add recorder
-    gamePanel = new GamePanel(maze, null, new PlayingButtons(this), false);
+    Recorder recorder = new Recorder(level, false, null);
+    gamePanel = new GamePanel(maze, recorder, new PlayingButtons(this), false);
     setContentPane(gamePanel);
     gamePanel.startLevel(level);
 
-    keyController.setRecorder(new Recorder(level));
+    keyController.setRecorder(recorder);
 
     pack(); // resize to fit new content
   }
@@ -169,9 +170,9 @@ public class App extends JFrame implements WindowActions {
     replaying = true;
 
     maze = Persistency.loadGame("level" + level + ".xml", 17, 17);
-    //Recorder recorder = new Recorder(level);
+    Recorder recorder = new Recorder(level, true, xmlPath);
 
-    gamePanel = new GamePanel(maze, null, new ReplayingButtons(this), true);
+    gamePanel = new GamePanel(maze, recorder, new ReplayingButtons(this), true);
     setContentPane(gamePanel);
     
     pause();

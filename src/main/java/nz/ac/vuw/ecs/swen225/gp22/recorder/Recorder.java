@@ -15,7 +15,6 @@ import java.util.Map.Entry;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import nz.ac.vuw.ecs.swen225.gp22.app.GamePanel;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Direction;
 import org.jdom2.Document;
 import org.jdom2.Element;
@@ -42,14 +41,18 @@ public class Recorder {
    * If recordingName matches any current .XML files, load Recording from file.
    * Else, create a new empty Recorder object to be saved at a later date.
    * $ @param levelNumber Determines if actor movements are saved && what file they are saved to.
-   * $ @param gamePanel Game's gamePanel to access current tick. 
+   * $ @param load If true, load from XML
+   * $ @param xmlPath String path of file to load from
    */
   
-  public Recorder(int levelNumber) {
+  public Recorder(int levelNumber, boolean load, String xmlPath) {
     this.playerMovements = new ArrayList<>();
     this.actorMovements = new ArrayList<>();
     this.levelNumber = levelNumber;
     tick = 0;
+    if(load && xmlPath != null){
+      this.loadToXml(levelNumber, xmlPath);
+    }
   }
 
   /**
@@ -175,12 +178,12 @@ public class Recorder {
    * Loads all movements based off level number.
    * $ @param level Determines which moves' file to load
    */
-  private void loadToXml(int level) {
+  private void loadToXml(int level, String xmlString) {
     Document doc = null;
     try {
       DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
       DocumentBuilder documentBuilder = factory.newDocumentBuilder();
-      org.w3c.dom.Document w3cDocument = documentBuilder.parse("moves_level_" + level + ".xml");
+      org.w3c.dom.Document w3cDocument = documentBuilder.parse(xmlString);
       doc = new DOMBuilder().build(w3cDocument);
     } catch (IOException | SAXException | ParserConfigurationException e) {
       e.printStackTrace();
@@ -189,7 +192,9 @@ public class Recorder {
       this.replayedPlayerMovements = new HashMap<Integer, Direction>();
       Element playerMovementsElement =  doc.getRootElement().getChild("PlayerMovements");
       saveMovesToHashMap(playerMovementsElement, this.replayedPlayerMovements);
-    } else if (level == 2) {
+    } 
+    
+    if (level == 2) {
       this.replayedActorMovements = new HashMap<Integer, Direction>();
       Element actorMovementsElement = doc.getRootElement().getChild("ActorMovements");
       saveMovesToHashMap(actorMovementsElement, this.replayedActorMovements);
@@ -203,8 +208,9 @@ public class Recorder {
    */
   private void saveMovesToHashMap(Element element, HashMap<Integer, Direction> hashMap) {
     for (Element subElement : element.getChildren()) {
-      int tick = Integer.parseInt(subElement.getChild("Movement").getChild("Tick").getValue());
-      String directionString = subElement.getChild("Movement").getChild("Direction").getValue();
+
+      int tick = Integer.parseInt(subElement.getChild("Tick").getValue());
+      String directionString = subElement.getChild("Direction").getValue();
       switch (directionString) {
         case "up":
           hashMap.put(tick, Direction.Up);
