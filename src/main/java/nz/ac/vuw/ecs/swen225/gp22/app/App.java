@@ -2,6 +2,7 @@ package nz.ac.vuw.ecs.swen225.gp22.app;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Direction;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Maze;
@@ -77,10 +78,14 @@ public class App extends JFrame implements WindowActions {
   /**
    * Get XML file from user.
    *
+   * @param isOpening If the file is being opened or saved.
+   *
    * @return file path
    */
-  private String getXmlFileFromUser() {
-    int returnVal = fileChooser.showOpenDialog(this);
+  private String getXmlFileFromUser(boolean isOpening) {
+    int returnVal = isOpening ?
+        fileChooser.showOpenDialog(this) :
+        fileChooser.showSaveDialog(this);
 
     if (returnVal == JFileChooser.APPROVE_OPTION) {
       return fileChooser.getSelectedFile().toString();
@@ -113,29 +118,25 @@ public class App extends JFrame implements WindowActions {
 
   @Override
   public void saveAndExit() {
-    /*
-      TODO: save level state so that it can be resumed later.
-    */
+    // todo once recorder is finished
+    String pathToSave = getXmlFileFromUser(false);
     // recorder.saveLevel();
     exit();
   }
 
   @Override
   public void exit() {
-    /*
-      TODO: save level number so that next time game started.
-      the first level is that.
-    */
     System.exit(0);
   }
 
   @Override
   public void getGameAndResume() {
-    String xmlPath = getXmlFileFromUser();
+    String xmlPath = getXmlFileFromUser(true);
     if (xmlPath == null) {
       return; // user didn't select a file
     }
 
+    // todo once recorder is finished
     // renderer = new Renderer(xmlPath);
     // startLevel(renderer.getLevel());
   }
@@ -161,7 +162,7 @@ public class App extends JFrame implements WindowActions {
   public void replayLevel(int level) {
     requestFocusInWindow();
 
-    String xmlPath = getXmlFileFromUser();
+    String xmlPath = getXmlFileFromUser(true);
     if (xmlPath == null) {
       return; // user didn't select a file
     }
@@ -181,17 +182,26 @@ public class App extends JFrame implements WindowActions {
   }
 
   @Override
-  public void setReplaySpeed(double speed) {
-    gamePanel.setSpeed(speed);
-  }
-
-  @Override
   public void stepReplay() {
-    /*
-     * todo
-     */
+    // todo once recorder is finished
     // var nextTick = recorder.getNextTick();
     //gamePanel.setTick(nextTick);
+  }
+
+  /**
+   * Get new speed from user
+   */
+  public void setReplaySpeed() {
+    try {
+    var speed = Double.parseDouble(
+        JOptionPane.showInputDialog("Enter a speed between 0 and 1"));
+      if (speed < 0 || speed > 1) {
+        throw new NumberFormatException();
+      }
+      gamePanel.setSpeed(speed);
+    } catch (NumberFormatException ex) {
+      JOptionPane.showMessageDialog(null, "Invalid speed");
+    }
   }
 
 }

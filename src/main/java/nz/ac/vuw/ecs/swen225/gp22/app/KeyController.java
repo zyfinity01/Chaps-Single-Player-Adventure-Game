@@ -59,7 +59,7 @@ public class KeyController implements KeyListener {
       // RIGHT
       case KeyEvent.VK_RIGHT -> actions.move(Direction.Right);
       // SPACE BAR
-      case KeyEvent.VK_SPACE -> actions.pause();
+      case KeyEvent.VK_SPACE -> actions.togglePause();
       // ESC
       case KeyEvent.VK_ESCAPE -> actions.unpause();
       // CTRL-X

@@ -56,16 +56,7 @@ public class ReplayingButtons extends ActionPanel {
     setSpeedButton.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        try {
-          var speed = Double.parseDouble(
-              JOptionPane.showInputDialog("Enter a speed between 0 and 1"));
-          if (speed < 0 || speed > 1) {
-            throw new NumberFormatException();
-          }
-          actions.setReplaySpeed(speed);
-        } catch (NumberFormatException ex) {
-          JOptionPane.showMessageDialog(null, "Invalid speed");
-        }
+        actions.setReplaySpeed();
       }
     });
     add(setSpeedButton);
