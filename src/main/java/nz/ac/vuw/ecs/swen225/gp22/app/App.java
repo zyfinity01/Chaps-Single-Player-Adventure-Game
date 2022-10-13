@@ -1,6 +1,8 @@
 package nz.ac.vuw.ecs.swen225.gp22.app;
 
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Direction;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Maze;
 import nz.ac.vuw.ecs.swen225.gp22.persistency.Persistency;
@@ -30,6 +32,16 @@ public class App extends JFrame implements WindowActions {
   private Maze maze;
 
   /**
+   * If the game is being replayed.
+   */
+  private boolean replaying;
+
+  /**
+   * File chooser for loading and saving.
+   */
+  private final JFileChooser fileChooser;
+
+  /**
    * Create the frame.
    */
   public App(boolean useStartScreen) {
@@ -53,14 +65,33 @@ public class App extends JFrame implements WindowActions {
       startLevel(1);
     }
 
+    // file chooser
+    fileChooser = new JFileChooser();
+    fileChooser.setFileFilter(new FileNameExtensionFilter("xml file", "xml"));
+
     // Display window
     pack();
     setVisible(true);
   }
 
+  /**
+   * Get XML file from user.
+   *
+   * @return file path
+   */
+  private String getXmlFileFromUser() {
+    int returnVal = fileChooser.showOpenDialog(this);
+
+    if (returnVal == JFileChooser.APPROVE_OPTION) {
+      return fileChooser.getSelectedFile().toString();
+    }
+
+    return null;
+  }
+
   @Override
   public void move(Direction direction) {
-    if (maze.canMoveChap(direction) && !gamePanel.isPaused()) {
+    if (maze.canMoveChap(direction) && !gamePanel.isPaused() && !replaying) {
       maze.moveChap(direction);
     }
   }
@@ -85,13 +116,14 @@ public class App extends JFrame implements WindowActions {
     /*
       TODO: save level state so that it can be resumed later.
     */
+    // recorder.saveLevel();
     exit();
   }
 
   @Override
   public void exit() {
     /*
-      TODO: save level number so that next time game started
+      TODO: save level number so that next time game started.
       the first level is that.
     */
     System.exit(0);
@@ -99,25 +131,67 @@ public class App extends JFrame implements WindowActions {
 
   @Override
   public void getGameAndResume() {
-    /*
-     TODO: resume a saved game - this will pop up a file selector to select a saved game
-     to be loaded
-    */
+    String xmlPath = getXmlFileFromUser();
+    if (xmlPath == null) {
+      return; // user didn't select a file
+    }
+
+    // renderer = new Renderer(xmlPath);
+    // startLevel(renderer.getLevel());
   }
 
   @Override
   public void startLevel(int level) {
     requestFocusInWindow();
 
+    replaying = false; 
     maze = Persistency.loadGame("level" + level + ".xml", 17, 17);
 
-    gamePanel = new GamePanel(this, maze);
+    // todo add recorder
+    gamePanel = new GamePanel(maze, null, new PlayingButtons(this), false);
     setContentPane(gamePanel);
     gamePanel.startLevel(level);
 
     keyController.setRecorder(new Recorder(level));
 
     pack(); // resize to fit new content
+  }
+
+  @Override
+  public void replayLevel(int level) {
+    requestFocusInWindow();
+
+    String xmlPath = getXmlFileFromUser();
+    if (xmlPath == null) {
+      return; // user didn't select a file
+    }
+
+    replaying = true;
+
+    maze = Persistency.loadGame("level" + level + ".xml", 17, 17);
+    //Recorder recorder = new Recorder(level);
+
+    gamePanel = new GamePanel(maze, null, new ReplayingButtons(this), true);
+    setContentPane(gamePanel);
+    
+    pause();
+    gamePanel.startLevel(level);
+
+    pack(); // resize to fit new content
+  }
+
+  @Override
+  public void setReplaySpeed(double speed) {
+    gamePanel.setSpeed(speed);
+  }
+
+  @Override
+  public void stepReplay() {
+    /*
+     * todo
+     */
+    // var nextTick = recorder.getNextTick();
+    //gamePanel.setTick(nextTick);
   }
 
 }

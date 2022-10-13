@@ -1,31 +1,23 @@
 package nz.ac.vuw.ecs.swen225.gp22.app;
 
-import java.awt.FlowLayout;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.IOException;
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JPanel;
+import javax.swing.JOptionPane;
 
 /**
 * Panel containing action buttons.
 *
 * @author Sam Redmond, 300443508
 */
-public class ActionButtons extends JPanel {
+public class PlayingButtons extends ActionPanel {
   
   /**
   * Create the panel.
   *
   * @param actions action handler
   */
-  public ActionButtons(WindowActions actions) {
-    setOpaque(false);
-    setLayout(new FlowLayout(FlowLayout.LEFT, 15, 10));
+  public PlayingButtons(WindowActions actions) {
+    super();
     
     // play button
     var playButton = createButton("resources//images//play_button.png");
@@ -42,12 +34,11 @@ public class ActionButtons extends JPanel {
     pauseButton.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        System.out.println("this ran");
         actions.pause();
       }
     });
     add(pauseButton);
-    
+
     // load button
     var loadButton = createButton("resources//images//load_button.png");
     loadButton.addActionListener(new ActionListener() {
@@ -58,14 +49,24 @@ public class ActionButtons extends JPanel {
     });
     add(loadButton);
     
+    // save button
+    var saveButton = createButton("resources//images//save_button.png");
+    saveButton.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        actions.saveAndExit();
+      }
+    });
+    add(saveButton);
+    
     // info button
     var infoButton = createButton("resources//images//info_button.png");
     infoButton.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        /*
-         * Todo
-         */
+        JOptionPane.showMessageDialog(null,
+            "How to play:\nUse arrow keys to move.\nCollect Bobs tools to access rooms.\n"
+            + "Collect his all of his sammies.\nThen get to the exit to win!");
       }
     });
     add(infoButton);
@@ -80,17 +81,5 @@ public class ActionButtons extends JPanel {
     });
     add(exitButton);
   }
-  
-  private JButton createButton(String imagePath) {
-    JButton button = null;
-    try {
-      var buttonIcon = ImageIO.read(new File(imagePath));
-      button = new JButton(new ImageIcon(buttonIcon));
-      button.setMargin(new Insets(0, 0, 0, 0));
-      button.setOpaque(false);
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-    return button;
-  }
+
 }
