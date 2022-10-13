@@ -3,6 +3,7 @@ package nz.ac.vuw.ecs.swen225.gp22.recorder;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -31,8 +32,8 @@ import nz.ac.vuw.ecs.swen225.gp22.domain.Direction;
  * $ @author Shae West, 300565911
  */
 public class Recorder{
-  private ArrayList<String> playerMovements;
-  private ArrayList<String> actorMovements;
+  private ArrayList<Entry<Integer, String>> playerMovements;
+  private ArrayList<Entry<Integer, String>> actorMovements;
   private GamePanel gamePanel;
   private int levelNumber;
   private HashMap<Integer, Direction> replayedPlayerMovements;
@@ -78,7 +79,8 @@ public class Recorder{
         directionString = "right";
         break;
     }
-    this.playerMovements.add(this.gamePanel.getTick() + ":" + directionString);
+    Map.Entry<Integer, String> entry = new AbstractMap.SimpleEntry<Integer, String>(this.gamePanel.getTick(), directionString);
+    this.playerMovements.add(entry);
     this.saveToXml();
   }
 
@@ -102,7 +104,8 @@ public class Recorder{
         directionString = "empty";
         break;
     }
-    this.actorMovements.add(this.gamePanel.getTick() + ":" + directionString);
+    Map.Entry<Integer, String> entry = new AbstractMap.SimpleEntry<Integer, String>(this.gamePanel.getTick(), directionString);
+    this.actorMovements.add(entry);
     this.saveToXml();
   }
 
@@ -115,14 +118,34 @@ public class Recorder{
     Element playerMovements = new Element("PlayerMovements");
     Element actorMovements = new Element("ActorMovements");
 
-    for (String movement : this.playerMovements) {
-      playerMovements.addContent(new Element("movement").setText(movement.toString()));
+    for (Map.Entry<Integer, String> entry : this.playerMovements) {
+      Integer tickCollect = entry.getKey();
+      String directionString = entry.getValue();
+
+      Element movement = new Element("Movement");
+      Element direction = new Element("Direction").setText(directionString);
+      Element tick = new Element("Tick").setText(tickCollect.toString());
+
+      movement.addContent(direction);
+      movement.addContent(tick);
+
+      playerMovements.addContent(movement);
     }
     root.addContent(playerMovements);
 
     if (this.levelNumber == 2) {
-      for (String movement : this.actorMovements) {
-        actorMovements.addContent(new Element(movement.toString()));
+      for (Map.Entry<Integer, String> entry : this.actorMovements) {
+        Integer tickCollect = entry.getKey();
+        String directionString = entry.getValue();
+        
+        Element movement = new Element("Movement");
+        Element direction = new Element("Direction").setText(directionString);
+        Element tick = new Element("Tick").setText(tickCollect.toString());
+
+        movement.addContent(direction);
+        movement.addContent(tick);
+
+        actorMovements.addContent(movement);
       }
       root.addContent(actorMovements);
     }
