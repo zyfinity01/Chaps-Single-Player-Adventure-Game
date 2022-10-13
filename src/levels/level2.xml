@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Game>
+<game>
     <time>60</time>
     <inventory>
     </inventory>
@@ -357,5 +357,5 @@
             </WALL>
         </tiles>
     </board>
-</Game>
+</game>
 
