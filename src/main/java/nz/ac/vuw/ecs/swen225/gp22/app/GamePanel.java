@@ -15,6 +15,7 @@ import javax.swing.border.EmptyBorder;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Key;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Maze;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Treasure;
+import nz.ac.vuw.ecs.swen225.gp22.renderer.Renderer;
 
 
 /**
@@ -106,15 +107,8 @@ public class GamePanel extends JPanel {
    * Update each tick.
    */
   private void gameLoop() {
-    if (isPaused) {
-      /*
-       TODO: Show paused dialog
-       */
-      return;
-    }
-
     // only update stats once a second
-    if (tick % (1000 / TICK_RATE) == 0) {
+    if (!isPaused && tick % (1000 / TICK_RATE) == 0) {
       maze.tick();
       statsPanel.setTime(maze.getTimeLeft());
       statsPanel.setChipsLeft(maze.getCountOfMazeTiles(Treasure.class));
@@ -137,6 +131,7 @@ public class GamePanel extends JPanel {
 
   public void setPause(boolean isPaused) {
     this.isPaused = isPaused;
+    Renderer.showPauseText = isPaused;
   }
 
   /**
