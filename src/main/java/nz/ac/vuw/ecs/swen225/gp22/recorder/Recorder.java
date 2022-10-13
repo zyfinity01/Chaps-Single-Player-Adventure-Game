@@ -6,7 +6,10 @@ import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.awt.event.KeyEvent;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -205,5 +208,34 @@ public class Recorder{
    */
   public Direction doActorMovement(int tick){
     return this.replayedActorMovements.get(tick);
+  }
+
+  /**
+   * Gets the next tick with a movement from parameter tick
+   * $ @param tick current tick
+   * $ @param type String which contains "actor" or "player"
+   */
+  public Integer getNextMovementTick(int tick, String type){
+    if(type.equals("player")){
+      Iterator<Entry<Integer, Direction> > iterator = replayedPlayerMovements.entrySet().iterator();
+      while (iterator.hasNext()) {
+        Map.Entry<Integer, Direction> entry = (Map.Entry<Integer, Direction>) iterator.next();
+
+        if(entry.getKey().intValue() > tick){
+          return entry.getKey().intValue();
+        }
+      }
+    }
+    else if (type.equals("actor")){
+      Iterator<Entry<Integer, Direction> > iterator = replayedActorMovements.entrySet().iterator();
+      while (iterator.hasNext()) {
+        Map.Entry<Integer, Direction> entry = (Map.Entry<Integer, Direction>) iterator.next();
+
+        if(entry.getKey().intValue() > tick){
+          return entry.getKey().intValue();
+        }
+      }
+    }
+    return null;
   }
 }
