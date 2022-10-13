@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.awt.event.KeyEvent;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -20,18 +21,19 @@ import org.jdom2.output.XMLOutputter;
 import org.xml.sax.SAXException;
 
 import nz.ac.vuw.ecs.swen225.gp22.app.GamePanel;
+import nz.ac.vuw.ecs.swen225.gp22.domain.Direction;
 
 /**
-   * Recorder object saves, stores and exports all movements made by users and players.
-   * $ @author Shae West, 300565911
+ * Recorder object saves, stores and exports all movements made by users and players.
+ * $ @author Shae West, 300565911
  */
-public class Recorder {
+public class Recorder{
   private ArrayList<String> playerMovements;
   private ArrayList<String> enemyMovements;
   private GamePanel gamePanel;
   private int levelNumber;
-  private HashMap<Integer, Integer> replayedPlayerMovements;
-  private HashMap<Integer, Integer> replayedEnemyMovements;
+  private HashMap<Integer, Direction> replayedPlayerMovements;
+  private HashMap<Integer, Direction> replayedEnemyMovements;
 
   /**
    * Creates an Recorder,
@@ -53,14 +55,28 @@ public class Recorder {
    * $ @param keyCode Integer value of keybind press 
    */
   public void savePlayerMovement(int keyCode) {
-    Integer[] keyArray = new Integer[] {38, 40, 37, 39, 32, 27, 17, 88, 83, 82, 49, 50};
+    Integer[] keyArray = new Integer[] {KeyEvent.VK_UP, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_DOWN};
     List<Integer> validKeys = new ArrayList<Integer>(Arrays.asList(keyArray));
     if (!validKeys.contains(keyCode)) {
       return;
     }
-    this.playerMovements.add(keyCode + ":" + this.gamePanel.getTick());
+    String directionString = "empty";
+    switch(keyCode){
+      case KeyEvent.VK_UP:
+        directionString = "up";
+        break;
+      case KeyEvent.VK_LEFT:
+        directionString = "left";
+        break;
+      case KeyEvent.VK_DOWN:
+        directionString = "down";
+        break;
+      case KeyEvent.VK_RIGHT:
+        directionString = "right";
+        break;
+    }
+    this.playerMovements.add(this.gamePanel.getTick() + ":" + directionString);
     this.saveToXml();
-    loadToXml(1);
   }
 
   /**
@@ -113,21 +129,57 @@ public class Recorder {
       e.printStackTrace();
     }
     if(level == 1){
+      this.replayedPlayerMovements = new HashMap<Integer, Direction>();
       Element playerMovementsElement =  doc.getRootElement().getChild("PlayerMovements");
-      for(Element element : playerMovementsElement.getChildren()){
-        String[] split = element.getValue().split(":");
-        int keycode = Integer.valueOf(split[0]);
-        int tick = Integer.valueOf(split[1]);
-        this.replayedPlayerMovements.put(tick, keycode);
-      }
+      saveMovesToHashMap(playerMovementsElement, this.replayedPlayerMovements);
     } else if (level == 2){
+      this.replayedEnemyMovements = new HashMap<Integer, Direction>();
       Element enemyMovementsElement = doc.getRootElement().getChild("EnemyMovements");
-      for(Element element : enemyMovementsElement.getChildren()){
-        String[] split = element.getValue().split(":");
-        int keycode = Integer.valueOf(split[0]);
-        int tick = Integer.valueOf(split[1]);
-        this.replayedEnemyMovements.put(tick, keycode);
+      saveMovesToHashMap(enemyMovementsElement, this.replayedEnemyMovements);
+    }
+  }
+
+  /**
+   * Converts a element of movements into formatted hashmap.
+   * $ @param element Document element
+   * $ @param hashMap HashMap to put into
+   */
+  private void saveMovesToHashMap(Element element, HashMap<Integer, Direction> hashMap){
+    for(Element subElement : element.getChildren()){
+      String[] split = subElement.getValue().split(":");
+      int tick = Integer.valueOf(split[1]);
+      switch(split[0]){
+        case "up":
+          hashMap.put(tick, Direction.Up);
+          break;
+        case "right":
+          hashMap.put(tick, Direction.Right);
+          break;
+        case "left":
+          hashMap.put(tick, Direction.Left);
+          break;
+        case "down":
+          hashMap.put(tick, Direction.Down);
+          break;
       }
     }
+  }
+
+  /**
+   * If there is a move to be done for the player, return the keycode
+   * 
+   * $ @param tick Tick that connects to movement wanting to be played.
+   */
+  public Direction doPlayerMovement(int tick){
+    return this.replayedPlayerMovements.get(tick);
+  }
+
+  /**
+   * If there is a move to be done for the enemy, return the keycode
+   * 
+   * $ @param tick Tick that connects to movement wanting to be played.
+   */
+  public Direction doEnemyMovement(int tick){
+    return this.replayedEnemyMovements.get(tick);
   }
 }
