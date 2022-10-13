@@ -95,10 +95,6 @@ public class Recorder {
     } catch (Exception e) {
       e.printStackTrace();
     }
-
-    //TODO: Uncomment >> Resets stored movements
-    //this.playerMovements = new ArrayList<>();
-    //this.enemyMovements = new ArrayList<>();
   }
 
   /**
@@ -116,15 +112,15 @@ public class Recorder {
     } catch (IOException | SAXException | ParserConfigurationException e) {
       e.printStackTrace();
     }
-    Element playerMovementsElement =  doc.getRootElement().getChild("PlayerMovements");
-    for(Element element : playerMovementsElement.getChildren()){
-      String[] split = element.getValue().split(":");
-      int keycode = Integer.valueOf(split[0]);
-      int tick = Integer.valueOf(split[1]);
-      this.replayedPlayerMovements.put(tick, keycode);
-    }
-
-    if(level == 2){
+    if(level == 1){
+      Element playerMovementsElement =  doc.getRootElement().getChild("PlayerMovements");
+      for(Element element : playerMovementsElement.getChildren()){
+        String[] split = element.getValue().split(":");
+        int keycode = Integer.valueOf(split[0]);
+        int tick = Integer.valueOf(split[1]);
+        this.replayedPlayerMovements.put(tick, keycode);
+      }
+    } else if (level == 2){
       Element enemyMovementsElement = doc.getRootElement().getChild("EnemyMovements");
       for(Element element : enemyMovementsElement.getChildren()){
         String[] split = element.getValue().split(":");
@@ -134,5 +130,4 @@ public class Recorder {
       }
     }
   }
-
 }
