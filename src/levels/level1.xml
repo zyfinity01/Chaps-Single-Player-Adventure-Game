@@ -203,7 +203,9 @@
             <INFO>
                 <x>9</x>
                 <y>7</y>
-                <text>Yo this is level 1, go out there and play the game</text>
+                <text>Yo this is level 1,
+                    go out there and
+                    play the game</text>
             </INFO>
             <KEY>
                 <x>11</x>

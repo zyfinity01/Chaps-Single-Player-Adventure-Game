@@ -255,7 +255,7 @@ public class Renderer {
       for (int y = -20; y < maze.getRows() + 20; y++) {
         // Overscan somewhat to draw the walls outside the level, so it's not just empty space
         if (x < 0 || x >= maze.getCols() || y < 0 || y >= maze.getRows()) {
-          image.drawImage(getWall(x, y), null, x * tileWidth, y * tileWidth);
+          image.drawImage(getFree(x, y), null, x * tileWidth, y * tileWidth);
         } else {
           image.drawImage(getFree(x, y), null, x * tileWidth, y * tileWidth);
           image.drawImage(image(maze.getTiles()[y][x], x, y), null, x * tileWidth, y * tileWidth);
