@@ -134,10 +134,9 @@ public class Persistency {
    * Load a maze from a file.
    *
    * @param fileName file to load from.
-   * @return loaded maze.
-   * @throws IOException if file cannot be read from.
-   * @throws ParserConfigurationException if XML parser cannot be configured.
-   * @throws SAXException if XML cannot be parsed.
+   * @param boardCols number of columns in the board.
+   * @param boardRows number of rows in the board.
+   * @return the loaded maze.
    */
   public static Maze loadGame(String fileName, int boardCols, int boardRows) {
     Tile[][] board = new Tile[boardRows][boardCols];
@@ -205,13 +204,10 @@ public class Persistency {
   }
 
   /**
-   * Get a parsed XML document.
+   * Get the parsed document from a file.
    *
    * @param fileName file to parse.
-   * @return parsed XML document.
-   * @throws ParserConfigurationException if XML parser cannot be configured.
-   * @throws SAXException if XML cannot be parsed.
-   * @throws IOException if file cannot be read from.
+   * @return the parsed document.
    */
   private static Document getParsedDoc(final String fileName) {
     Document doc = null;
@@ -241,14 +237,9 @@ public class Persistency {
       var loader = new URLClassLoader(urls);
 
       return Class.forName("nz.ac.vuw.ecs.swen225.gp22.domain.Actor", true, loader);
-    } catch (IOException ex) {
+    } catch (IOException | IllegalArgumentException
+             | SecurityException | ClassNotFoundException ex) {
       ex.printStackTrace();
-    } catch (IllegalArgumentException e) {
-      e.printStackTrace();
-    } catch (SecurityException e) {
-      e.printStackTrace();
-    } catch (ClassNotFoundException e) {
-      e.printStackTrace();
     }
     return null;
   }
@@ -263,19 +254,12 @@ public class Persistency {
   private Tile newCustomActor(String jarFile, Direction direction) {
     try {
       var actorClass = loadCustomActorClass(jarFile);
+      assert actorClass != null;
       var constructor = actorClass.getDeclaredConstructor(new Class[]{ Direction.class});
       return (Tile) constructor.newInstance(new Object[] { direction });
-    } catch (InstantiationException e) {
-      e.printStackTrace();
-    } catch (IllegalAccessException e) {
-      e.printStackTrace();
-    } catch (IllegalArgumentException e) {
-      e.printStackTrace();
-    } catch (InvocationTargetException e) {
-      e.printStackTrace();
-    } catch (NoSuchMethodException e) {
-      e.printStackTrace();
-    } catch (SecurityException e) {
+    } catch (InstantiationException | IllegalAccessException
+             | IllegalArgumentException | InvocationTargetException
+             | NoSuchMethodException | SecurityException e) {
       e.printStackTrace();
     }
     return null;
@@ -292,13 +276,8 @@ public class Persistency {
       var field = tile.getClass().getDeclaredField("direction");
       field.setAccessible(true);
       return (Direction) field.get(tile);
-    } catch (IllegalArgumentException e) {
-      e.printStackTrace();
-    } catch (IllegalAccessException e) {
-      e.printStackTrace();
-    } catch (NoSuchFieldException e) {
-      e.printStackTrace();
-    } catch (SecurityException e) {
+    } catch (IllegalArgumentException | IllegalAccessException
+             | NoSuchFieldException | SecurityException e) {
       e.printStackTrace();
     }
     return null;
