@@ -3,7 +3,6 @@ package nz.ac.vuw.ecs.swen225.gp22.app;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.JOptionPane;
 
 /**
 * Panel containing action buttons.

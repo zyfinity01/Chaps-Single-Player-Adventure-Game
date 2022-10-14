@@ -17,6 +17,7 @@ public class Maze {
   private Tile[][] tiles;
   private List<Tile> inventory;
   private int timeLeft;
+  private int level;
 
   private Position chapPosition;
   private Direction chapDirection;
@@ -26,10 +27,10 @@ public class Maze {
    *
    * @param tiles maze tiles.
    * @param rows count of maze rows.
-   * @param cols count of maze coluns.
+   * @param cols count of maze columns.
    */
-  public Maze(Tile[][] tiles, int rows, int cols, int timeLeft) {
-    this(tiles, rows, cols, List.of(), timeLeft);
+  public Maze(Tile[][] tiles, int rows, int cols, int timeLeft, int level) {
+    this(tiles, rows, cols, List.of(), timeLeft, level);
   }
 
   /**
@@ -40,14 +41,15 @@ public class Maze {
    * @param cols count of maze coluns
    * @param inventory player inventory
    */
-  public Maze(Tile[][] tiles, int rows, int cols, List<Tile> inventory, int timeLeft) {
-    verifyMazeSetup(tiles, rows, cols, inventory, timeLeft);
+  public Maze(Tile[][] tiles, int rows, int cols, List<Tile> inventory, int timeLeft, int level) {
+    verifyMazeSetup(tiles, rows, cols, inventory, timeLeft, level);
 
     this.tiles = tiles.clone();
     this.rows = rows;
     this.cols = cols;
     this.inventory = new ArrayList<>(inventory);
     this.timeLeft = timeLeft;
+    this.level = level;
 
     setupChapsLocation();
   }
@@ -113,6 +115,15 @@ public class Maze {
    */
   public int getTimeLeft() {
     return timeLeft;
+  }
+
+  /**
+   * Get the level number.
+   *
+   * @return current level.
+   */
+  public int getLevel() {
+    return level;
   }
 
   /**
@@ -286,7 +297,7 @@ public class Maze {
    * @param inventory player inventory.
    */
   private void verifyMazeSetup(Tile[][] tiles, int rows,
-      int cols, List<Tile> inventory, int timeLeft) {
+      int cols, List<Tile> inventory, int timeLeft, int level) {
     if (tiles == null) {
       throw new IllegalStateException("Tiles cannot be null");
     }
@@ -311,6 +322,10 @@ public class Maze {
 
     if (timeLeft <= 0) {
       throw new IllegalStateException("Time left must be greater than 0");
+    }
+
+    if (level <= 0) {
+      throw new IllegalStateException("Level numbers start at 1");
     }
   }
 

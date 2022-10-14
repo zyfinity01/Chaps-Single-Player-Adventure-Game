@@ -47,11 +47,9 @@ interface WindowActions {
   void startLevel(int level);
 
   /**
-   * Replay a certain level.
-   *
-   * @param level level to replay.
+   * Replay a level.
    */
-  void replayLevel(int level);
+  void replayLevel();
 
   /**
    * Toggle pause state.

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <game>
     <time>60</time>
+    <level>2</level>
     <inventory>
     </inventory>
     <board>

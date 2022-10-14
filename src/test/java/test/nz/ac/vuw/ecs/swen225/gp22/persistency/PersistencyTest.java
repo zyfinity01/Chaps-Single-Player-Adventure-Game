@@ -3,17 +3,12 @@ package test.nz.ac.vuw.ecs.swen225.gp22.persistency;
 import nz.ac.vuw.ecs.swen225.gp22.domain.*;
 import nz.ac.vuw.ecs.swen225.gp22.persistency.Persistency;
 import org.jdom2.Document;
-import org.jdom2.output.Format;
-import org.jdom2.output.XMLOutputter;
 import org.junit.jupiter.api.Test;
-
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
-import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -55,8 +50,8 @@ public class PersistencyTest {
 //
 //    }
     //Save toXML to file
-    private static final String fileName = "persistencyTest.xml";
-    private static final String saveGameFileName = "saveGamePersistencyTest.xml";
+    private static final String fileName = "src/levels/persistencyTest.xml";
+    private static final String saveGameFileName = "src/levels/saveGamePersistencyTest.xml";
 
     // =================================================================
     // Loading Tests
@@ -389,8 +384,8 @@ public class PersistencyTest {
                 "</game>\n");
         Maze maze = Persistency.loadGame(fileName, col, row);
         Persistency.saveGame(saveGameFileName, maze);
-        Document inputDocument = Persistency.getParsedDoc("src/levels/" + fileName);
-        Document saveGameDocument = Persistency.getParsedDoc("src/levels/" + saveGameFileName);
+        Document inputDocument = Persistency.getParsedDoc(fileName);
+        Document saveGameDocument = Persistency.getParsedDoc(saveGameFileName);
         //inputDocument.equals(saveGameDocument);
         assertEquals(inputDocument.toString(), saveGameDocument.toString());
     }
@@ -454,8 +449,8 @@ public class PersistencyTest {
                 "</game>\n");
         Maze maze = Persistency.loadGame(fileName, col, row);
         Persistency.saveGame(saveGameFileName, maze);
-        Document inputDocument = Persistency.getParsedDoc("src/levels/" + fileName);
-        Document saveGameDocument = Persistency.getParsedDoc("src/levels/" + saveGameFileName);
+        Document inputDocument = Persistency.getParsedDoc(fileName);
+        Document saveGameDocument = Persistency.getParsedDoc(saveGameFileName);
         //inputDocument.equals(saveGameDocument);
         assertEquals(inputDocument.toString(), saveGameDocument.toString());
     }
@@ -531,8 +526,8 @@ public class PersistencyTest {
                 "</game>\n");
         Maze maze = Persistency.loadGame(fileName, col, row);
         Persistency.saveGame(saveGameFileName, maze);
-        Document inputDocument = Persistency.getParsedDoc("src/levels/" + fileName);
-        Document saveGameDocument = Persistency.getParsedDoc("src/levels/" + saveGameFileName);
+        Document inputDocument = Persistency.getParsedDoc(fileName);
+        Document saveGameDocument = Persistency.getParsedDoc(saveGameFileName);
         //inputDocument.equals(saveGameDocument);
         assertEquals(inputDocument.toString(), saveGameDocument.toString());
     }

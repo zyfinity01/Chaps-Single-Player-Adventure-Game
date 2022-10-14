@@ -70,6 +70,13 @@ public class MenuBar extends JMenuBar {
     });
     levelMenu.add(levelTwoItem);
 
+    // Custom
+    var customLevelItem = new JMenuItem(new AbstractAction("Custom") {
+      public void actionPerformed(ActionEvent e) {
+        actions.getGameAndResume();
+      }
+    });
+    levelMenu.add(customLevelItem);
     add(levelMenu);
 
     /*
@@ -91,7 +98,7 @@ public class MenuBar extends JMenuBar {
         actions.setReplaySpeed();
       }
     });
-    levelMenu.add(updateSpeedItem);
+    replayMenu.add(updateSpeedItem);
 
     add(replayMenu);
     

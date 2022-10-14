@@ -75,6 +75,12 @@ public class App extends JFrame implements WindowActions {
     setVisible(true);
   }
 
+  private void swapPanel(GamePanel panel) {
+    setContentPane(panel);
+    pack(); // resize to fit new content
+    requestFocusInWindow(); // allow keypress focus
+  }
+
   /**
    * Get XML file from user.
    *
@@ -96,6 +102,9 @@ public class App extends JFrame implements WindowActions {
 
   @Override
   public void move(Direction direction) {
+    if (maze == null || gamePanel == null) {
+      return;
+    }
     if (maze.canMoveChap(direction) && !gamePanel.isPaused() && !replaying) {
       maze.moveChap(direction);
     }
@@ -103,17 +112,23 @@ public class App extends JFrame implements WindowActions {
 
   @Override
   public void pause() {
-    gamePanel.setPause(true);
+    if (gamePanel != null) {
+      gamePanel.setPause(true);
+    }
   }
 
   @Override
   public void unpause() {
-    gamePanel.setPause(false);
+    if (gamePanel != null) {
+      gamePanel.setPause(false);
+    }
   }
 
   @Override
   public void togglePause() {
-    gamePanel.setPause(!gamePanel.isPaused());
+    if (gamePanel != null) {
+      gamePanel.setPause(!gamePanel.isPaused());
+    }
   }
 
   @Override
@@ -135,50 +150,53 @@ public class App extends JFrame implements WindowActions {
     if (xmlPath == null) {
       return; // user didn't select a file
     }
-
-    // todo once recorder is finished
-    // renderer = new Renderer(xmlPath);
-    // startLevel(renderer.getLevel());
+    startLevel(xmlPath);
   }
 
   @Override
   public void startLevel(int level) {
-    requestFocusInWindow();
+    startLevel("src/levels/level" + level + ".xml");
+  }
 
+  /**
+   * Load level and start game.
+   *
+   * @param xmlPath path to level
+   */
+  public void startLevel(String xmlPath) {
     replaying = false; 
-    maze = Persistency.loadGame("level" + level + ".xml", 17, 17);
+    maze = Persistency.loadGame(xmlPath, 17, 17);
+    int level = maze.getLevel();
 
-    // todo add recorder
-    gamePanel = new GamePanel(maze, null, new PlayingButtons(this), false);
-    setContentPane(gamePanel);
+    Recorder recorder = new Recorder(level, false, null);
+    gamePanel = new GamePanel(maze, recorder, new PlayingButtons(this), false);
+    
     gamePanel.startLevel(level);
+    keyController.setRecorder(recorder);
 
-    keyController.setRecorder(new Recorder(level));
-
-    pack(); // resize to fit new content
+    swapPanel(gamePanel);
   }
 
   @Override
-  public void replayLevel(int level) {
-    requestFocusInWindow();
+  public void replayLevel() {
+    replaying = true;
 
     String xmlPath = getXmlFileFromUser(true);
     if (xmlPath == null) {
       return; // user didn't select a file
     }
 
-    replaying = true;
+    // var recorder = new Recorder(xmlPath);
+    // var level = recorder.getLevel();
+    int level = 1;
 
+    Recorder recorder = new Recorder(level, true, xmlPath);
     maze = Persistency.loadGame("level" + level + ".xml", 17, 17);
-    //Recorder recorder = new Recorder(level);
-
-    gamePanel = new GamePanel(maze, null, new ReplayingButtons(this), true);
-    setContentPane(gamePanel);
+    gamePanel = new GamePanel(maze, recorder, new ReplayingButtons(this), true);
     
-    pause();
+    swapPanel(gamePanel);
     gamePanel.startLevel(level);
-
-    pack(); // resize to fit new content
+    pause();
   }
 
   @Override
@@ -192,6 +210,10 @@ public class App extends JFrame implements WindowActions {
    * Get new speed from user.
    */
   public void setReplaySpeed() {
+    if (gamePanel == null) {
+      JOptionPane.showMessageDialog(null, "Please load the replay first");
+      return;
+    }
     try {
       var speed = Double.parseDouble(
           JOptionPane.showInputDialog("Enter a speed between 0 and 1"));
