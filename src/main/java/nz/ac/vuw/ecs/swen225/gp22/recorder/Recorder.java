@@ -190,12 +190,16 @@ public class Recorder {
     }
     if (level == 1) {
       this.replayedPlayerMovements = new HashMap<Integer, Direction>();
+      if(doc.getRootElement() == null) return;
+      if(doc.getRootElement().getChild("PlayerMovements") == null) return;
       Element playerMovementsElement =  doc.getRootElement().getChild("PlayerMovements");
       saveMovesToHashMap(playerMovementsElement, this.replayedPlayerMovements);
     } 
     
     if (level == 2) {
       this.replayedActorMovements = new HashMap<Integer, Direction>();
+      if(doc.getRootElement() == null) return;
+      if(doc.getRootElement().getChild("ActorMovements") == null) return;
       Element actorMovementsElement = doc.getRootElement().getChild("ActorMovements");
       saveMovesToHashMap(actorMovementsElement, this.replayedActorMovements);
     }
