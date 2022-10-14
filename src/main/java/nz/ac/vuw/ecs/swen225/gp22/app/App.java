@@ -63,7 +63,7 @@ public class App extends JFrame implements WindowActions {
       setContentPane(new StartPanel(this));
     } else {
       // Game Screen
-      startLevel(1);
+      startLevel(2);
     }
 
     // file chooser

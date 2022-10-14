@@ -47,7 +47,7 @@ public class Persistency {
    * @param fileName file to save to.
    */
   public static void saveGame(String fileName, Maze maze) {
-    Element root = new Element("Game");
+    Element root = new Element("game");
     Document doc = new Document(root);
     Element timeElement = new Element("time");
     //Element livesElement = new Element("lives");
@@ -217,7 +217,7 @@ public class Persistency {
    * @param fileName file to parse.
    * @return the parsed document.
    */
-  private static Document getParsedDoc(final String fileName) {
+  public static Document getParsedDoc(final String fileName) {
     Document doc = null;
     try {
       DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -259,7 +259,7 @@ public class Persistency {
    * @param direction the direction the actor is facing
    * @return direction tile
    */
-  private static Tile newCustomActor(String jarFile, Direction direction) {
+  public static Tile newCustomActor(String jarFile, Direction direction) {
     try {
       var actorClass = loadCustomActorClass(jarFile);
       assert actorClass != null;
@@ -279,7 +279,7 @@ public class Persistency {
    * @param tile the tile to check
    * @return return the firection of the actor
    */
-  private static Direction getCustomActorDirection(Tile tile) {
+  public static Direction getCustomActorDirection(Tile tile) {
     try {
       var field = tile.getClass().getDeclaredField("direction");
       field.setAccessible(true);
