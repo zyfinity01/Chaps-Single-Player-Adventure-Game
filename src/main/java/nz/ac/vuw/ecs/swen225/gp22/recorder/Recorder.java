@@ -179,6 +179,7 @@ public class Recorder {
    * $ @param level Determines which moves' file to load
    */
   private void loadToXml(int level, String xmlString) {
+    System.out.println("AHAHAHAHAHAH");
     Document doc = null;
     try {
       DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -188,13 +189,11 @@ public class Recorder {
     } catch (IOException | SAXException | ParserConfigurationException e) {
       e.printStackTrace();
     }
-    if (level == 1) {
-      this.replayedPlayerMovements = new HashMap<Integer, Direction>();
-      if(doc.getRootElement() == null) return;
-      if(doc.getRootElement().getChild("PlayerMovements") == null) return;
-      Element playerMovementsElement =  doc.getRootElement().getChild("PlayerMovements");
-      saveMovesToHashMap(playerMovementsElement, this.replayedPlayerMovements);
-    } 
+    this.replayedPlayerMovements = new HashMap<Integer, Direction>();
+    if(doc.getRootElement() == null) return;
+    if(doc.getRootElement().getChild("PlayerMovements") == null) return;
+    Element playerMovementsElement =  doc.getRootElement().getChild("PlayerMovements");
+    saveMovesToHashMap(playerMovementsElement, this.replayedPlayerMovements);
     
     if (level == 2) {
       this.replayedActorMovements = new HashMap<Integer, Direction>();
@@ -286,5 +285,4 @@ public class Recorder {
   public void setTick(int tick) {
     this.tick = tick;
   }
-
 }
