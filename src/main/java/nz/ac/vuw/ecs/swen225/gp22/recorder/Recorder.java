@@ -189,17 +189,20 @@ public class Recorder {
     } catch (IOException | SAXException | ParserConfigurationException e) {
       e.printStackTrace();
     }
+    if (doc == null) {
+      return;
+    }
+    Element root = doc.getRootElement();
+    if (root == null) {
+      return;
+    }
     this.replayedPlayerMovements = new HashMap<Integer, Direction>();
-    if(doc.getRootElement() == null) return;
-    if(doc.getRootElement().getChild("PlayerMovements") == null) return;
-    Element playerMovementsElement =  doc.getRootElement().getChild("PlayerMovements");
+    Element playerMovementsElement =  root.getChild("PlayerMovements");
     saveMovesToHashMap(playerMovementsElement, this.replayedPlayerMovements);
     
     if (level == 2) {
       this.replayedActorMovements = new HashMap<Integer, Direction>();
-      if(doc.getRootElement() == null) return;
-      if(doc.getRootElement().getChild("ActorMovements") == null) return;
-      Element actorMovementsElement = doc.getRootElement().getChild("ActorMovements");
+      Element actorMovementsElement = root.getChild("ActorMovements");
       saveMovesToHashMap(actorMovementsElement, this.replayedActorMovements);
     }
   }

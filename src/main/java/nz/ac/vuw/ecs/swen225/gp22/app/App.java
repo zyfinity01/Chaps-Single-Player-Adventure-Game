@@ -185,7 +185,8 @@ public class App extends JFrame implements WindowActions {
     if (xmlPath == null) {
       return; // user didn't select a file
     }
-    int level = Integer.parseInt(new String(xmlPath).replaceAll("[\\D]", ""));
+    String xmlPathCopy = xmlPath;
+    Integer level = Integer.parseInt(xmlPathCopy.replaceAll("[\\D]", ""));
 
     Recorder recorder = new Recorder(level, true, xmlPath);
     maze = Persistency.loadGame("src/levels/level" + level + ".xml", 17, 17);
@@ -193,7 +194,6 @@ public class App extends JFrame implements WindowActions {
     
     swapPanel(gamePanel);
     gamePanel.startLevel(level);
-    pause();
   }
 
   @Override
