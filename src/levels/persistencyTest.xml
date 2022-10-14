@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<game>
+    <board>
+        <tiles>
+            <INFO>
+                <x>9</x>
+                <y>7</y>
+                <text>This is a test</text>
+            </INFO>
+            <CHAP>
+                <x>1</x>
+                <y>1</y>
+            </CHAP>
+        </tiles>
+    </board>
+</game>

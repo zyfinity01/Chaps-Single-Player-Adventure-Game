@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Game>
+<game>
     <time>90</time>
+    <level>1</level>
     <inventory>
     </inventory>
     <board>
@@ -558,5 +559,5 @@
             </CHAP>
         </tiles>
     </board>
-</Game>
+</game>
 

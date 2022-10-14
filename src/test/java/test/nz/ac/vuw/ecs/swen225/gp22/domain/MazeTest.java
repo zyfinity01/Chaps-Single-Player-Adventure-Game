@@ -31,7 +31,7 @@ public class MazeTest {
     var tiles = new Tile[1][1];
     tiles[0][0] = new Chap();
 
-    var maze = new Maze(tiles, 1, 1, 1);
+    var maze = new Maze(tiles, 1, 1, 1, 1);
 
     assertTrue(maze.getTiles().length == 1);
     assertTrue(maze.getInventory().size() == 0);
@@ -44,7 +44,7 @@ public class MazeTest {
     var tiles = new Tile[1][1];
     tiles[0][0] = new Chap();
 
-    var maze = new Maze(tiles, 1, 1, List.of(), 1);
+    var maze = new Maze(tiles, 1, 1, List.of(), 1, 1);
 
     assertTrue(maze.getTiles().length == 1);
     assertTrue(maze.getInventory().size() == 0);
@@ -57,7 +57,7 @@ public class MazeTest {
     var tiles = new Tile[4][4];
     tiles[1][2] = new Chap();
 
-    var maze = new Maze(tiles, 4, 4, List.of(), 1);
+    var maze = new Maze(tiles, 4, 4, List.of(), 1, 1);
 
     assertTrue(maze.getChapPosition().y() == 1);
     assertTrue(maze.getChapPosition().x() == 2);
@@ -67,7 +67,7 @@ public class MazeTest {
   public void cannotConstructNullMaze() {
     var exception = Assertions.assertThrows(
       IllegalStateException.class, () -> {
-      new Maze(null, 1, 2, null, 1);
+      new Maze(null, 1, 2, null, 1, 1);
     });
 
     Assertions.assertEquals("Tiles cannot be null", exception.getMessage());
@@ -77,10 +77,20 @@ public class MazeTest {
   public void cannotConstructWithoutChap() {
     var exception = Assertions.assertThrows(
       IllegalStateException.class, () -> {
-      new Maze(new Tile[1][1], 1, 1, 1);
+      new Maze(new Tile[1][1], 1, 1, 1, 1);
     });
 
     Assertions.assertEquals("Must specify a single chap", exception.getMessage());
+  }
+
+  @Test
+  public void cannotConstructLevelBelowOne() {
+    var exception = Assertions.assertThrows(
+      IllegalStateException.class, () -> {
+      new Maze(new Tile[1][1], 1, 1, 1, 0);
+    });
+
+    Assertions.assertEquals("Level numbers start at 1", exception.getMessage());
   }
 
   @Test
@@ -88,7 +98,7 @@ public class MazeTest {
     var tiles = new Tile[4][4];
     tiles[1][2] = new Chap();
 
-    var maze = new Maze(tiles, 4, 4, List.of(), 1);
+    var maze = new Maze(tiles, 4, 4, List.of(), 1, 1);
 
     assertTrue(maze.canMoveChap(Direction.Up));
     maze.moveChap(Direction.Up);
@@ -107,7 +117,7 @@ public class MazeTest {
     tiles[0][2] = new Wall();
     tiles[1][2] = new Chap();
 
-    var maze = new Maze(tiles, 4, 4, List.of(), 1);
+    var maze = new Maze(tiles, 4, 4, List.of(), 1, 1);
 
     assertFalse(maze.canMoveChap(Direction.Up));
 
@@ -125,7 +135,7 @@ public class MazeTest {
     tiles[1][2] = new Chap();
     tiles[2][2] = new Key(Color.Green);
 
-    var maze = new Maze(tiles, 4, 4, List.of(), 1);
+    var maze = new Maze(tiles, 4, 4, List.of(), 1, 1);
 
     maze.moveChap(Direction.Down);
 
@@ -142,7 +152,7 @@ public class MazeTest {
     tiles[1][2] = new Chap();
     tiles[2][2] = new Treasure();
 
-    var maze = new Maze(tiles, 4, 4, 1);
+    var maze = new Maze(tiles, 4, 4, 1, 1);
 
     maze.moveChap(Direction.Down);
 
@@ -157,7 +167,7 @@ public class MazeTest {
     tiles[1][2] = new Chap();
     tiles[2][2] = new Door(Color.Blue);
 
-    var maze = new Maze(tiles, 4, 4, List.of(new Key(Color.Blue)), 1);
+    var maze = new Maze(tiles, 4, 4, List.of(new Key(Color.Blue)), 1, 1);
 
     maze.moveChap(Direction.Down);
 
@@ -171,7 +181,7 @@ public class MazeTest {
     tiles[1][2] = new Chap();
     tiles[2][2] = new Door(Color.Blue);
 
-    var maze = new Maze(tiles, 4, 4, List.of(new Key(Color.Green)), 1);
+    var maze = new Maze(tiles, 4, 4, List.of(new Key(Color.Green)), 1, 1);
 
     assertFalse(maze.canMoveChap(Direction.Down));
 
@@ -188,7 +198,7 @@ public class MazeTest {
     var tiles = new Tile[4][4];
     tiles[1][2] = new Chap();
 
-    var maze = new Maze(tiles, 4, 4, List.of(new Key(Color.Green)), 3);
+    var maze = new Maze(tiles, 4, 4, List.of(new Key(Color.Green)), 3, 1);
 
     assertTrue(maze.getTimeLeft() == 3);
 
@@ -211,7 +221,7 @@ public class MazeTest {
     tiles[1][2] = new Chap();
     tiles[2][0] = new Key(Color.Green);
 
-    var maze = new Maze(tiles, 4, 4, List.of(new Key(Color.Green)), 3);
+    var maze = new Maze(tiles, 4, 4, List.of(new Key(Color.Green)), 3, 1);
 
     assertTrue(maze.getCountOfMazeTiles(Treasure.class) == 2);
     assertTrue(maze.getCountOfMazeTiles(Key.class) == 1);
@@ -223,7 +233,7 @@ public class MazeTest {
     var tiles = new Tile[4][4];
     tiles[1][2] = new Chap();
 
-    var maze = new Maze(tiles, 4, 4, List.of(new Key(Color.Green)), 1);
+    var maze = new Maze(tiles, 4, 4, List.of(new Key(Color.Green)), 1, 1);
 
     maze.tick();
     maze.tick();
@@ -244,7 +254,7 @@ public class MazeTest {
     tiles[1][2] = new Chap();
     tiles[0][2] = new Info("Test text");
 
-    var maze = new Maze(tiles, 4, 4, List.of(new Key(Color.Green)), 1);
+    var maze = new Maze(tiles, 4, 4, List.of(new Key(Color.Green)), 1, 1);
 
     assert(maze.getInfoText() == null);
     maze.moveChap(Direction.Up);
@@ -257,7 +267,7 @@ public class MazeTest {
     tiles[1][2] = new Chap();
     tiles[0][2] = new Exit();
 
-    var maze = new Maze(tiles, 4, 4, List.of(), 1);
+    var maze = new Maze(tiles, 4, 4, List.of(), 1, 1);
 
     assertFalse(maze.isGameOver());
     maze.moveChap(Direction.Up);
@@ -269,7 +279,7 @@ public class MazeTest {
     var tiles = new Tile[4][4];
     tiles[1][2] = new Chap();
 
-    var maze = new Maze(tiles, 4, 4, List.of(), 1);
+    var maze = new Maze(tiles, 4, 4, List.of(), 1, 1);
 
     assertFalse(maze.isGameOver());
     
@@ -286,7 +296,7 @@ public class MazeTest {
     tiles[1][2] = new Chap();
     tiles[2][2] = new Treasure();
 
-    var maze = new Maze(tiles, 4, 4, List.of(), 1);
+    var maze = new Maze(tiles, 4, 4, List.of(), 1, 1);
 
     assertFalse(maze.isGameOver());
     assertFalse(maze.canMoveChap(Direction.Up));
@@ -294,4 +304,5 @@ public class MazeTest {
     maze.moveChap(Direction.Up);
     maze.moveChap(Direction.Up);
   }
+
 }
