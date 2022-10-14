@@ -1,6 +1,9 @@
 package nz.ac.vuw.ecs.swen225.gp22.app;
 
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Direction;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Maze;
 import nz.ac.vuw.ecs.swen225.gp22.persistency.Persistency;
@@ -30,6 +33,16 @@ public class App extends JFrame implements WindowActions {
   private Maze maze;
 
   /**
+   * If the game is being replayed.
+   */
+  private boolean replaying;
+
+  /**
+   * File chooser for loading and saving.
+   */
+  private final JFileChooser fileChooser;
+
+  /**
    * Create the frame.
    */
   public App(boolean useStartScreen) {
@@ -50,17 +63,40 @@ public class App extends JFrame implements WindowActions {
       setContentPane(new StartPanel(this));
     } else {
       // Game Screen
-      startLevel(1);
+      startLevel(2);
     }
+
+    // file chooser
+    fileChooser = new JFileChooser();
+    fileChooser.setFileFilter(new FileNameExtensionFilter("xml file", "xml"));
 
     // Display window
     pack();
     setVisible(true);
   }
 
+  /**
+   * Get XML file from user.
+   *
+   * @param isOpening If the file is being opened or saved.
+   *
+   * @return file path
+   */
+  private String getXmlFileFromUser(boolean isOpening) {
+    int returnVal = isOpening
+        ? fileChooser.showOpenDialog(this) :
+        fileChooser.showSaveDialog(this);
+
+    if (returnVal == JFileChooser.APPROVE_OPTION) {
+      return fileChooser.getSelectedFile().toString();
+    }
+
+    return null;
+  }
+
   @Override
   public void move(Direction direction) {
-    if (maze.canMoveChap(direction) && !gamePanel.isPaused()) {
+    if (maze.canMoveChap(direction) && !gamePanel.isPaused() && !replaying) {
       maze.moveChap(direction);
     }
   }
@@ -82,39 +118,90 @@ public class App extends JFrame implements WindowActions {
 
   @Override
   public void saveAndExit() {
-    /*
-      TODO: save level state so that it can be resumed later.
-    */
+    // todo once recorder is finished
+    String pathToSave = getXmlFileFromUser(false);
+    // recorder.saveLevel();
     exit();
   }
 
   @Override
   public void exit() {
-    /*
-      TODO: save level number so that next time game started
-      the first level is that.
-    */
     System.exit(0);
   }
 
   @Override
   public void getGameAndResume() {
-    /*
-     TODO: resume a saved game - this will pop up a file selector to select a saved game
-     to be loaded
-    */
+    String xmlPath = getXmlFileFromUser(true);
+    if (xmlPath == null) {
+      return; // user didn't select a file
+    }
+
+    // todo once recorder is finished
+    // renderer = new Renderer(xmlPath);
+    // startLevel(renderer.getLevel());
   }
 
   @Override
   public void startLevel(int level) {
-    maze = Persistency.loadGame("level" + level + ".xml", 17, 17);
-    keyController.setRecorder(new Recorder(level));
+    requestFocusInWindow();
 
-    gamePanel = new GamePanel(maze);
+    replaying = false; 
+    maze = Persistency.loadGame("level" + level + ".xml", 17, 17);
+
+    // todo add recorder
+    gamePanel = new GamePanel(maze, null, new PlayingButtons(this), false);
     setContentPane(gamePanel);
     gamePanel.startLevel(level);
 
+    keyController.setRecorder(new Recorder(level));
+
     pack(); // resize to fit new content
+  }
+
+  @Override
+  public void replayLevel(int level) {
+    requestFocusInWindow();
+
+    String xmlPath = getXmlFileFromUser(true);
+    if (xmlPath == null) {
+      return; // user didn't select a file
+    }
+
+    replaying = true;
+
+    maze = Persistency.loadGame("level" + level + ".xml", 17, 17);
+    //Recorder recorder = new Recorder(level);
+
+    gamePanel = new GamePanel(maze, null, new ReplayingButtons(this), true);
+    setContentPane(gamePanel);
+    
+    pause();
+    gamePanel.startLevel(level);
+
+    pack(); // resize to fit new content
+  }
+
+  @Override
+  public void stepReplay() {
+    // todo once recorder is finished
+    // var nextTick = recorder.getNextTick();
+    //gamePanel.setTick(nextTick);
+  }
+
+  /**
+   * Get new speed from user.
+   */
+  public void setReplaySpeed() {
+    try {
+      var speed = Double.parseDouble(
+          JOptionPane.showInputDialog("Enter a speed between 0 and 1"));
+      if (speed < 0 || speed > 1) {
+        throw new NumberFormatException();
+      }
+      gamePanel.setSpeed(speed);
+    } catch (NumberFormatException ex) {
+      JOptionPane.showMessageDialog(null, "Invalid speed");
+    }
   }
 
 }

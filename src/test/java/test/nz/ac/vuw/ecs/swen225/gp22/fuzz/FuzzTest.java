@@ -52,7 +52,7 @@ public class FuzzTest {
    * 
    * @return keyCodes
    */
-  public static ArrayList<Integer> GenerateRandomMoves() {
+  public static ArrayList<Integer> generateRandomMoves() {
     final int min = 1;
 
     // max should be altered in accordance with however many keys are being tested. 
@@ -118,7 +118,7 @@ public class FuzzTest {
     // start level
     app.startLevel(1);
     // run tests
-    randomTests(GenerateRandomMoves());
+    randomTests(generateRandomMoves());
   }
 
   /**
@@ -131,7 +131,7 @@ public class FuzzTest {
     // start level
     app.startLevel(2);
     // run tests
-    randomTests(GenerateRandomMoves());
+    randomTests(generateRandomMoves());
   }
 
   /**
@@ -141,7 +141,7 @@ public class FuzzTest {
   @Test
   public void testMapGen() {
 
-    ArrayList<Integer> test = FuzzTest.GenerateRandomMoves();
+    ArrayList<Integer> test = FuzzTest.generateRandomMoves();
 
     assertTrue(test.size() == numMoves);
 

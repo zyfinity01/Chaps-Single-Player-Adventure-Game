@@ -47,6 +47,16 @@ public class StartPanel extends JPanel {
 
     buttonPanel.add(startButton);
 
+    var replayButton = new JButton("Replay");
+    replayButton.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        actions.replayLevel(1);
+      }
+    });
+
+    buttonPanel.add(replayButton);
+
     var exitButton = new JButton("Exit");
     exitButton.addActionListener(new ActionListener() {
       @Override

@@ -66,3 +66,4 @@ local.properties
 gradle
 .gradle
 .vscode
+chaps.iml

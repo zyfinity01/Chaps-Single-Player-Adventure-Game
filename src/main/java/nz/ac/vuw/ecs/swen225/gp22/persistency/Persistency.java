@@ -9,13 +9,13 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Chap;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Color;
+import nz.ac.vuw.ecs.swen225.gp22.domain.Direction;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Door;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Exit;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Info;
@@ -47,7 +47,7 @@ public class Persistency {
    * @param fileName file to save to.
    */
   public static void saveGame(String fileName, Maze maze) {
-    Element root = new Element("Game");
+    Element root = new Element("game");
     Document doc = new Document(root);
     Element timeElement = new Element("time");
     //Element livesElement = new Element("lives");
@@ -108,6 +108,9 @@ public class Persistency {
           case "INFO" -> tileElement
                   .addContent(new Element("text")
                           .setText(((Info) tile).text()));
+          case "ACTOR" -> tileElement
+                  .addContent(new Element("direction")
+                          .setText(getCustomActorDirection(tile).toString()));
           default -> {
           }
         }
@@ -134,10 +137,9 @@ public class Persistency {
    * Load a maze from a file.
    *
    * @param fileName file to load from.
-   * @return loaded maze.
-   * @throws IOException if file cannot be read from.
-   * @throws ParserConfigurationException if XML parser cannot be configured.
-   * @throws SAXException if XML cannot be parsed.
+   * @param boardCols number of columns in the board.
+   * @param boardRows number of rows in the board.
+   * @return the loaded maze.
    */
   public static Maze loadGame(String fileName, int boardCols, int boardRows) {
     Tile[][] board = new Tile[boardRows][boardCols];
@@ -170,6 +172,7 @@ public class Persistency {
                 int y = Integer.parseInt(tile.getChild("y").getValue());
                 Color c;
                 String text;
+                Direction d;
                 //System.out.println(tile.getName());
                 switch (tile.getName()) {
                   case "TREASURE" -> board[y][x] = new Treasure();
@@ -189,6 +192,10 @@ public class Persistency {
                     c = Color.valueOf(tile.getChild("color").getValue());
                     board[y][x] = new Door(c);
                   }
+                  case "ACTOR" -> {
+                    d = Direction.valueOf(tile.getChild("direction").getValue());
+                    board[y][x] = newCustomActor("./src/levels/level2.jar", d);
+                  }
                   default -> {
                   }
                 }
@@ -204,7 +211,13 @@ public class Persistency {
     return new Maze(board, boardRows, boardCols, inventory, timeLeft);
   }
 
-  private static Document getParsedDoc(final String fileName) {
+  /**
+   * Get the parsed document from a file.
+   *
+   * @param fileName file to parse.
+   * @return the parsed document.
+   */
+  public static Document getParsedDoc(final String fileName) {
     Document doc = null;
     try {
       DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -217,7 +230,13 @@ public class Persistency {
     return doc;
   }
 
-  private Class loadCustomActorClass(String path) {
+  /**
+   * This function loads the custom actor from the jar file at the specified path.
+   *
+   * @param path path to the jar file
+   * @return return the actor class
+   */
+  private static Class loadCustomActorClass(String path) {
     try {
       var jarFile = new File(path);
       var fileUrl = jarFile.toURI().toURL();
@@ -226,13 +245,47 @@ public class Persistency {
       var loader = new URLClassLoader(urls);
 
       return Class.forName("nz.ac.vuw.ecs.swen225.gp22.domain.Actor", true, loader);
-    } catch (IOException ex) {
+    } catch (IOException | IllegalArgumentException
+             | SecurityException | ClassNotFoundException ex) {
       ex.printStackTrace();
-    } catch (IllegalArgumentException e) {
+    }
+    return null;
+  }
+
+  /**
+   * This function creates a new actor and returns the direction tile at which it is facing.
+   *
+   * @param jarFile the jar file to save the actor to
+   * @param direction the direction the actor is facing
+   * @return direction tile
+   */
+  public static Tile newCustomActor(String jarFile, Direction direction) {
+    try {
+      var actorClass = loadCustomActorClass(jarFile);
+      assert actorClass != null;
+      var constructor = actorClass.getDeclaredConstructor(new Class[]{ Direction.class});
+      return (Tile) constructor.newInstance(new Object[] { direction });
+    } catch (InstantiationException | IllegalAccessException
+             | IllegalArgumentException | InvocationTargetException
+             | NoSuchMethodException | SecurityException e) {
       e.printStackTrace();
-    } catch (SecurityException e) {
-      e.printStackTrace();
-    } catch (ClassNotFoundException e) {
+    }
+    return null;
+  }
+
+  /**
+   * This function gets our actors direction.
+   *
+   * @param tile the tile to check
+   * @return return the firection of the actor
+   */
+  public static Direction getCustomActorDirection(Tile tile) {
+    try {
+      var field = tile.getClass().getDeclaredField("direction");
+      field.setAccessible(true);
+      return (Direction) field.get(tile);
+    } catch (IllegalArgumentException | IllegalAccessException
+             | NoSuchFieldException | SecurityException e) {
       e.printStackTrace();
     }
     return null;

@@ -32,8 +32,10 @@ import nz.ac.vuw.ecs.swen225.gp22.domain.Wall;
  */
 public class Renderer {
 
+  static boolean showPauseText;
+
   static int windowWidth = 300;
-  static int tileWidth = 40;
+  static int tileWidth = 60;
 
   // Cached tiles
   static BufferedImage free;
@@ -217,12 +219,21 @@ public class Renderer {
   }
 
   /**
+   * Setter for show pause text.
+   *
+   * @param newValue new value.
+   */
+  public static void setShowPauseText(boolean newValue) {
+    showPauseText = newValue;
+  }
+
+  /**
    * draws the given text at the given location in the bob the builder style.
    */
-  private static void drawText(Graphics2D image, int x, int y, String text) {
+  public static void drawText(Graphics2D image, int x, int y, String text, Color background) {
     // Draw a rectangle
-    image.setColor(new Color(255, 202, 2));
-    image.fillRect((x - 3) * tileWidth,
+    image.setColor(background);
+    image.fillRect((x - 2) * tileWidth,
         y * tileWidth, 7 * tileWidth, 3 * tileWidth);
 
     // Draw the text
@@ -233,7 +244,7 @@ public class Renderer {
     String[] lines = text.split("\n");   // Drawstring doesn't handle newlines on its own
 
     for (String line : lines) {
-      image.drawString(line, (x - 3) * tileWidth + 5, textY);
+      image.drawString(line.strip(), (x - 2) * tileWidth + 5, textY);
       textY += 25;
     }
   }
@@ -255,7 +266,7 @@ public class Renderer {
       for (int y = -20; y < maze.getRows() + 20; y++) {
         // Overscan somewhat to draw the walls outside the level, so it's not just empty space
         if (x < 0 || x >= maze.getCols() || y < 0 || y >= maze.getRows()) {
-          image.drawImage(getWall(x, y), null, x * tileWidth, y * tileWidth);
+          image.drawImage(getFree(x, y), null, x * tileWidth, y * tileWidth);
         } else {
           image.drawImage(getFree(x, y), null, x * tileWidth, y * tileWidth);
           image.drawImage(image(maze.getTiles()[y][x], x, y), null, x * tileWidth, y * tileWidth);
@@ -263,11 +274,16 @@ public class Renderer {
       }
     }
 
-    // Display info if chap is on an info tile
-    if (maze.getTiles()[maze.getChapPosition().y()][maze.getChapPosition()
-        .x()] instanceof Info tile) {
-      drawText(image, maze.getChapPosition().x(), maze.getChapPosition().y(), tile.text());
-    } else {    // otherwise just draw chap
+    if (showPauseText) {
+      // Display pause game text
+      drawText(image, maze.getChapPosition().x(), maze.getChapPosition().y(),
+          "Game Paused", new Color(255, 255, 255));
+    } else if (maze.getInfoText() != null) {
+      // Display info tile
+      drawText(image, maze.getChapPosition().x(), maze.getChapPosition().y(),
+          maze.getInfoText(), new Color(255, 202, 2));
+    } else {
+      // Otherwise draw chap
       image.drawImage(chap(maze), null, maze.getChapPosition().x() * tileWidth,
           maze.getChapPosition().y() * tileWidth);
     }
@@ -280,11 +296,11 @@ public class Renderer {
     BufferedImage image;
     if (tile instanceof Chap) {
       image = chapDown;
-    }
-    if (tile instanceof Wall) {
+    } else if (tile instanceof Wall) {
       image = wall;
+    } else {
+      image = image(tile, 0, 0);
     }
-    image = image(tile, 0, 0);
     // Need to copy it to prevent mutable object errors
     var copy = new BufferedImage(image.getWidth(), image.getHeight(), image.getType());
     var graphics = copy.getGraphics();
