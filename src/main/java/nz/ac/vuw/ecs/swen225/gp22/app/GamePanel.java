@@ -18,7 +18,7 @@ import nz.ac.vuw.ecs.swen225.gp22.domain.Key;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Maze;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Treasure;
 import nz.ac.vuw.ecs.swen225.gp22.recorder.Recorder;
-
+import nz.ac.vuw.ecs.swen225.gp22.renderer.Renderer;
 
 /**
  * Game logic panel.
@@ -107,23 +107,7 @@ public class GamePanel extends JPanel {
     // Game loop
     timer = new Timer(TICK_RATE, new ActionListener() {
       public void actionPerformed(ActionEvent e) {
-        gameLoop();
-        if (recorder != null) {
-          // get move for this tick
-          recorder.setTick(tick);
-
-          if (isReplaying) {
-            // get move from recorder
-            // if exists, execute move
-            Direction dir = recorder.doPlayerMovement(tick);
-            if (dir != null) {
-              maze.moveChap(dir);
-            }
-          }
-
-        }
-        tick++;
-        
+        gameLoop(); 
       }
     });
 
@@ -134,15 +118,20 @@ public class GamePanel extends JPanel {
    * Update each tick.
    */
   private void gameLoop() {
-    if (isPaused) {
-      /*
-       TODO: Show paused dialog
-       */
-      return;
+    // recorder of game
+    if (recorder != null) {
+      recorder.setTick(tick);
+
+      if (isReplaying) {
+        Direction dir = recorder.doPlayerMovement(tick);
+        if (dir != null && maze.canMoveChap(dir)) {
+          maze.moveChap(dir);
+        }
+      }
     }
 
     // only update stats once a second
-    if (tick % (1000 / TICK_RATE) == 0) {
+    if (!isPaused && tick % (1000 / TICK_RATE) == 0) {
       maze.tick();
       statsPanel.setTime(maze.getTimeLeft());
       statsPanel.setChipsLeft(maze.getCountOfMazeTiles(Treasure.class));
@@ -152,6 +141,8 @@ public class GamePanel extends JPanel {
     
     // redraw canvas
     gameCanvas.update(maze);
+
+    tick++;
   }
 
   public void startLevel(int level) {
@@ -164,6 +155,7 @@ public class GamePanel extends JPanel {
 
   public void setPause(boolean isPaused) {
     this.isPaused = isPaused;
+    Renderer.setShowPauseText(isPaused);
   }
 
   public void setSpeed(double speed) {

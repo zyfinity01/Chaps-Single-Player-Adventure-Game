@@ -19,7 +19,11 @@ public class MenuBar extends JMenuBar {
   public MenuBar(WindowActions actions) {
     super();
     
+    /*
+     * Options
+     */
     var optionsMenu = new JMenu("Options");
+    add(optionsMenu);
     
     // Play/Pause Option
     var pauseItem = new JMenuItem(new AbstractAction("Toggle Pause (spacebar)") {
@@ -44,8 +48,60 @@ public class MenuBar extends JMenuBar {
       }
     });
     optionsMenu.add(exitItem);
+
+    /*
+     * Levels
+     */
+    var levelMenu = new JMenu("Load Level");
+
+    // Level 1
+    var levelOneItem = new JMenuItem(new AbstractAction("Level 1") {
+      public void actionPerformed(ActionEvent e) {
+        actions.startLevel(1);
+      }
+    });
+    levelMenu.add(levelOneItem);
+
+    // Level 2
+    var levelTwoItem = new JMenuItem(new AbstractAction("Level 2") {
+      public void actionPerformed(ActionEvent e) {
+        actions.startLevel(2);
+      }
+    });
+    levelMenu.add(levelTwoItem);
+
+    // Custom
+    var customLevelItem = new JMenuItem(new AbstractAction("Custom") {
+      public void actionPerformed(ActionEvent e) {
+        actions.getGameAndResume();
+      }
+    });
+    levelMenu.add(customLevelItem);
+    add(levelMenu);
+
+    /*
+     * Replay
+     */
+    var replayMenu = new JMenu("Replay");
+
+    // Step
+    var stepItem = new JMenuItem(new AbstractAction("Step (to next move)") {
+      public void actionPerformed(ActionEvent e) {
+        actions.stepReplay();
+      }
+    });
+    replayMenu.add(stepItem);
+
+    // Set replay speed
+    var updateSpeedItem = new JMenuItem(new AbstractAction("Change replay speed") {
+      public void actionPerformed(ActionEvent e) {
+        actions.setReplaySpeed();
+      }
+    });
+    replayMenu.add(updateSpeedItem);
+
+    add(replayMenu);
     
-    add(optionsMenu);
   }
   
 }

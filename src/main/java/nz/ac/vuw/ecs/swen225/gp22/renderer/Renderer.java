@@ -32,6 +32,8 @@ import nz.ac.vuw.ecs.swen225.gp22.domain.Wall;
  */
 public class Renderer {
 
+  static boolean showPauseText;
+
   static int windowWidth = 300;
   static int tileWidth = 60;
 
@@ -217,11 +219,20 @@ public class Renderer {
   }
 
   /**
+   * Setter for show pause text.
+   *
+   * @param newValue new value.
+   */
+  public static void setShowPauseText(boolean newValue) {
+    showPauseText = newValue;
+  }
+
+  /**
    * draws the given text at the given location in the bob the builder style.
    */
-  public static void drawText(Graphics2D image, int x, int y, String text) {
+  public static void drawText(Graphics2D image, int x, int y, String text, Color background) {
     // Draw a rectangle
-    image.setColor(new Color(255, 202, 2));
+    image.setColor(background);
     image.fillRect((x - 2) * tileWidth,
         y * tileWidth, 7 * tileWidth, 3 * tileWidth);
 
@@ -263,11 +274,16 @@ public class Renderer {
       }
     }
 
-    if (maze.getInfoText() != null) {
-      // Display info if chap is on an info tile
-      drawText(image, maze.getChapPosition().x(), maze.getChapPosition().y(), maze.getInfoText());
+    if (showPauseText) {
+      // Display pause game text
+      drawText(image, maze.getChapPosition().x(), maze.getChapPosition().y(),
+          "Game Paused", new Color(255, 255, 255));
+    } else if (maze.getInfoText() != null) {
+      // Display info tile
+      drawText(image, maze.getChapPosition().x(), maze.getChapPosition().y(),
+          maze.getInfoText(), new Color(255, 202, 2));
     } else {
-      // otherwise just draw chap
+      // Otherwise draw chap
       image.drawImage(chap(maze), null, maze.getChapPosition().x() * tileWidth,
           maze.getChapPosition().y() * tileWidth);
     }

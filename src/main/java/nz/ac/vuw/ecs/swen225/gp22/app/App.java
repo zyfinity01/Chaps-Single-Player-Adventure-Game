@@ -2,6 +2,7 @@ package nz.ac.vuw.ecs.swen225.gp22.app;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Direction;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Maze;
@@ -62,7 +63,7 @@ public class App extends JFrame implements WindowActions {
       setContentPane(new StartPanel(this));
     } else {
       // Game Screen
-      startLevel(1);
+      startLevel(2);
     }
 
     // file chooser
@@ -74,13 +75,23 @@ public class App extends JFrame implements WindowActions {
     setVisible(true);
   }
 
+  private void swapPanel(GamePanel panel) {
+    setContentPane(panel);
+    pack(); // resize to fit new content
+    requestFocusInWindow(); // allow keypress focus
+  }
+
   /**
    * Get XML file from user.
    *
+   * @param isOpening If the file is being opened or saved.
+   *
    * @return file path
    */
-  private String getXmlFileFromUser() {
-    int returnVal = fileChooser.showOpenDialog(this);
+  private String getXmlFileFromUser(boolean isOpening) {
+    int returnVal = isOpening
+        ? fileChooser.showOpenDialog(this) :
+        fileChooser.showSaveDialog(this);
 
     if (returnVal == JFileChooser.APPROVE_OPTION) {
       return fileChooser.getSelectedFile().toString();
@@ -122,88 +133,97 @@ public class App extends JFrame implements WindowActions {
 
   @Override
   public void saveAndExit() {
-    /*
-      TODO: save level state so that it can be resumed later.
-    */
+    // todo once recorder is finished
+    String pathToSave = getXmlFileFromUser(false);
     // recorder.saveLevel();
     exit();
   }
 
   @Override
   public void exit() {
-    /*
-      TODO: save level number so that next time game started.
-      the first level is that.
-    */
     System.exit(0);
   }
 
   @Override
   public void getGameAndResume() {
-    String xmlPath = getXmlFileFromUser();
+    String xmlPath = getXmlFileFromUser(true);
     if (xmlPath == null) {
       return; // user didn't select a file
     }
-
-    // renderer = new Renderer(xmlPath);
-    // startLevel(renderer.getLevel());
+    startLevel(xmlPath);
   }
 
   @Override
   public void startLevel(int level) {
-    requestFocusInWindow();
+    startLevel("src/levels/level" + level + ".xml");
+  }
 
+  /**
+   * Load level and start game.
+   *
+   * @param xmlPath path to level
+   */
+  public void startLevel(String xmlPath) {
     replaying = false; 
-    maze = Persistency.loadGame("level" + level + ".xml", 17, 17);
+    maze = Persistency.loadGame(xmlPath, 17, 17);
+    int level = maze.getLevel();
 
-    // todo add recorder
     Recorder recorder = new Recorder(level, false, null);
     gamePanel = new GamePanel(maze, recorder, new PlayingButtons(this), false);
-    setContentPane(gamePanel);
+    
     gamePanel.startLevel(level);
-
     keyController.setRecorder(recorder);
 
-    pack(); // resize to fit new content
+    swapPanel(gamePanel);
   }
 
   @Override
-  public void replayLevel(int level) {
-    requestFocusInWindow();
+  public void replayLevel() {
+    replaying = true;
 
-    String xmlPath = getXmlFileFromUser();
+    String xmlPath = getXmlFileFromUser(true);
     if (xmlPath == null) {
       return; // user didn't select a file
     }
 
-    replaying = true;
+    // var recorder = new Recorder(xmlPath);
+    // var level = recorder.getLevel();
+    int level = 1;
 
-    maze = Persistency.loadGame("level" + level + ".xml", 17, 17);
     Recorder recorder = new Recorder(level, true, xmlPath);
-
+    maze = Persistency.loadGame("level" + level + ".xml", 17, 17);
     gamePanel = new GamePanel(maze, recorder, new ReplayingButtons(this), true);
-    setContentPane(gamePanel);
     
-    pause();
+    swapPanel(gamePanel);
     gamePanel.startLevel(level);
-
-    pack(); // resize to fit new content
-  }
-
-  @Override
-  public void setReplaySpeed(double speed) {
-    if (gamePanel != null) {
-      gamePanel.setSpeed(speed);
-    }
+    pause();
   }
 
   @Override
   public void stepReplay() {
-    /*
-     * todo
-     */
+    // todo once recorder is finished
     // var nextTick = recorder.getNextTick();
     //gamePanel.setTick(nextTick);
+  }
+
+  /**
+   * Get new speed from user.
+   */
+  public void setReplaySpeed() {
+    if (gamePanel == null) {
+      JOptionPane.showMessageDialog(null, "Please load the replay first");
+      return;
+    }
+    try {
+      var speed = Double.parseDouble(
+          JOptionPane.showInputDialog("Enter a speed between 0 and 1"));
+      if (speed < 0 || speed > 1) {
+        throw new NumberFormatException();
+      }
+      gamePanel.setSpeed(speed);
+    } catch (NumberFormatException ex) {
+      JOptionPane.showMessageDialog(null, "Invalid speed");
+    }
   }
 
 }
