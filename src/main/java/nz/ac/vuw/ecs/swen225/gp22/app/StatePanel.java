@@ -106,7 +106,7 @@ public class StatePanel extends JPanel {
 
     inventoryPanel = new JPanel();
     inventoryPanel.setOpaque(false);
-    inventoryPanel.setLayout(new GridLayout(0, 4, 10, 0));
+    inventoryPanel.setLayout(new GridLayout(0, 4, 0, 0));
     inventoryPanel.setBorder(new EmptyBorder(10, 20, 10, 10));
     
     for (int i = 0; i < maxInventorySpace; i++) {

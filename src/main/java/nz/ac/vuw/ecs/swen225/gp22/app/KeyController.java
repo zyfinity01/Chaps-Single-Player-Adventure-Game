@@ -20,7 +20,7 @@ public class KeyController implements KeyListener {
   /**
    * Recorder saves all moves to replay.
    */
-  private Recorder recorder;
+  public Recorder recorder;
 
   /**
    * Initilise the controller.
@@ -46,6 +46,9 @@ public class KeyController implements KeyListener {
    * @param event key event from the keyboard.
    */
   public void handle(KeyEvent event) {
+    if (this.recorder != null) {
+      this.recorder.savePlayerMovement(event.getKeyCode());
+    }
     switch (event.getKeyCode()) {
       // UP
       case KeyEvent.VK_UP -> actions.move(Direction.Up);
@@ -56,7 +59,7 @@ public class KeyController implements KeyListener {
       // RIGHT
       case KeyEvent.VK_RIGHT -> actions.move(Direction.Right);
       // SPACE BAR
-      case KeyEvent.VK_SPACE -> actions.pause();
+      case KeyEvent.VK_SPACE -> actions.togglePause();
       // ESC
       case KeyEvent.VK_ESCAPE -> actions.unpause();
       // CTRL-X
@@ -96,9 +99,6 @@ public class KeyController implements KeyListener {
   @Override
   public void keyPressed(KeyEvent event) {
     handle(event);
-    if (this.recorder != null) {
-      this.recorder.savePlayerMovement(event.getKeyCode());
-    }
   }
 
   @Override

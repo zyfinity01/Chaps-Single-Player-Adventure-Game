@@ -47,7 +47,7 @@ public class Persistency {
    * @param fileName file to save to.
    */
   public static void saveGame(String fileName, Maze maze) {
-    Element root = new Element("game");
+    Element root = new Element("Game");
     Document doc = new Document(root);
     Element timeElement = new Element("time");
     //Element livesElement = new Element("lives");
@@ -75,6 +75,15 @@ public class Persistency {
       }
       inventoryElement.addContent(tileElement);
     }
+    Tile[][] board2 = maze.getTiles();
+    for (int row = 0; row < maze.getRows(); row++) {
+      for (int col = 0; col < maze.getCols(); col++) {
+        if (board2[row][col] != null) {
+          System.out.println(board2[row][col].getClass().getSimpleName().toUpperCase());
+        }
+      }
+    }
+
     Element tiles = new Element("tiles");
     boardElement.addContent(tiles);
     Tile[][] board = maze.getTiles();
@@ -100,7 +109,8 @@ public class Persistency {
                   .addContent(new Element("text")
                           .setText(((Info) tile).text()));
           case "ACTOR" -> tileElement
-                  .addContent(new Element("direction").setText(getCustomActorDirection(tile).toString()));
+                  .addContent(new Element("direction")
+                          .setText(getCustomActorDirection(tile).toString()));
           default -> {
           }
         }
@@ -184,7 +194,7 @@ public class Persistency {
                   }
                   case "ACTOR" -> {
                     d = Direction.valueOf(tile.getChild("direction").getValue());
-                    board[y][x] = newCustomActor("/src/levels/level2.jar", d);
+                    board[y][x] = newCustomActor("./src/levels/level2.jar", d);
                   }
                   default -> {
                   }
@@ -207,7 +217,7 @@ public class Persistency {
    * @param fileName file to parse.
    * @return the parsed document.
    */
-  public static Document getParsedDoc(final String fileName) {
+  private static Document getParsedDoc(final String fileName) {
     Document doc = null;
     try {
       DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -226,7 +236,7 @@ public class Persistency {
    * @param path path to the jar file
    * @return return the actor class
    */
-  public static Class loadCustomActorClass(String path) {
+  private static Class loadCustomActorClass(String path) {
     try {
       var jarFile = new File(path);
       var fileUrl = jarFile.toURI().toURL();
@@ -249,7 +259,7 @@ public class Persistency {
    * @param direction the direction the actor is facing
    * @return direction tile
    */
-  public static Tile newCustomActor(String jarFile, Direction direction) {
+  private static Tile newCustomActor(String jarFile, Direction direction) {
     try {
       var actorClass = loadCustomActorClass(jarFile);
       assert actorClass != null;
@@ -269,7 +279,7 @@ public class Persistency {
    * @param tile the tile to check
    * @return return the firection of the actor
    */
-  public static Direction getCustomActorDirection(Tile tile) {
+  private static Direction getCustomActorDirection(Tile tile) {
     try {
       var field = tile.getClass().getDeclaredField("direction");
       field.setAccessible(true);
