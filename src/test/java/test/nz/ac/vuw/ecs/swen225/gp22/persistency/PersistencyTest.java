@@ -55,8 +55,8 @@ public class PersistencyTest {
 //
 //    }
     //Save toXML to file
-    private final String fileName = "persistencyTest.xml";
-    private final String saveGameFileName = "saveGamePersistencyTest.xml";
+    private static final String fileName = "persistencyTest.xml";
+    private static final String saveGameFileName = "saveGamePersistencyTest.xml";
 
     // =================================================================
     // Loading Tests
@@ -352,9 +352,8 @@ public class PersistencyTest {
                 "        </tiles>\n" +
                 "    </board>\n" +
                 "</game>\n");
-        Maze maze;
         try {
-            maze = Persistency.loadGame(fileName, col, row);
+            Persistency.loadGame(fileName, col, row);
             fail("No exception thrown for missing chap");
         } catch (IllegalStateException e) {
             assertEquals(e.getMessage(), "Must specify a single chap");
@@ -461,18 +460,82 @@ public class PersistencyTest {
         assertEquals(inputDocument.toString(), saveGameDocument.toString());
     }
 
-//    // =================================================================
-//    // Test actor saving
-//    // =================================================================
-//    @Test
-//    public void testLoadCustomActor(){
-//        Class customActor = Persistency.loadCustomActorClass("src/levels/level2.jar");
-//        if(customActor == null){
-//            fail("Custom actor not loaded");
-//        }
-//        if(customActor)
-//
-//    }
+    // =================================================================
+    // Test actor loading and saving
+    // =================================================================
+    @Test
+    public void testLoadCustomActor(){
+        //Test if Actor loads correctly and direction is detected
+        Tile customActor = Persistency.newCustomActor("./src/levels/level2.jar", Direction.Up);
+        assertEquals(Direction.Up, Persistency.getCustomActorDirection(customActor));
+    }
+
+    @Test
+    public void testComplexSavingActor() {
+        int x = 5;
+        int y = 5;
+        int chapX = 1;
+        int chapY = 1;
+        int col = 17;
+        int row = 17;
+        // test saving and loading of a complex real game style scenario with an actor
+        toXml("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
+                "<game>\n" +
+                "    <time>60</time>\n" +
+                "    <inventory>\n" +
+                "        <KEY>\n" +
+                "            <color>Blue</color>\n" +
+                "        </KEY>\n" +
+                "        <TREASURE />\n" +
+                "    </inventory>\n" +
+                "    <board>\n" +
+                "        <tiles>\n" +
+                "            <ACTOR>\n" +
+                "                <x>8</x>\n" +
+                "                <y>5</y>\n" +
+                "                <direction>Up</direction>\n" +
+                "            </ACTOR>" +
+                "            <INFO>\n" +
+                "                <x>9</x>\n" +
+                "                <y>7</y>\n" +
+                "                <text>This is where info goes</text>\n" +
+                "            </INFO>\n" +
+                "            <KEY>\n" +
+                "                <x>4</x>\n" +
+                "                <y>6</y>\n" +
+                "                <color>Yellow</color>\n" +
+                "            </KEY>\n" +
+                "            <EXIT>\n" +
+                "                <x>9</x>\n" +
+                "                <y>4</y>\n" +
+                "            </EXIT>\n" +
+                "            <LOCK>\n" +
+                "                <x>9</x>\n" +
+                "                <y>5</y>\n" +
+                "            </LOCK>\n" +
+                "            <DOOR>\n" +
+                "                <x>10</x>\n" +
+                "                <y>11</y>\n" +
+                "                <color>Yellow</color>\n" +
+                "            </DOOR>\n" +
+                "            <TREASURE>\n" +
+                "                <x>10</x>\n" +
+                "                <y>13</y>\n" +
+                "            </TREASURE>\n" +
+                "            <CHAP>\n" +
+                "                <x>9</x>\n" +
+                "                <y>8</y>\n" +
+                "            </CHAP>\n" +
+                "        </tiles>\n" +
+                "    </board>\n" +
+                "</game>\n");
+        Maze maze = Persistency.loadGame(fileName, col, row);
+        Persistency.saveGame(saveGameFileName, maze);
+        Document inputDocument = Persistency.getParsedDoc("src/levels/" + fileName);
+        Document saveGameDocument = Persistency.getParsedDoc("src/levels/" + saveGameFileName);
+        //inputDocument.equals(saveGameDocument);
+        assertEquals(inputDocument.toString(), saveGameDocument.toString());
+    }
 
     public static Tile getTile(Maze maze, int x, int y) {
         Tile[][] tiles = maze.getTiles();
