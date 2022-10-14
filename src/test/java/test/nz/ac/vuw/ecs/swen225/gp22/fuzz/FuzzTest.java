@@ -51,7 +51,7 @@ public class FuzzTest {
    * Generate random keyPresses.
    * 
    */
-  public static ArrayList<Integer> GenerateRandomMoves() {
+  public static ArrayList<Integer> generateRandomMoves() {
     final int min = 1;
     final int max = 4;
 
@@ -115,7 +115,7 @@ public class FuzzTest {
     // start level
     app.startLevel(1);
     // run tests
-    randomTests(GenerateRandomMoves());
+    randomTests(generateRandomMoves());
   }
 
   /**
@@ -128,7 +128,7 @@ public class FuzzTest {
     // start level
     app.startLevel(1);
     // run tests
-    randomTests(GenerateRandomMoves());
+    randomTests(generateRandomMoves());
   }
 
   /**
@@ -138,7 +138,7 @@ public class FuzzTest {
   @Test
   public void testMapGen() {
 
-    ArrayList<Integer> test = FuzzTest.GenerateRandomMoves();
+    ArrayList<Integer> test = FuzzTest.generateRandomMoves();
 
     assertTrue(test.size() == numMoves);
 
