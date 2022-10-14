@@ -33,6 +33,11 @@ public class GamePanel extends JPanel {
   private static final int TICK_RATE = 100;
 
   /**
+   * Path to background of game.
+   */
+  private static final String BG_PATH = "resources//images//game_background.png";
+
+  /**
    * Panel displaying game stats and inventory.
    */
   private StatePanel statsPanel;
@@ -57,12 +62,29 @@ public class GamePanel extends JPanel {
    */
   private boolean isPaused;
 
+  /**
+   * Background image.
+   */
   private BufferedImage background;
 
+  /**
+   * Game tick timer.
+   */
   private Timer timer;
 
+  /**
+   * Recorder instance.
+   */
   public Recorder recorder;
 
+  /**
+   * Game actions.
+   */
+  public WindowActions actions;
+
+  /**
+   * If the game is played by user or replayed.
+   */
   private boolean isReplaying;
 
   /**
@@ -70,13 +92,15 @@ public class GamePanel extends JPanel {
    *
    * @param maze Game maze
    */
-  public GamePanel(Maze maze, Recorder recorder, JPanel actionButtons, boolean isReplaying) {
+  public GamePanel(Maze maze, WindowActions actions, Recorder recorder, JPanel actionButtons,
+      boolean isReplaying) {
     this.maze = maze;
-    this.isReplaying = isReplaying;
+    this.actions = actions;
     this.recorder = recorder;
+    this.isReplaying = isReplaying;
     
     try {
-      background = ImageIO.read(new File("resources//images//game_background.png"));
+      background = ImageIO.read(new File(BG_PATH));
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -92,17 +116,18 @@ public class GamePanel extends JPanel {
     gameCanvas.setOpaque(false);
     add(gameCanvas);
 
+    // Side panel
     var sidePanel = new JPanel();
     sidePanel.setOpaque(false);
     sidePanel.setLayout(new BoxLayout(sidePanel, BoxLayout.Y_AXIS));
+    add(sidePanel);
 
+    // Action buttons
     sidePanel.add(actionButtons);
 
     // Game statistics
     statsPanel = new StatePanel();
     sidePanel.add(statsPanel);
-
-    add(sidePanel);
 
     // Game loop
     timer = new Timer(TICK_RATE, new ActionListener() {
@@ -118,6 +143,13 @@ public class GamePanel extends JPanel {
    * Update each tick.
    */
   private void gameLoop() {
+    // check if game is over
+    if (maze.isGameOver()) {
+      int nextLevel = maze.getLevel() == 1 ? 2 : 1;
+      timer.stop();
+      actions.startLevel(nextLevel);
+    }
+
     // recorder of game
     if (recorder != null) {
       recorder.setTick(tick);
@@ -133,10 +165,7 @@ public class GamePanel extends JPanel {
     // only update stats once a second
     if (!isPaused && tick % (1000 / TICK_RATE) == 0) {
       maze.tick();
-      statsPanel.setTime(maze.getTimeLeft());
-      statsPanel.setChipsLeft(maze.getCountOfMazeTiles(Treasure.class));
-      statsPanel.setKeysLeft(maze.getCountOfMazeTiles(Key.class));
-      statsPanel.setInventory(maze.getInventory());
+      updateStats();
     }
     
     // redraw canvas
@@ -145,19 +174,49 @@ public class GamePanel extends JPanel {
     tick++;
   }
 
+  /**
+   * Update each detail on statistics.
+   */
+  private void updateStats() {
+    statsPanel.setTime(maze.getTimeLeft());
+    statsPanel.setChipsLeft(maze.getCountOfMazeTiles(Treasure.class));
+    statsPanel.setKeysLeft(maze.getCountOfMazeTiles(Key.class));
+    statsPanel.setInventory(maze.getInventory());
+  }
+
+  /**
+   * Set level text.
+   *
+   * @param level updated level
+   */
   public void startLevel(int level) {
     statsPanel.setLevel(level);
   }
 
+  /**
+   * Check if game is paused.
+   *
+   * @return paused state
+   */
   public boolean isPaused() {
     return isPaused;
   }
 
+  /**
+   * Set pause state.
+   *
+   * @param isPaused updated paused state
+   */
   public void setPause(boolean isPaused) {
     this.isPaused = isPaused;
     Renderer.setShowPauseText(isPaused);
   }
 
+  /**
+   * Update the game speed.
+   *
+   * @param speed tick speed
+   */
   public void setSpeed(double speed) {
     timer.setDelay((int) (TICK_RATE * speed));
   }
@@ -171,6 +230,9 @@ public class GamePanel extends JPanel {
     this.tick = tick;
   }
   
+  /**
+   * Draw background.
+   */
   @Override
   protected void paintComponent(Graphics g) {
     super.paintComponent(g);

@@ -76,9 +76,9 @@ public class App extends JFrame implements WindowActions {
   }
 
   private void swapPanel(GamePanel panel) {
+    requestFocusInWindow(); // allow keypress focus
     setContentPane(panel);
     pack(); // resize to fit new content
-    requestFocusInWindow(); // allow keypress focus
   }
 
   /**
@@ -169,7 +169,7 @@ public class App extends JFrame implements WindowActions {
     int level = maze.getLevel();
 
     Recorder recorder = new Recorder(level, false, null);
-    gamePanel = new GamePanel(maze, recorder, new PlayingButtons(this), false);
+    gamePanel = new GamePanel(maze, this, recorder, new PlayingButtons(this), false);
     
     gamePanel.startLevel(level);
     keyController.setRecorder(recorder);
@@ -192,7 +192,7 @@ public class App extends JFrame implements WindowActions {
 
     Recorder recorder = new Recorder(level, true, xmlPath);
     maze = Persistency.loadGame("level" + level + ".xml", 17, 17);
-    gamePanel = new GamePanel(maze, recorder, new ReplayingButtons(this), true);
+    gamePanel = new GamePanel(maze, this, recorder, new ReplayingButtons(this), true);
     
     swapPanel(gamePanel);
     gamePanel.startLevel(level);
