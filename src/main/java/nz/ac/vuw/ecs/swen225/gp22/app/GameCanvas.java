@@ -15,10 +15,10 @@ public class GameCanvas extends JPanel {
 
   /**
    * Game state.
-   * 
-   * Have made this public as Spotbugs would prefer if
+   *
+   * <p> Have made this public as Spotbugs would prefer if
    * each update would be a clone of the object, but
-   * for performance reasons that isn't a good idea.
+   * for performance reasons that isn't a good idea. </p>
    */
   public Maze maze;
 

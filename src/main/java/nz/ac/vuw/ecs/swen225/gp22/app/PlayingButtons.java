@@ -79,9 +79,9 @@ public class PlayingButtons extends ActionPanel {
     infoButton.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-      actions.showPopup(
-          "How to play:\nUse arrow keys to move.\nCollect Bobs tools to access rooms.\n"
-          + "Collect his all of his sammies.\nThen get to the exit to win!");
+        actions.showPopup(
+            "How to play:\nUse arrow keys to move.\nCollect Bobs tools to access rooms.\n"
+            + "Collect his all of his sammies.\nThen get to the exit to win!");
       }
     });
     

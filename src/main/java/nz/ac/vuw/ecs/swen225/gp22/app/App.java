@@ -195,15 +195,14 @@ public class App extends JFrame implements WindowActions {
   }
 
   /**
-   * Start level from save otherwise start fresh
+   * Start level from save otherwise start fresh.
    */
   @Override
   public void startLevel(int level) {
     String savedFile = getGameSavePath(level);
-    if (new File(savedFile).isFile()){
+    if (new File(savedFile).isFile()) {
       startLevel(savedFile);
-    }
-    else {
+    } else {
       startLevel("src/levels/level" + level + ".xml");
     }
   }
@@ -234,8 +233,8 @@ public class App extends JFrame implements WindowActions {
   public void replayLevel(int level) {
     replaying = true;
 
-    String replayFile = "moves_level_"+level+".xml";
-    if (!new File(replayFile).isFile()){
+    String replayFile = "moves_level_" + level + ".xml";
+    if (!new File(replayFile).isFile()) {
       showPopup("Replay file does not exist, did you save it?");
       return;
     }
