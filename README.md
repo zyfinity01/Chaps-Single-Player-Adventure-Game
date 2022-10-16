@@ -2,6 +2,9 @@
 
 A single-player adventure game inspired by 1989 Atari game 'Chips Challenge'.
 
+# View commits via our gource video
+[Video on YouTube](https://youtu.be/Ew9Tk5paFjo)
+
 ## Get started
 
 <hr>
