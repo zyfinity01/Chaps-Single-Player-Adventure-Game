@@ -7,6 +7,11 @@ import java.io.File;
 import java.io.IOException;
 import javax.swing.JLabel;
 
+/**
+* Label with the custom font. 
+*
+* @author Sam Redmond, 300443508
+*/
 class FancyLabel extends JLabel {
   
   /**
