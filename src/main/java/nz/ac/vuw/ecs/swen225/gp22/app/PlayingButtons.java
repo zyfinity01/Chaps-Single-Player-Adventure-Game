@@ -78,7 +78,7 @@ public class PlayingButtons extends ActionPanel {
     exitButton.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        actions.exit();
+        actions.toMainMenu();
       }
     });
     add(exitButton);

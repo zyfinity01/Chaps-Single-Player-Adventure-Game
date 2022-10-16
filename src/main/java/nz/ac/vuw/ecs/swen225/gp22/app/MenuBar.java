@@ -84,6 +84,14 @@ public class MenuBar extends JMenuBar {
      */
     var replayMenu = new JMenu("Replay");
 
+    // Load Replay File
+    var replayLoadItem = new JMenuItem(new AbstractAction("Load replay file") {
+      public void actionPerformed(ActionEvent e) {
+        actions.replayLevel();
+      }
+    });
+    replayMenu.add(replayLoadItem);
+
     // Step
     var stepItem = new JMenuItem(new AbstractAction("Step (to next move)") {
       public void actionPerformed(ActionEvent e) {

@@ -3,6 +3,7 @@ package nz.ac.vuw.ecs.swen225.gp22.app;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Direction;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Maze;
@@ -59,10 +60,8 @@ public class App extends JFrame implements WindowActions {
     addKeyListener(keyController);
 
     if (useStartScreen) {
-      // Start Screen
-      setContentPane(new StartPanel(this));
+      toMainMenu();
     } else {
-      // Game Screen
       startLevel(2);
     }
 
@@ -75,10 +74,15 @@ public class App extends JFrame implements WindowActions {
     setVisible(true);
   }
 
-  private void swapPanel(GamePanel panel) {
+  private void swapPanel(JPanel panel) {
     setContentPane(panel);
     pack(); // resize to fit new content
     requestFocusInWindow(); // allow keypress focus
+  }
+
+  @Override
+  public void toMainMenu() {
+    swapPanel(new StartPanel(this));
   }
 
   /**
@@ -135,6 +139,9 @@ public class App extends JFrame implements WindowActions {
   public void saveAndExit() {
     // todo once recorder is finished
     String pathToSave = getXmlFileFromUser(false);
+    if (pathToSave == null) {
+      return;
+    }
     // recorder.saveLevel();
     exit();
   }

@@ -65,4 +65,9 @@ interface WindowActions {
    * Skip to next move in replay.
    */
   void stepReplay();
+
+  /**
+   * Return to main menu.
+   */
+  void toMainMenu();
 }

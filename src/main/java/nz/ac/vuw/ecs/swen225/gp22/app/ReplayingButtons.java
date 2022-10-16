@@ -51,7 +51,7 @@ public class ReplayingButtons extends ActionPanel {
     add(stepButton);
     
     // set replay speed button
-    var setSpeedButton = createButton("resources//images//info_button.png");
+    var setSpeedButton = createButton("resources//images//config_button.png");
     setSpeedButton.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
