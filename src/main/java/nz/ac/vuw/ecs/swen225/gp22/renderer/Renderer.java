@@ -274,6 +274,10 @@ public class Renderer {
       }
     }
 
+    // Draw chap
+    image.drawImage(chap(maze), null, maze.getChapPosition().x() * tileWidth,
+        maze.getChapPosition().y() * tileWidth);
+    
     if (showPauseText) {
       // Display pause game text
       drawText(image, maze.getChapPosition().x(), maze.getChapPosition().y(),
@@ -282,10 +286,6 @@ public class Renderer {
       // Display info tile
       drawText(image, maze.getChapPosition().x(), maze.getChapPosition().y(),
           maze.getInfoText(), new Color(255, 202, 2));
-    } else {
-      // Otherwise draw chap
-      image.drawImage(chap(maze), null, maze.getChapPosition().x() * tileWidth,
-          maze.getChapPosition().y() * tileWidth);
     }
   }
 
