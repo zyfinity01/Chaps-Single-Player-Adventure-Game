@@ -61,6 +61,7 @@ public class PlayingButtons extends ActionPanel {
     
     // info button
     var infoButton = createButton("resources//images//info_button.png");
+    infoButton.setFocusable(false); // don't let popup redirect key input
     infoButton.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {

@@ -223,8 +223,8 @@ public class App extends JFrame implements WindowActions {
     }
     try {
       var speed = Double.parseDouble(
-          JOptionPane.showInputDialog("Enter a speed between 0 and 1"));
-      if (speed < 0 || speed > 1) {
+          JOptionPane.showInputDialog("Enter a speed multiplier between 0.0 and 5.0"));
+      if (speed < 0 || speed > 5) {
         throw new NumberFormatException();
       }
       gamePanel.setSpeed(speed);
