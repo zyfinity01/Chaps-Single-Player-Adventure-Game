@@ -194,6 +194,7 @@ public class App extends JFrame implements WindowActions {
     
     swapPanel(gamePanel);
     gamePanel.startLevel(level);
+    gamePanel.setPause(true);
   }
 
   @Override

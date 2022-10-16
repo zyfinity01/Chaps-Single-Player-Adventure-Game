@@ -122,7 +122,7 @@ public class GamePanel extends JPanel {
     if (recorder != null) {
       recorder.setTick(tick);
 
-      if (isReplaying) {
+      if (isReplaying && !isPaused) {
         Direction dir = recorder.doPlayerMovement(tick);
         if (dir != null && maze.canMoveChap(dir)) {
           maze.moveChap(dir);

@@ -178,14 +178,13 @@ public class Recorder {
   /**
    * Loads all movements based off level number.
    * $ @param level Determines which moves' file to load
+   * $ @param xmlString the xmlString to load.
    */
   private void loadToXml(int level, String xmlString) {
     Document doc = Persistency.getParsedDoc(xmlString);
-    if (level == 1) {
-      this.replayedPlayerMovements = new HashMap<Integer, Direction>();
-      Element playerMovementsElement =  doc.getRootElement().getChild("PlayerMovements");
-      saveMovesToHashMap(playerMovementsElement, this.replayedPlayerMovements);
-    } 
+    this.replayedPlayerMovements = new HashMap<Integer, Direction>();
+    Element playerMovementsElement =  doc.getRootElement().getChild("PlayerMovements");
+    saveMovesToHashMap(playerMovementsElement, this.replayedPlayerMovements);
     
     if (level == 2) {
       this.replayedActorMovements = new HashMap<Integer, Direction>();
