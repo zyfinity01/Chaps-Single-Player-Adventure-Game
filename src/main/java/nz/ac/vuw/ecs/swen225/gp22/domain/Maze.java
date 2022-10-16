@@ -147,19 +147,24 @@ public class Maze {
    *
    * @return game over state.
    */
-  public boolean isGameOver() {
+  public State getState() {
     // have we run out of time
     if (timeLeft <= 0) {
-      return true;
+      return State.OutOfTime;
     }
 
     // have we reached the exit tile
     var tile = tiles[chapPosition.y()][chapPosition.x()];
     if (tile != null && tile instanceof Exit) {
-      return true;
+      return State.Complete;
     }
 
-    return false;
+    // have we hit the custom actor
+    if (tile != null && tile.getClass().getName().contains("Actor")) {
+      return State.Dead;
+    }
+
+    return State.Running;
   }
 
   /**

@@ -1,8 +1,10 @@
 package test.nz.ac.vuw.ecs.swen225.gp22.domain;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.awt.image.BufferedImage;
 import java.util.List;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Chap;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Color;
@@ -13,6 +15,8 @@ import nz.ac.vuw.ecs.swen225.gp22.domain.Info;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Key;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Lock;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Maze;
+import nz.ac.vuw.ecs.swen225.gp22.domain.Position;
+import nz.ac.vuw.ecs.swen225.gp22.domain.State;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Tile;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Treasure;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Wall;
@@ -269,9 +273,9 @@ public class MazeTest {
 
     var maze = new Maze(tiles, 4, 4, List.of(), 1, 1);
 
-    assertFalse(maze.isGameOver());
+    assertEquals(maze.getState(), State.Running);
     maze.moveChap(Direction.Up);
-    assertTrue(maze.isGameOver());
+    assertEquals(maze.getState(), State.Complete);
   }
 
   @Test
@@ -281,12 +285,25 @@ public class MazeTest {
 
     var maze = new Maze(tiles, 4, 4, List.of(), 1, 1);
 
-    assertFalse(maze.isGameOver());
+    assertEquals(maze.getState(), State.Running);
     
     maze.tick();
     maze.tick();
 
-    assertTrue(maze.isGameOver());
+    assertEquals(maze.getState(), State.OutOfTime);
+  }
+
+  @Test
+  public void canDieToActor() {
+    var tiles = new Tile[4][4];
+    tiles[1][2] = new Chap();
+    tiles[2][2] = new Actor(Direction.Up);
+
+    var maze = new Maze(tiles, 4, 4, List.of(), 3, 1);
+
+    assertEquals(maze.getState(), State.Running);
+    maze.tick();
+    assertEquals(maze.getState(), State.Dead);
   }
 
   @Test
@@ -298,11 +315,33 @@ public class MazeTest {
 
     var maze = new Maze(tiles, 4, 4, List.of(), 1, 1);
 
-    assertFalse(maze.isGameOver());
+    assertEquals(maze.getState(), State.Running);
     assertFalse(maze.canMoveChap(Direction.Up));
     maze.moveChap(Direction.Down);
     maze.moveChap(Direction.Up);
     maze.moveChap(Direction.Up);
   }
 
+  /*
+   * Test actor class.
+   */
+  record Actor(Direction direction) implements Tile {
+    public BufferedImage getCustomImage() {
+      return null;
+    }
+
+    public boolean canInteractWithPlayer(Tile[][] tiles, List<Tile> inventory) {
+      return true;
+    }
+
+    public void interactWithPlayer(Tile[][] tiles, List<Tile> inventory, Position position) { }
+
+    public void tick(Tile[][] tiles, Position position) {
+      var nextX = position.x() + direction.getX();
+      var nextY = position.y() + direction.getY();
+
+      tiles[position.y()][position.x()] = null;
+      tiles[nextY][nextX] = this;
+    }
+  }
 }
