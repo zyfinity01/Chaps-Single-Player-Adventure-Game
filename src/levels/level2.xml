@@ -140,7 +140,9 @@
             <INFO>
                 <x>9</x>
                 <y>6</y>
-                <text>This is level 2, collect the keys for the victory royale.</text>
+                <text>This is level 2,
+                collect the keys for
+                the victory royale.</text>
             </INFO>
             <WALL>
                 <x>11</x>
@@ -303,6 +305,10 @@
                 <y>14</y>
                 <color>Red</color>
             </DOOR>
+            <TREASURE>
+                <x>5</x>
+                <y>13</y>
+            </TREASURE>
             <KEY>
                 <x>9</x>
                 <y>14</y>
