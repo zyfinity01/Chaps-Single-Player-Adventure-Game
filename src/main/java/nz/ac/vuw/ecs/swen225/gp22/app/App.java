@@ -46,6 +46,8 @@ public class App extends JFrame implements WindowActions {
 
   /**
    * Create the frame.
+   *
+   * @param useStartScreen choose to popup start menu
    */
   public App(boolean useStartScreen) {
     // Window Settings

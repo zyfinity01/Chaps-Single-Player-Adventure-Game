@@ -10,6 +10,8 @@ import nz.ac.vuw.ecs.swen225.gp22.domain.Direction;
 interface WindowActions {
   /**
    * Move player in the upwards direction.
+   *
+   * @param direction movement direction
    */
   void move(Direction direction);
 
@@ -55,6 +57,8 @@ interface WindowActions {
 
   /**
    * Replay a level.
+   *
+   * @param level level to replay
    */
   void replayLevel(int level);
 
@@ -80,6 +84,8 @@ interface WindowActions {
 
   /**
    * Show message to user.
+   *
+   * @param message message to display
    */
   void showPopup(String message);
 }

@@ -23,6 +23,8 @@ public class StartPanel extends JPanel {
 
   /**
    * Create the panel.
+   *
+   * @param actions window actions
    */
   public StartPanel(WindowActions actions) {
     setPreferredSize(new Dimension(600, 500));

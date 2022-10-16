@@ -81,6 +81,9 @@ public class GamePanel extends JPanel {
    * Create the panel.
    *
    * @param maze Game maze
+   * @param recorder Game recorder
+   * @param actionButtons Action Buttons
+   * @param isReplaying Is game replaying
    */
   public GamePanel(Maze maze, Recorder recorder, JPanel actionButtons, boolean isReplaying) {
     this.maze = maze;
@@ -207,6 +210,8 @@ public class GamePanel extends JPanel {
 
   /**
    * Gets current tick.
+   *
+   * @return current tick
    */
   public int getTick() {
     return tick;
