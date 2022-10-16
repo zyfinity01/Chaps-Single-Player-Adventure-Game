@@ -292,7 +292,10 @@ public class App extends JFrame implements WindowActions {
    */
   @Override
   public void clear(int level) {
-    new File(getGameSavePath(level)).delete();
+    boolean success = new File(getGameSavePath(level)).delete();
+    if (!success) {
+      System.out.println("Save file not present, ignoring.");
+    }
   }
 
 }
