@@ -16,6 +16,7 @@ import javax.swing.border.EmptyBorder;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Direction;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Key;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Maze;
+import nz.ac.vuw.ecs.swen225.gp22.domain.State;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Treasure;
 import nz.ac.vuw.ecs.swen225.gp22.recorder.Recorder;
 import nz.ac.vuw.ecs.swen225.gp22.renderer.Renderer;
@@ -31,6 +32,11 @@ public class GamePanel extends JPanel {
    * How often the game updates in milliseconds.
    */
   private static final int TICK_RATE = 100;
+
+  /**
+   * Path to background of game.
+   */
+  private static final String BG_PATH = "resources//images//game_background.png";
 
   /**
    * Panel displaying game stats and inventory.
@@ -73,6 +79,11 @@ public class GamePanel extends JPanel {
   public Recorder recorder;
 
   /**
+   * Game actions.
+   */
+  public WindowActions actions;
+
+  /**
    * If the game is being recorded or not.
    */
   private boolean isReplaying;
@@ -82,13 +93,14 @@ public class GamePanel extends JPanel {
    *
    * @param maze Game maze
    */
-  public GamePanel(Maze maze, Recorder recorder, JPanel actionButtons, boolean isReplaying) {
+  public GamePanel(Maze maze, Recorder recorder, WindowActions actions, JPanel actionButtons, boolean isReplaying) {
     this.maze = maze;
+    this.actions = actions;
     this.isReplaying = isReplaying;
     this.recorder = recorder;
-    
+
     try {
-      background = ImageIO.read(new File("resources//images//game_background.png"));
+      background = ImageIO.read(new File(BG_PATH));
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -104,17 +116,18 @@ public class GamePanel extends JPanel {
     gameCanvas.setOpaque(false);
     add(gameCanvas);
 
+    // Side panel
     var sidePanel = new JPanel();
     sidePanel.setOpaque(false);
     sidePanel.setLayout(new BoxLayout(sidePanel, BoxLayout.Y_AXIS));
+    add(sidePanel);
 
+    // Action buttons
     sidePanel.add(actionButtons);
 
     // Game statistics
     statsPanel = new StatePanel();
     sidePanel.add(statsPanel);
-
-    add(sidePanel);
 
     // Game loop
     timer = new Timer(TICK_RATE, new ActionListener() {
@@ -130,6 +143,18 @@ public class GamePanel extends JPanel {
    * Update each tick.
    */
   private void gameLoop() {
+    // handle game transitions
+    if (maze.getState() != State.Running) {
+      timer.stop();
+      showStateMessage();
+
+      int level = Math.min(
+          maze.getState() == State.Complete
+          ? maze.getLevel() + 1 : maze.getLevel(), 2);
+      
+      actions.startLevel(level);
+    }
+
     // recorder of game
     if (recorder != null) {
       recorder.setTick(tick);
@@ -145,10 +170,7 @@ public class GamePanel extends JPanel {
     // only update stats once a second
     if (!isPaused && tick % (1000 / TICK_RATE) == 0) {
       maze.tick();
-      statsPanel.setTime(maze.getTimeLeft());
-      statsPanel.setChipsLeft(maze.getCountOfMazeTiles(Treasure.class));
-      statsPanel.setKeysLeft(maze.getCountOfMazeTiles(Key.class));
-      statsPanel.setInventory(maze.getInventory());
+      updateStats();
     }
     
     // redraw canvas
@@ -160,9 +182,38 @@ public class GamePanel extends JPanel {
   }
 
   /**
+   * Show messages about current state.
+   */
+  private void showStateMessage(){
+    if (maze.getState() == State.Complete) {
+      actions.showPopup("You won!");
+    }
+
+    else if (maze.getState() == State.Dead) {
+      actions.showPopup("You died!");
+    }
+
+    if (maze.getState() == State.OutOfTime){
+      actions.showPopup("You ran out of time!");
+    }
+  }
+
+  /**
    * Update stats with current level.
    *
    * @param level new level
+   */
+  private void updateStats() {
+    statsPanel.setTime(maze.getTimeLeft());
+    statsPanel.setChipsLeft(maze.getCountOfMazeTiles(Treasure.class));
+    statsPanel.setKeysLeft(maze.getCountOfMazeTiles(Key.class));
+    statsPanel.setInventory(maze.getInventory());
+  }
+
+  /**
+   * Set level text.
+   *
+   * @param level updated level
    */
   public void startLevel(int level) {
     statsPanel.setLevel(level);

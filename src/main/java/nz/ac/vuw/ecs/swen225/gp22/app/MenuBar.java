@@ -87,7 +87,7 @@ public class MenuBar extends JMenuBar {
     /*
      * Clearing Levels
      */
-    var clearMenu = new JMenu("Clear Level");
+    var clearMenu = new JMenu("Reset Level");
     add(clearMenu);
 
     // Level 1
