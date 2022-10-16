@@ -7,6 +7,7 @@ import java.util.List;
  * The key tile. Comes in different colours.
  *
  * @author Jonty Morris, 300563915.
+ * @param color color of key
  */
 public record Key(Color color) implements Tile {
   @Override
