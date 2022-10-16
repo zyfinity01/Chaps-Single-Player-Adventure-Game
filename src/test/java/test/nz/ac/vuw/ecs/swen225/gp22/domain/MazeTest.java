@@ -233,7 +233,7 @@ public class MazeTest {
     Assertions.assertEquals("Cannot move chap in that direction", exception.getMessage());
   }
 
-  /*
+  /**
    * Can time decrease.
    */
   @Test
