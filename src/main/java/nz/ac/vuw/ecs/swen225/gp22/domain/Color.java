@@ -6,5 +6,20 @@ package nz.ac.vuw.ecs.swen225.gp22.domain;
  * @author Jonty Morris, 300563915.
  */
 public enum Color {
-  Red, Green, Blue, Yellow
+  /**
+   * Red.
+   */
+  Red,
+  /**
+   * Green.
+   */
+  Green,
+  /**
+   * Blue.
+   */
+  Blue,
+  /**
+   * Yellow.
+   */
+  Yellow
 }

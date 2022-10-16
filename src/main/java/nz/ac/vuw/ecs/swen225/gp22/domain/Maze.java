@@ -28,6 +28,8 @@ public class Maze {
    * @param tiles maze tiles.
    * @param rows count of maze rows.
    * @param cols count of maze columns.
+   * @param timeLeft amount of time left.
+   * @param level level number.
    */
   public Maze(Tile[][] tiles, int rows, int cols, int timeLeft, int level) {
     this(tiles, rows, cols, List.of(), timeLeft, level);
@@ -38,8 +40,10 @@ public class Maze {
    *
    * @param tiles maze tiles.
    * @param rows count of maze rows.
-   * @param cols count of maze coluns
-   * @param inventory player inventory
+   * @param cols count of maze coluns.
+   * @param inventory player inventory.
+   * @param timeLeft amount of time left.
+   * @param level level number.
    */
   public Maze(Tile[][] tiles, int rows, int cols, List<Tile> inventory, int timeLeft, int level) {
     verifyMazeSetup(tiles, rows, cols, inventory, timeLeft, level);
