@@ -57,12 +57,24 @@ public class GamePanel extends JPanel {
    */
   private boolean isPaused;
 
+  /**
+   * Background of game.
+   */
   private BufferedImage background;
 
+  /**
+   * Timer loop for game tick.
+   */
   private Timer timer;
 
+  /**
+   * Game recorder.
+   */
   public Recorder recorder;
 
+  /**
+   * If the game is being recorded or not.
+   */
   private boolean isReplaying;
 
   /**
@@ -145,19 +157,39 @@ public class GamePanel extends JPanel {
     tick++;
   }
 
+  /**
+   * Update stats with current level.
+   *
+   * @param level new level
+   */
   public void startLevel(int level) {
     statsPanel.setLevel(level);
   }
 
+  /**
+   * Return paused state of game.
+   *
+   * @return if game is paused or not
+   */
   public boolean isPaused() {
     return isPaused;
   }
 
+  /**
+   * Set game pause state.
+   *
+   * @param isPaused new value
+   */
   public void setPause(boolean isPaused) {
     this.isPaused = isPaused;
     Renderer.setShowPauseText(isPaused);
   }
 
+  /**
+   * Set speed of game updates.
+   *
+   * @param speed new speed
+   */
   public void setSpeed(double speed) {
     timer.setDelay((int) (TICK_RATE * speed));
   }
@@ -171,6 +203,9 @@ public class GamePanel extends JPanel {
     this.tick = tick;
   }
   
+  /**
+   * Display the game background.
+   */
   @Override
   protected void paintComponent(Graphics g) {
     super.paintComponent(g);

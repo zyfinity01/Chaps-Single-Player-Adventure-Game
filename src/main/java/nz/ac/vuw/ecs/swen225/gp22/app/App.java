@@ -1,8 +1,10 @@
 package nz.ac.vuw.ecs.swen225.gp22.app;
 
+import java.io.File;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Direction;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Maze;
@@ -59,11 +61,9 @@ public class App extends JFrame implements WindowActions {
     addKeyListener(keyController);
 
     if (useStartScreen) {
-      // Start Screen
-      setContentPane(new StartPanel(this));
+      toMainMenu();
     } else {
-      // Game Screen
-      startLevel(2);
+      startLevel(1);
     }
 
     // file chooser
@@ -75,10 +75,33 @@ public class App extends JFrame implements WindowActions {
     setVisible(true);
   }
 
-  private void swapPanel(GamePanel panel) {
+  /**
+   * Swap current game panel.
+   *
+   * @param panel new panel to display
+   */
+  private void swapPanel(JPanel panel) {
     setContentPane(panel);
     pack(); // resize to fit new content
     requestFocusInWindow(); // allow keypress focus
+  }
+
+  /**
+   * Get save level path for level.
+   *
+   * @param level level to find
+   * @return xml path file
+   */
+  private String getGameSavePath(int level) {
+    return "save_level_" + level + ".xml";
+  }
+
+  /**
+   * Set context to main menu.
+   */
+  @Override
+  public void toMainMenu() {
+    swapPanel(new StartPanel(this));
   }
 
   /**
@@ -100,6 +123,9 @@ public class App extends JFrame implements WindowActions {
     return null;
   }
 
+  /**
+   * Move player if possible.
+   */
   @Override
   public void move(Direction direction) {
     if (maze == null || gamePanel == null) {
@@ -110,6 +136,9 @@ public class App extends JFrame implements WindowActions {
     }
   }
 
+  /**
+   * Pause game.
+   */
   @Override
   public void pause() {
     if (gamePanel != null) {
@@ -117,6 +146,9 @@ public class App extends JFrame implements WindowActions {
     }
   }
 
+  /**
+   * Unpause game.
+   */
   @Override
   public void unpause() {
     if (gamePanel != null) {
@@ -124,6 +156,9 @@ public class App extends JFrame implements WindowActions {
     }
   }
 
+  /**
+   * Toggle pause.
+   */
   @Override
   public void togglePause() {
     if (gamePanel != null) {
@@ -131,19 +166,25 @@ public class App extends JFrame implements WindowActions {
     }
   }
 
+  /**
+   * Save level data to xml file.
+   */
   @Override
-  public void saveAndExit() {
-    // todo once recorder is finished
-    String pathToSave = getXmlFileFromUser(false);
-    // recorder.saveLevel();
-    exit();
+  public void save() {
+    Persistency.saveGame(getGameSavePath(maze.getLevel()), maze);
   }
 
+  /**
+   * Close the program.
+   */
   @Override
   public void exit() {
     System.exit(0);
   }
 
+  /**
+   * Request file from user and start level using it.
+   */
   @Override
   public void getGameAndResume() {
     String xmlPath = getXmlFileFromUser(true);
@@ -153,9 +194,17 @@ public class App extends JFrame implements WindowActions {
     startLevel(xmlPath);
   }
 
+  /**
+   * Start level from save otherwise start fresh.
+   */
   @Override
   public void startLevel(int level) {
-    startLevel("src/levels/level" + level + ".xml");
+    String savedFile = getGameSavePath(level);
+    if (new File(savedFile).isFile()) {
+      startLevel(savedFile);
+    } else {
+      startLevel("src/levels/level" + level + ".xml");
+    }
   }
 
   /**
@@ -177,25 +226,30 @@ public class App extends JFrame implements WindowActions {
     swapPanel(gamePanel);
   }
 
+  /**
+   * Replay level if exists.
+   */
   @Override
-  public void replayLevel() {
+  public void replayLevel(int level) {
     replaying = true;
 
-    String xmlPath = getXmlFileFromUser(true);
-    if (xmlPath == null) {
-      return; // user didn't select a file
+    String replayFile = "moves_level_" + level + ".xml";
+    if (!new File(replayFile).isFile()) {
+      showPopup("Replay file does not exist, did you save it?");
+      return;
     }
-    String xmlPathCopy = xmlPath;
-    Integer level = Integer.parseInt(xmlPathCopy.replaceAll("[\\D]", ""));
 
-    Recorder recorder = new Recorder(level, true, xmlPath);
+    Recorder recorder = new Recorder(level, true, replayFile);
     maze = Persistency.loadGame("src/levels/level" + level + ".xml", 17, 17);
     gamePanel = new GamePanel(maze, recorder, new ReplayingButtons(this), true);
-    
+  
     swapPanel(gamePanel);
     gamePanel.startLevel(level);
   }
 
+  /**
+   * Jump to next action in replay.
+   */
   @Override
   public void stepReplay() {
     // todo once recorder is finished
@@ -208,18 +262,39 @@ public class App extends JFrame implements WindowActions {
    */
   public void setReplaySpeed() {
     if (gamePanel == null) {
-      JOptionPane.showMessageDialog(null, "Please load the replay first");
+      showPopup("Please load the replay first");
       return;
     }
     try {
       var speed = Double.parseDouble(
-          JOptionPane.showInputDialog("Enter a speed between 0 and 1"));
-      if (speed < 0 || speed > 1) {
+          JOptionPane.showInputDialog("Enter a speed multiplier between 0.0 and 5.0"));
+      if (speed < 0 || speed > 5) {
         throw new NumberFormatException();
       }
       gamePanel.setSpeed(speed);
     } catch (NumberFormatException ex) {
-      JOptionPane.showMessageDialog(null, "Invalid speed");
+      showPopup("Invalid speed");
+    }
+  }
+
+  /**
+   * Display a popup message to user and pause game during.
+   */
+  @Override
+  public void showPopup(String message) {
+    pause();
+    JOptionPane.showMessageDialog(null, message);
+    unpause();
+  }
+
+  /**
+   * Delete save file for level.
+   */
+  @Override
+  public void clear(int level) {
+    boolean success = new File(getGameSavePath(level)).delete();
+    if (!success) {
+      System.out.println("Save file not present, ignoring.");
     }
   }
 

@@ -19,7 +19,7 @@ public class ActionPanel extends JPanel {
   ActionPanel() {
     super();
     setOpaque(false);
-    setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
+    setLayout(new FlowLayout(FlowLayout.LEFT, 15, 10));
   }
 
   protected JButton createButton(String imagePath) {

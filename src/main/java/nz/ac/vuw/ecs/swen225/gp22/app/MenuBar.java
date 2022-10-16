@@ -31,14 +31,17 @@ public class MenuBar extends JMenuBar {
         actions.togglePause();
       }
     });
+
     optionsMenu.add(pauseItem);
     
     // Save and Exit Option
     var saveExitItem = new JMenuItem(new AbstractAction("Save and Exit (CTRL-S)") {
       public void actionPerformed(ActionEvent e) {
-        actions.saveAndExit();
+        actions.save();
+        actions.exit();
       }
     });
+
     optionsMenu.add(saveExitItem);
     
     // Exit Option
@@ -47,12 +50,14 @@ public class MenuBar extends JMenuBar {
         actions.exit();
       }
     });
+
     optionsMenu.add(exitItem);
 
     /*
-     * Levels
+     * Loading Levels
      */
     var levelMenu = new JMenu("Load Level");
+    add(levelMenu);
 
     // Level 1
     var levelOneItem = new JMenuItem(new AbstractAction("Level 1") {
@@ -76,13 +81,56 @@ public class MenuBar extends JMenuBar {
         actions.getGameAndResume();
       }
     });
+
     levelMenu.add(customLevelItem);
-    add(levelMenu);
+
+    /*
+     * Clearing Levels
+     */
+    var clearMenu = new JMenu("Clear Level");
+    add(clearMenu);
+
+    // Level 1
+    var clearOneItem = new JMenuItem(new AbstractAction("Level 1") {
+      public void actionPerformed(ActionEvent e) {
+        actions.clear(1);
+      }
+    });
+
+    clearMenu.add(clearOneItem);
+
+    // Level 2
+    var clearTwoItem = new JMenuItem(new AbstractAction("Level 2") {
+      public void actionPerformed(ActionEvent e) {
+        actions.clear(2);
+      }
+    });
+
+    clearMenu.add(clearTwoItem);
 
     /*
      * Replay
      */
     var replayMenu = new JMenu("Replay");
+    add(replayMenu);
+
+    // Level 1
+    var replayOneItem = new JMenuItem(new AbstractAction("Replay level 1") {
+      public void actionPerformed(ActionEvent e) {
+        actions.replayLevel(1);
+      }
+    });
+
+    replayMenu.add(replayOneItem);
+
+    // Level 2
+    var replayTwoItem = new JMenuItem(new AbstractAction("Replay level 2") {
+      public void actionPerformed(ActionEvent e) {
+        actions.replayLevel(2);
+      }
+    });
+
+    replayMenu.add(replayTwoItem);
 
     // Step
     var stepItem = new JMenuItem(new AbstractAction("Step (to next move)") {
@@ -90,6 +138,7 @@ public class MenuBar extends JMenuBar {
         actions.stepReplay();
       }
     });
+
     replayMenu.add(stepItem);
 
     // Set replay speed
@@ -98,9 +147,8 @@ public class MenuBar extends JMenuBar {
         actions.setReplaySpeed();
       }
     });
-    replayMenu.add(updateSpeedItem);
 
-    add(replayMenu);
+    replayMenu.add(updateSpeedItem);
     
   }
   

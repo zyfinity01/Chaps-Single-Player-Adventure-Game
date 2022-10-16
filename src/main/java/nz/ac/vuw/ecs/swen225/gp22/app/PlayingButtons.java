@@ -2,7 +2,6 @@ package nz.ac.vuw.ecs.swen225.gp22.app;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.JOptionPane;
 
 /**
 * Panel containing action buttons.
@@ -19,69 +18,86 @@ public class PlayingButtons extends ActionPanel {
   public PlayingButtons(WindowActions actions) {
     super();
     
-    // play button
+    /*
+     * Play button.
+     */
     var playButton = createButton("resources//images//play_button.png");
+    add(playButton);
     playButton.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
         actions.unpause();
       }
     });
-    add(playButton);
     
-    // pause button
+    /*
+     * Pause button.
+     */
     var pauseButton = createButton("resources//images//pause_button.png");
+    add(pauseButton);
+
     pauseButton.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
         actions.pause();
       }
     });
-    add(pauseButton);
-
-    // load button
+    
+    /*
+     * Load button.
+     */
     var loadButton = createButton("resources//images//load_button.png");
+    add(loadButton);
+
     loadButton.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
         actions.getGameAndResume();
       }
     });
-    add(loadButton);
     
-    // save button
+    /*
+     * Save button.
+     */
     var saveButton = createButton("resources//images//save_button.png");
+    add(saveButton);
+
     saveButton.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        actions.saveAndExit();
+        actions.save();
       }
     });
-    add(saveButton);
     
-    // info button
+    /*
+     * Info button.
+     */
     var infoButton = createButton("resources//images//info_button.png");
+    infoButton.setFocusable(false); // don't let popup redirect key input
+    add(infoButton);
+
     infoButton.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        actions.pause();
-        JOptionPane.showMessageDialog(null,
+        actions.showPopup(
             "How to play:\nUse arrow keys to move.\nCollect Bobs tools to access rooms.\n"
             + "Collect his all of his sammies.\nThen get to the exit to win!");
-        actions.unpause();
       }
     });
-    add(infoButton);
     
-    // exit button
+    /*
+     * Exit button.
+     */
     var exitButton = createButton("resources//images//exit_button.png");
+    add(exitButton);
+
     exitButton.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        actions.exit();
+        actions.toMainMenu();
       }
     });
-    add(exitButton);
+    
   }
 
 }
