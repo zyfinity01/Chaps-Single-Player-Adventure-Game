@@ -275,5 +275,4 @@ public class Recorder {
   public void setTick(int tick) {
     this.tick = tick;
   }
-
 }
