@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentStyleType="text/css" height="202px" preserveAspectRatio="none" style="width:381px;height:202px;background:#FFFFFF;" version="1.1" viewBox="0 0 381 202" width="381px" zoomAndPan="magnify"><defs/><g><!--MD5=[664fdbb09ffd9010ac20dfdad6379a97]
+cluster nz.ac.vuw.ecs.swen225.gp22.renderer--><g id="cluster_nz.ac.vuw.ecs.swen225.gp22.renderer"><path d="M8.5,6 L277.5,6 A3.75,3.75 0 0 1 280,8.5 L287,29.6094 L371.5,29.6094 A2.5,2.5 0 0 1 374,32.1094 L374,173.5 A2.5,2.5 0 0 1 371.5,176 L8.5,176 A2.5,2.5 0 0 1 6,173.5 L6,8.5 A2.5,2.5 0 0 1 8.5,6 " fill="none" style="stroke:#000000;stroke-width:1.5;"/><line style="stroke:#000000;stroke-width:1.5;" x1="6" x2="287" y1="29.6094" y2="29.6094"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="268" x="10" y="22.5332">nz.ac.vuw.ecs.swen225.gp22.renderer</text></g><!--MD5=[c05e36657cb3441300c89038389fbc4c]
+class nz.ac.vuw.ecs.swen225.gp22.renderer.Renderer--><a href="Renderer.html" target="_top" title="Renderer.html" xlink:actuate="onRequest" xlink:href="Renderer.html" xlink:show="new" xlink:title="Renderer.html" xlink:type="simple"><g id="elem_nz.ac.vuw.ecs.swen225.gp22.renderer.Renderer"><rect codeLine="3" fill="#F1F1F1" height="118.4375" id="nz.ac.vuw.ecs.swen225.gp22.renderer.Renderer" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="335" x="22.5" y="42"/><ellipse cx="155.75" cy="58" fill="#ADD1B2" rx="11" ry="11" style="stroke:#181818;stroke-width:1.0;"/><path d="M158.5156,53.875 Q158.6719,53.6563 158.8594,53.5469 Q159.0469,53.4375 159.2656,53.4375 Q159.6406,53.4375 159.875,53.7031 Q160.1094,53.9531 160.1094,54.5625 L160.1094,56.0156 Q160.1094,56.625 159.875,56.8906 Q159.6406,57.1563 159.2656,57.1563 Q158.9219,57.1563 158.7188,56.9531 Q158.5156,56.7656 158.4063,56.25 Q158.3594,55.8906 158.1719,55.7031 Q157.8438,55.3281 157.2344,55.1094 Q156.625,54.8906 156,54.8906 Q155.2344,54.8906 154.5938,55.2188 Q153.9688,55.5469 153.4688,56.2969 Q152.9844,57.0469 152.9844,58.0781 L152.9844,59.1719 Q152.9844,60.4063 153.875,61.2344 Q154.7656,62.0469 156.3594,62.0469 Q157.2969,62.0469 157.9531,61.7969 Q158.3438,61.6406 158.7656,61.2031 Q159.0313,60.9375 159.1719,60.8594 Q159.3281,60.7813 159.5313,60.7813 Q159.8594,60.7813 160.1094,61.0469 Q160.375,61.2969 160.375,61.6406 Q160.375,61.9844 160.0313,62.3906 Q159.5313,62.9688 158.7344,63.2969 Q157.6563,63.75 156.3594,63.75 Q154.8438,63.75 153.6406,63.125 Q152.6563,62.625 151.9688,61.5625 Q151.2813,60.4844 151.2813,59.2031 L151.2813,58.0469 Q151.2813,56.7188 151.8906,55.5781 Q152.5156,54.4219 153.6094,53.8125 Q154.7031,53.1875 155.9375,53.1875 Q156.6719,53.1875 157.3125,53.3594 Q157.9688,53.5156 158.5156,53.875 Z " fill="#000000"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="60" x="176.25" y="63.7285">Renderer</text><line style="stroke:#181818;stroke-width:0.5;" x1="23.5" x2="356.5" y1="74" y2="74"/><line style="stroke:#181818;stroke-width:0.5;" x1="23.5" x2="356.5" y1="82" y2="82"/><ellipse cx="33.5" cy="96.3047" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" text-decoration="underline" textLength="215" x="42.5" y="100.5332">setShowPauseText(boolean): void</text><ellipse cx="33.5" cy="113.9141" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" text-decoration="underline" textLength="309" x="42.5" y="118.1426">drawText(Graphics2D, int, int, String, Color): void</text><ellipse cx="33.5" cy="131.5234" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" text-decoration="underline" textLength="202" x="42.5" y="135.752">render(Maze, Graphics2D): void</text><ellipse cx="33.5" cy="149.1328" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" text-decoration="underline" textLength="214" x="42.5" y="153.3613">getTileImage(Tile): BufferedImage</text></g></a><rect fill="none" height="12.5781" style="stroke:none;stroke-width:1.0;" width="184" x="91.5" y="182"/><text fill="#888888" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="184" x="91.5" y="192.3809">UMLDoclet 2.0.19, PlantUML 1.2022.8</text><!--MD5=[6a4a9bbf1f91603ef5b3683acf58c0d5]
+@startuml
+    namespace nz.ac.vuw.ecs.swen225.gp22.renderer {
+
+        class Renderer [[Renderer.html]] {
+            {static} +setShowPauseText(boolean): void
+            {static} +drawText(Graphics2D, int, int, String, Color): void
+            {static} +render(Maze, Graphics2D): void
+            {static} +getTileImage(Tile): BufferedImage
+        }
+
+    }
+
+    center footer UMLDoclet 2.0.19, PlantUML 1.2022.8
+@enduml
+
+PlantUML version 1.2022.8(Sun Sep 25 22:00:33 NZDT 2022)
+(APACHE source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Default Encoding: UTF-8
+Language: en
+Country: NZ
+--></g></svg>

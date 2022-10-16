@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentStyleType="text/css" height="153px" preserveAspectRatio="none" style="width:356px;height:153px;background:#FFFFFF;" version="1.1" viewBox="0 0 356 153" width="356px" zoomAndPan="magnify"><defs/><g><!--MD5=[c05e36657cb3441300c89038389fbc4c]
+class nz.ac.vuw.ecs.swen225.gp22.renderer.Renderer--><a href="Renderer.html" target="_top" title="Renderer.html" xlink:actuate="onRequest" xlink:href="Renderer.html" xlink:show="new" xlink:title="Renderer.html" xlink:type="simple"><g id="elem_nz.ac.vuw.ecs.swen225.gp22.renderer.Renderer"><rect codeLine="5" fill="#F1F1F1" height="118.625" id="nz.ac.vuw.ecs.swen225.gp22.renderer.Renderer" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="335" x="7" y="7"/><ellipse cx="80.75" cy="27.0938" fill="#ADD1B2" rx="11" ry="11" style="stroke:#181818;stroke-width:1.0;"/><path d="M83.5156,22.9688 Q83.6719,22.75 83.8594,22.6406 Q84.0469,22.5313 84.2656,22.5313 Q84.6406,22.5313 84.875,22.7969 Q85.1094,23.0469 85.1094,23.6563 L85.1094,25.1094 Q85.1094,25.7188 84.875,25.9844 Q84.6406,26.25 84.2656,26.25 Q83.9219,26.25 83.7188,26.0469 Q83.5156,25.8594 83.4063,25.3438 Q83.3594,24.9844 83.1719,24.7969 Q82.8438,24.4219 82.2344,24.2031 Q81.625,23.9844 81,23.9844 Q80.2344,23.9844 79.5938,24.3125 Q78.9688,24.6406 78.4688,25.3906 Q77.9844,26.1406 77.9844,27.1719 L77.9844,28.2656 Q77.9844,29.5 78.875,30.3281 Q79.7656,31.1406 81.3594,31.1406 Q82.2969,31.1406 82.9531,30.8906 Q83.3438,30.7344 83.7656,30.2969 Q84.0313,30.0313 84.1719,29.9531 Q84.3281,29.875 84.5313,29.875 Q84.8594,29.875 85.1094,30.1406 Q85.375,30.3906 85.375,30.7344 Q85.375,31.0781 85.0313,31.4844 Q84.5313,32.0625 83.7344,32.3906 Q82.6563,32.8438 81.3594,32.8438 Q79.8438,32.8438 78.6406,32.2188 Q77.6563,31.7188 76.9688,30.6563 Q76.2813,29.5781 76.2813,28.2969 L76.2813,27.1406 Q76.2813,25.8125 76.8906,24.6719 Q77.5156,23.5156 78.6094,22.9063 Q79.7031,22.2813 80.9375,22.2813 Q81.6719,22.2813 82.3125,22.4531 Q82.9688,22.6094 83.5156,22.9688 Z " fill="#000000"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="60" x="160.75" y="26.5332">Renderer</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="179" x="101.25" y="39.9902">nz.ac.vuw.ecs.swen225.gp22.renderer</text><line style="stroke:#181818;stroke-width:0.5;" x1="8" x2="341" y1="47.1875" y2="47.1875"/><ellipse cx="18" cy="61.4922" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" text-decoration="underline" textLength="215" x="27" y="65.7207">setShowPauseText(boolean): void</text><ellipse cx="18" cy="79.1016" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" text-decoration="underline" textLength="309" x="27" y="83.3301">drawText(Graphics2D, int, int, String, Color): void</text><ellipse cx="18" cy="96.7109" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" text-decoration="underline" textLength="202" x="27" y="100.9395">render(Maze, Graphics2D): void</text><ellipse cx="18" cy="114.3203" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" text-decoration="underline" textLength="214" x="27" y="118.5488">getTileImage(Tile): BufferedImage</text></g></a><rect fill="none" height="12.5781" style="stroke:none;stroke-width:1.0;" width="184" x="82" y="132.625"/><text fill="#888888" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="184" x="82" y="143.0059">UMLDoclet 2.0.19, PlantUML 1.2022.8</text><!--MD5=[76fdb06a5c439333e78febdeede01568]
+@startuml
+    set namespaceSeparator none
+    hide empty fields
+    hide empty methods
+
+    class "<size:14>Renderer\n<size:10>nz.ac.vuw.ecs.swen225.gp22.renderer" as nz.ac.vuw.ecs.swen225.gp22.renderer.Renderer [[Renderer.html]] {
+        {static} +setShowPauseText(boolean): void
+        {static} +drawText(Graphics2D, int, int, String, Color): void
+        {static} +render(Maze, Graphics2D): void
+        {static} +getTileImage(Tile): BufferedImage
+    }
+
+    center footer UMLDoclet 2.0.19, PlantUML 1.2022.8
+@enduml
+
+PlantUML version 1.2022.8(Sun Sep 25 22:00:33 NZDT 2022)
+(APACHE source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Default Encoding: UTF-8
+Language: en
+Country: NZ
+--></g></svg>
