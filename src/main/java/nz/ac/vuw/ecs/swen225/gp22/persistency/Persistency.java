@@ -41,10 +41,10 @@ import org.xml.sax.SAXException;
 public class Persistency {
 
   /**
-   * Save the maze to a file.
+   * Save to Maze object to an XML file.
    *
    * @param maze maze to save.
-   * @param fileName file to save to.
+   * @param fileName file path to save to.
    */
   public static void saveGame(String fileName, Maze maze) {
     final Element root = new Element("game");
@@ -73,14 +73,6 @@ public class Persistency {
         }
       }
       inventoryElement.addContent(tileElement);
-    }
-    Tile[][] board2 = maze.getTiles();
-    for (int row = 0; row < maze.getRows(); row++) {
-      for (int col = 0; col < maze.getCols(); col++) {
-        if (board2[row][col] != null) {
-          System.out.println(board2[row][col].getClass().getSimpleName().toUpperCase());
-        }
-      }
     }
 
     Element tiles = new Element("tiles");
@@ -121,7 +113,7 @@ public class Persistency {
     chapElement.addContent(new Element("y").setText(String.valueOf(maze.getChapPosition().y())));
     //save document to XML file
     try {
-      FileOutputStream fileStream = new FileOutputStream("src/levels/" + fileName);
+      FileOutputStream fileStream = new FileOutputStream(fileName);
       OutputStreamWriter writer = new OutputStreamWriter(fileStream, StandardCharsets.UTF_8);
       XMLOutputter xmlOutput = new XMLOutputter();
       xmlOutput.setFormat(Format.getPrettyFormat());
@@ -133,7 +125,7 @@ public class Persistency {
 
 
   /**
-   * Load a maze from a file.
+   * Create Maze object from an XML file file.
    *
    * @param filePath file to load from.
    * @param boardCols number of columns in the board.
@@ -148,7 +140,6 @@ public class Persistency {
     int level = 1; //Default level
     List<Tile> inventory = new ArrayList<>();
     for (Element element : doc.getRootElement().getChildren()) {
-      //System.out.println(element.getName() + " " + element.getText());
       switch (element.getName()) {
         case "level" -> level = Integer.parseInt(element.getValue());
         case "time" -> timeLeft = Integer.parseInt(element.getValue());
@@ -213,7 +204,7 @@ public class Persistency {
   }
 
   /**
-   * Get the parsed document from a file.
+   * Create parsed document object from xml file.
    *
    * @param fileName file to parse.
    * @return the parsed document.
@@ -275,10 +266,10 @@ public class Persistency {
   }
 
   /**
-   * This function gets our actors direction.
+   * This function gets specified actor tiles direction.
    *
-   * @param tile the tile to check
-   * @return return the firection of the actor
+   * @param tile the actor tile to check
+   * @return return the direction of the actor
    */
   public static Direction getCustomActorDirection(Tile tile) {
     try {
