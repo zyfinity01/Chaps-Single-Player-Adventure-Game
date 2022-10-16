@@ -13,13 +13,28 @@ import nz.ac.vuw.ecs.swen225.gp22.renderer.Renderer;
  */
 public class GameCanvas extends JPanel {
 
+  /**
+   * Game state.
+   * 
+   * Have made this public as Spotbugs would prefer if
+   * each update would be a clone of the object, but
+   * for performance reasons that isn't a good idea.
+   */
   public Maze maze;
 
+  /**
+   * Update game canvas with new game state.
+   *
+   * @param maze game maze
+   */
   public void update(Maze maze) {
     this.maze = maze;
     repaint();
   }
 
+  /**
+   * Render game.
+   */
   @Override
   public void paintComponent(Graphics graphics) {
     super.paintComponent(graphics);

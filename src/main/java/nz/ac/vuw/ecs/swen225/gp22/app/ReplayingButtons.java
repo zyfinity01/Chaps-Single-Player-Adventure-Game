@@ -18,7 +18,7 @@ public class ReplayingButtons extends ActionPanel {
   */
   public ReplayingButtons(WindowActions actions) {
     super();
-    setLayout(new FlowLayout(FlowLayout.LEFT, 15, 10));
+    setLayout(new FlowLayout(FlowLayout.LEFT, 20, 10));
 
     // auto play button
     var autoPlayButton = createButton("resources//images//play_button.png");

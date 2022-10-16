@@ -37,25 +37,45 @@ public class StartPanel extends JPanel {
     var buttonPanel = new JPanel();
     add(buttonPanel, BorderLayout.SOUTH);
     
-    var startButton = new JButton("Start");
-    startButton.addActionListener(new ActionListener() {
+    var startOneButton = new JButton("Level 1");
+    startOneButton.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
         actions.startLevel(1);
       }
     });
 
-    buttonPanel.add(startButton);
+    buttonPanel.add(startOneButton);
 
-    var replayButton = new JButton("Replay");
-    replayButton.addActionListener(new ActionListener() {
+    var startTwoButton = new JButton("Level 2");
+    startTwoButton.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        actions.replayLevel();
+        actions.startLevel(2);
       }
     });
 
-    buttonPanel.add(replayButton);
+    buttonPanel.add(startTwoButton);
+
+    var replayOneButton = new JButton("Replay Level 1");
+    replayOneButton.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        actions.replayLevel(1);
+      }
+    });
+
+    buttonPanel.add(replayOneButton);
+
+    var replayTwoButton = new JButton("Replay Level 2");
+    replayTwoButton.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        actions.replayLevel(2);
+      }
+    });
+
+    buttonPanel.add(replayTwoButton);
 
     var exitButton = new JButton("Exit");
     exitButton.addActionListener(new ActionListener() {

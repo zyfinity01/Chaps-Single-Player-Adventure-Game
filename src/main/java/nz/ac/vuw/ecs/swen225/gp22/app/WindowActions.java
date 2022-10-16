@@ -32,7 +32,14 @@ interface WindowActions {
   /**
    * Save level state and close.
    */
-  void saveAndExit();
+  void save();
+
+  /**
+   * Remove game save for level.
+   *
+   * @param level level to clear
+   */
+  void clear(int level);
 
   /**
    * Select an existing game and continue.
@@ -49,7 +56,7 @@ interface WindowActions {
   /**
    * Replay a level.
    */
-  void replayLevel();
+  void replayLevel(int level);
 
   /**
    * Toggle pause state.
@@ -70,4 +77,9 @@ interface WindowActions {
    * Return to main menu.
    */
   void toMainMenu();
+
+  /**
+   * Show message to user.
+   */
+  void showPopup(String message);
 }

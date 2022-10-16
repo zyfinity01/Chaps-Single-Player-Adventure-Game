@@ -71,7 +71,8 @@ public class KeyController implements KeyListener {
       // CTRL-S
       case KeyEvent.VK_S -> {
         if (event.isControlDown()) {
-          actions.saveAndExit();
+          actions.save();
+          actions.exit();
         }
       }
       // CTRL-R
