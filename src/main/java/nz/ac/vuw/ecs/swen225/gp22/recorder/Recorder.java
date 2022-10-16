@@ -16,6 +16,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Direction;
+import nz.ac.vuw.ecs.swen225.gp22.persistency.Persistency;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.input.DOMBuilder;
@@ -179,26 +180,12 @@ public class Recorder {
    * $ @param level Determines which moves' file to load
    */
   private void loadToXml(int level, String xmlString) {
-    System.out.println("AHAHAHAHAHAH");
-    Document doc = null;
-    try {
-      DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-      DocumentBuilder documentBuilder = factory.newDocumentBuilder();
-      org.w3c.dom.Document w3cDocument = documentBuilder.parse(xmlString);
-      doc = new DOMBuilder().build(w3cDocument);
-    } catch (IOException | SAXException | ParserConfigurationException e) {
-      e.printStackTrace();
-    }
-    if (doc == null) {
-      return;
-    }
-    Element root = doc.getRootElement();
-    if (root == null) {
-      return;
-    }
-    this.replayedPlayerMovements = new HashMap<Integer, Direction>();
-    Element playerMovementsElement =  root.getChild("PlayerMovements");
-    saveMovesToHashMap(playerMovementsElement, this.replayedPlayerMovements);
+    Document doc = Persistency.getParsedDoc(xmlString);
+    if (level == 1) {
+      this.replayedPlayerMovements = new HashMap<Integer, Direction>();
+      Element playerMovementsElement =  doc.getRootElement().getChild("PlayerMovements");
+      saveMovesToHashMap(playerMovementsElement, this.replayedPlayerMovements);
+    } 
     
     if (level == 2) {
       this.replayedActorMovements = new HashMap<Integer, Direction>();
