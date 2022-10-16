@@ -142,7 +142,9 @@ public class GamePanel extends JPanel {
     // redraw canvas
     gameCanvas.update(maze);
 
-    tick++;
+    if (!isPaused) {
+      tick++;
+    }
   }
 
   public void startLevel(int level) {
@@ -169,6 +171,13 @@ public class GamePanel extends JPanel {
    */
   public void setTick(int tick) {
     this.tick = tick;
+  }
+
+  /**
+   * Gets current tick.
+   */
+  public int getTick(){
+    return tick;
   }
   
   @Override

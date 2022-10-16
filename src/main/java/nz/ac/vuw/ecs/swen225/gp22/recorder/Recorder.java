@@ -7,6 +7,8 @@ import java.io.OutputStreamWriter;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -245,21 +247,19 @@ public class Recorder {
    */
   public Integer getNextMovementTick(int tick, String type) {
     if (type.equals("player")) {
-      Iterator<Entry<Integer, Direction>> iterator = replayedPlayerMovements.entrySet().iterator();
-      while (iterator.hasNext()) {
-        Map.Entry<Integer, Direction> entry = (Map.Entry<Integer, Direction>) iterator.next();
-
-        if (entry.getKey().intValue() > tick) {
-          return entry.getKey();
+      ArrayList<Integer> keyset = new ArrayList<>(replayedPlayerMovements.keySet());
+      Collections.sort(keyset);
+      for(Integer key : keyset){
+        if(key > tick){
+          return key;
         }
       }
     } else if (type.equals("actor")) {
-      Iterator<Entry<Integer, Direction>> iterator = replayedActorMovements.entrySet().iterator();
-      while (iterator.hasNext()) {
-        Map.Entry<Integer, Direction> entry = (Map.Entry<Integer, Direction>) iterator.next();
-
-        if (entry.getKey().intValue() > tick) {
-          return entry.getKey();
+      ArrayList<Integer> keyset = new ArrayList<>(replayedActorMovements.keySet());
+      Collections.sort(keyset);
+      for(Integer key : keyset){
+        if(key > tick){
+          return key;
         }
       }
     }
@@ -273,5 +273,12 @@ public class Recorder {
    */
   public void setTick(int tick) {
     this.tick = tick;
+  }
+
+  /**
+   * Gets tick.
+   */
+  public int getTick(){
+    return this.tick;
   }
 }
