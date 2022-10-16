@@ -199,7 +199,8 @@ public class App extends JFrame implements WindowActions {
 
   @Override
   public void stepReplay() {
-    Integer nextTick = this.gamePanel.recorder.getNextMovementTick(this.gamePanel.getTick(), "player");
+    int currentTick = this.gamePanel.getTick();
+    Integer nextTick = this.gamePanel.recorder.getNextMovementTick(currentTick, "player");
     if (nextTick != null) {
       this.gamePanel.setTick(nextTick);
       Direction dir = this.gamePanel.recorder.doPlayerMovement(nextTick);

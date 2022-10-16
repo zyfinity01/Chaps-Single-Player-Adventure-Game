@@ -249,16 +249,16 @@ public class Recorder {
     if (type.equals("player")) {
       ArrayList<Integer> keyset = new ArrayList<>(replayedPlayerMovements.keySet());
       Collections.sort(keyset);
-      for(Integer key : keyset){
-        if(key > tick){
+      for (Integer key : keyset) {
+        if (key > tick) {
           return key;
         }
       }
     } else if (type.equals("actor")) {
       ArrayList<Integer> keyset = new ArrayList<>(replayedActorMovements.keySet());
       Collections.sort(keyset);
-      for(Integer key : keyset){
-        if(key > tick){
+      for (Integer key : keyset) {
+        if (key > tick) {
           return key;
         }
       }
@@ -278,7 +278,7 @@ public class Recorder {
   /**
    * Gets tick.
    */
-  public int getTick(){
+  public int getTick() {
     return this.tick;
   }
 }

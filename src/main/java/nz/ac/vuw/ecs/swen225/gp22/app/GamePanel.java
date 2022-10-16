@@ -176,7 +176,7 @@ public class GamePanel extends JPanel {
   /**
    * Gets current tick.
    */
-  public int getTick(){
+  public int getTick() {
     return tick;
   }
   
