@@ -189,7 +189,7 @@ public class Recorder {
     
     if (level == 2) {
       this.replayedActorMovements = new HashMap<Integer, Direction>();
-      Element actorMovementsElement = root.getChild("ActorMovements");
+      Element actorMovementsElement = doc.getRootElement().getChild("ActorMovements");
       saveMovesToHashMap(actorMovementsElement, this.replayedActorMovements);
     }
   }
