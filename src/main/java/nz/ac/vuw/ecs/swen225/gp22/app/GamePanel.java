@@ -184,7 +184,7 @@ public class GamePanel extends JPanel {
    */
   public void setPause(boolean isPaused) {
     this.isPaused = isPaused;
-    Renderer.setShowPauseText(isPaused);
+    Renderer.setShowPauseText(isPaused && !isReplaying);
   }
 
   /**
