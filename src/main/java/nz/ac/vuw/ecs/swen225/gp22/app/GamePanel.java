@@ -93,7 +93,8 @@ public class GamePanel extends JPanel {
    *
    * @param maze Game maze
    */
-  public GamePanel(Maze maze, Recorder recorder, WindowActions actions, JPanel actionButtons, boolean isReplaying) {
+  public GamePanel(Maze maze, Recorder recorder, WindowActions actions,
+      JPanel actionButtons, boolean isReplaying) {
     this.maze = maze;
     this.actions = actions;
     this.isReplaying = isReplaying;
@@ -184,16 +185,14 @@ public class GamePanel extends JPanel {
   /**
    * Show messages about current state.
    */
-  private void showStateMessage(){
+  private void showStateMessage() {
     if (maze.getState() == State.Complete) {
       actions.showPopup("You won!");
-    }
-
-    else if (maze.getState() == State.Dead) {
+    } else if (maze.getState() == State.Dead) {
       actions.showPopup("You died!");
     }
 
-    if (maze.getState() == State.OutOfTime){
+    if (maze.getState() == State.OutOfTime) {
       actions.showPopup("You ran out of time!");
     }
   }
