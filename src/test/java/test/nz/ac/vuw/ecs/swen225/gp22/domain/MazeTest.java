@@ -30,6 +30,9 @@ import org.junit.jupiter.api.Test;
 * @author Jonty Morris, 300563915.
 */
 public class MazeTest {
+  /**
+   * Maze without an inventory.
+   */
   @Test
   public void canConstructWithoutInventory() {
     var tiles = new Tile[1][1];
@@ -43,6 +46,9 @@ public class MazeTest {
     assertTrue(maze.getCols() == 1);
   }
 
+  /**
+   * Maze with an inventory.
+   */
   @Test
   public void canConstructWithInventory() {
     var tiles = new Tile[1][1];
@@ -56,6 +62,9 @@ public class MazeTest {
     assertTrue(maze.getCols() == 1);
   }
 
+  /**
+   * Can position chap.
+   */
   @Test
   public void canSetupChap() {
     var tiles = new Tile[4][4];
@@ -67,6 +76,9 @@ public class MazeTest {
     assertTrue(maze.getChapPosition().x() == 2);
   }
 
+  /**
+   * Cannot input a null maze.
+   */
   @Test
   public void cannotConstructNullMaze() {
     var exception = Assertions.assertThrows(
@@ -77,6 +89,9 @@ public class MazeTest {
     Assertions.assertEquals("Tiles cannot be null", exception.getMessage());
   }
 
+  /**
+   * Cannot make maze without chap.
+   */
   @Test
   public void cannotConstructWithoutChap() {
     var exception = Assertions.assertThrows(
@@ -87,6 +102,9 @@ public class MazeTest {
     Assertions.assertEquals("Must specify a single chap", exception.getMessage());
   }
 
+  /**
+   * Cannot construct level below 0.
+   */
   @Test
   public void cannotConstructLevelBelowOne() {
     var exception = Assertions.assertThrows(
@@ -97,6 +115,9 @@ public class MazeTest {
     Assertions.assertEquals("Level numbers start at 1", exception.getMessage());
   }
 
+  /**
+   * Can move chap.
+   */
   @Test
   public void canMoveChap() {
     var tiles = new Tile[4][4];
@@ -115,6 +136,9 @@ public class MazeTest {
     assertTrue(direction == Direction.Up);
   }
 
+  /**
+   * Cannot move chap.
+   */
   @Test
   public void cannotMoveChap() {
     var tiles = new Tile[4][4];
@@ -133,6 +157,9 @@ public class MazeTest {
     Assertions.assertEquals("Cannot move chap in that direction", exception.getMessage());
   }
 
+  /**
+   * Can pickup key.
+   */
   @Test
   public void canPickupKey() {
     var tiles = new Tile[4][4];
@@ -150,6 +177,9 @@ public class MazeTest {
     assertTrue(key.color() == Color.Green);
   }
 
+  /**
+   * Can pickup treasure.
+   */
   @Test
   public void canPickupTreasure() {
     var tiles = new Tile[4][4];
@@ -165,6 +195,9 @@ public class MazeTest {
     assertTrue(maze.getInventory().get(0) instanceof Treasure);
   }
 
+  /**
+   * Can open door.
+   */
   @Test
   public void canOpenDoor() {
     var tiles = new Tile[4][4];
@@ -179,6 +212,9 @@ public class MazeTest {
     assertTrue(maze.getInventory().size() == 0);
   }
 
+  /**
+   * Cannot open door.
+   */
   @Test
   public void cannotOpenDoor() {
     var tiles = new Tile[4][4];
@@ -197,6 +233,9 @@ public class MazeTest {
     Assertions.assertEquals("Cannot move chap in that direction", exception.getMessage());
   }
 
+  /*
+   * Can time decrease.
+   */
   @Test
   public void canCountDown() {
     var tiles = new Tile[4][4];
@@ -217,6 +256,9 @@ public class MazeTest {
     assertTrue(maze.getTimeLeft() == 0);
   }
 
+  /**
+   * Can count tiles.
+   */
   @Test
   public void canCountTiles() {
     var tiles = new Tile[4][4];
@@ -232,6 +274,9 @@ public class MazeTest {
     assertTrue(maze.getCountOfMazeTiles(Door.class) == 0);
   }
 
+  /**
+   * Cannot move when out of time.
+   */
   @Test
   public void cannotMoveWhenOutOfTime() {
     var tiles = new Tile[4][4];
@@ -252,6 +297,9 @@ public class MazeTest {
     Assertions.assertEquals("Cannot move chap in that direction", exception.getMessage());
   }
 
+  /**
+   * Can see the info text.
+   */
   @Test
   public void canGetInfoText() {
     var tiles = new Tile[4][4];
@@ -265,6 +313,9 @@ public class MazeTest {
     assert(maze.getInfoText() == "Test text");
   }
 
+  /**
+   * Can finish on exit.
+   */
   @Test
   public void canFinishOnExit() {
     var tiles = new Tile[4][4];
@@ -278,6 +329,9 @@ public class MazeTest {
     assertEquals(maze.getState(), State.Complete);
   }
 
+  /**
+   * Can run out of time.
+   */
   @Test
   public void canFinishOnTime() {
     var tiles = new Tile[4][4];
@@ -293,6 +347,9 @@ public class MazeTest {
     assertEquals(maze.getState(), State.OutOfTime);
   }
 
+  /**
+   * Can die to an actor.
+   */
   @Test
   public void canDieToActor() {
     var tiles = new Tile[4][4];
@@ -306,6 +363,9 @@ public class MazeTest {
     assertEquals(maze.getState(), State.Dead);
   }
 
+  /**
+   * Can open lock with key.
+   */
   @Test
   public void canOpenLock() {
     var tiles = new Tile[4][4];

@@ -6,6 +6,9 @@ package nz.ac.vuw.ecs.swen225.gp22.domain;
  * @author Jonty Morris, 300563915.
  */
 public enum Direction {
+  /**
+   * Up direction.
+   */
   Up {
     public int getX() {
       return 0;
@@ -21,6 +24,9 @@ public enum Direction {
     }
   },
   
+  /**
+   * Down direction.
+   */
   Down {
     public int getX() {
       return 0;
@@ -36,6 +42,9 @@ public enum Direction {
     }
   },
   
+  /**
+   * Left direction.
+   */
   Left {
     public int getX() {
       return -1;
@@ -51,6 +60,9 @@ public enum Direction {
     }
   },
   
+  /**
+   * Right direction.
+   */
   Right {
     public int getX() {
       return 1;
@@ -66,9 +78,24 @@ public enum Direction {
     }
   };
 
+  /**
+   * Get the direction x offset.
+   *
+   * @return x offset.
+   */
   public abstract int getX();
   
+  /**
+   * Get the direction y offset.
+   *
+   * @return y offset.
+   */
   public abstract int getY();
 
+  /**
+   * Get the opposite direction.
+   *
+   * @return opposite direction.
+   */
   public abstract Direction opposite();
 }
