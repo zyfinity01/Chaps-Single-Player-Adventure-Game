@@ -245,6 +245,7 @@ public class App extends JFrame implements WindowActions {
   
     swapPanel(gamePanel);
     gamePanel.startLevel(level);
+    gamePanel.setPause(true);
   }
 
   /**
@@ -252,9 +253,15 @@ public class App extends JFrame implements WindowActions {
    */
   @Override
   public void stepReplay() {
-    // todo once recorder is finished
-    // var nextTick = recorder.getNextTick();
-    //gamePanel.setTick(nextTick);
+    int currentTick = this.gamePanel.getTick();
+    Integer nextTick = this.gamePanel.recorder.getNextMovementTick(currentTick, "player");
+    if (nextTick != null) {
+      this.gamePanel.setTick(nextTick);
+      Direction dir = this.gamePanel.recorder.doPlayerMovement(nextTick);
+      if (dir != null && this.gamePanel.maze.canMoveChap(dir)) {
+        this.gamePanel.maze.moveChap(dir);
+      }
+    }
   }
 
   /**

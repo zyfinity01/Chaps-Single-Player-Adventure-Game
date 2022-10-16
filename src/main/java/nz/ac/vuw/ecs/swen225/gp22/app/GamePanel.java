@@ -134,7 +134,7 @@ public class GamePanel extends JPanel {
     if (recorder != null) {
       recorder.setTick(tick);
 
-      if (isReplaying) {
+      if (isReplaying && !isPaused) {
         Direction dir = recorder.doPlayerMovement(tick);
         if (dir != null && maze.canMoveChap(dir)) {
           maze.moveChap(dir);
@@ -154,7 +154,9 @@ public class GamePanel extends JPanel {
     // redraw canvas
     gameCanvas.update(maze);
 
-    tick++;
+    if (!isPaused) {
+      tick++;
+    }
   }
 
   /**
@@ -201,6 +203,13 @@ public class GamePanel extends JPanel {
    */
   public void setTick(int tick) {
     this.tick = tick;
+  }
+
+  /**
+   * Gets current tick.
+   */
+  public int getTick() {
+    return tick;
   }
   
   /**
