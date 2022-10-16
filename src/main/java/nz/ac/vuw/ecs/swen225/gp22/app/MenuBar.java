@@ -15,6 +15,8 @@ public class MenuBar extends JMenuBar {
   
   /**
   * Create the menu bar.
+  *
+  * @param actions window actions
   */
   public MenuBar(WindowActions actions) {
     super();

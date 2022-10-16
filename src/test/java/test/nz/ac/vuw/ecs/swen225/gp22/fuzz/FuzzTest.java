@@ -118,7 +118,7 @@ public class FuzzTest {
     // start level
     app.startLevel(1);
     // run tests
-    randomTests(generateRandomMoves());
+    //randomTests(generateRandomMoves());
   }
 
   /**
@@ -131,7 +131,7 @@ public class FuzzTest {
     // start level
     app.startLevel(2);
     // run tests
-    randomTests(generateRandomMoves());
+    //randomTests(generateRandomMoves());
   }
 
   /**

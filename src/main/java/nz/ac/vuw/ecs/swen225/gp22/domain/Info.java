@@ -7,6 +7,7 @@ import java.util.List;
  * The info tile. Displays some text.
  *
  * @author Jonty Morris, 300563915.
+ * @param text info text to display
  */
 public record Info(String text) implements Tile {
   @Override

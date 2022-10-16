@@ -8,6 +8,7 @@ import java.util.stream.Stream;
  * The door tile. Requires a key.
  *
  * @author Jonty Morris, 300563915.
+ * @param color color of door
  */
 public record Door(Color color) implements Tile {
   @Override
